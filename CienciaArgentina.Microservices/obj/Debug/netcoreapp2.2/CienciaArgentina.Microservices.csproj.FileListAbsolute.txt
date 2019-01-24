@@ -1,0 +1,3 @@
+C:\Users\Asus\source\repos\CienciaArg\CienciaArgentina\CienciaArgentina.Microservices\obj\Debug\netcoreapp2.2\CienciaArgentina.Microservices.csproj.CoreCompileInputs.cache
+C:\Users\Asus\source\repos\CienciaArg\CienciaArgentina\CienciaArgentina.Microservices\obj\Debug\netcoreapp2.2\CienciaArgentina.Microservices.AssemblyInfoInputs.cache
+C:\Users\Asus\source\repos\CienciaArg\CienciaArgentina\CienciaArgentina.Microservices\obj\Debug\netcoreapp2.2\CienciaArgentina.Microservices.AssemblyInfo.cs
