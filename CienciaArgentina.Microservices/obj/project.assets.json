@@ -12154,11 +12154,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Asus\\source\\repos\\CienciaArg\\CienciaArgentina\\CienciaArgentina.Microservices\\CienciaArgentina.Microservices.csproj",
+      "projectUniqueName": "C:\\Users\\Asus\\Dropbox\\Lucas\\Work\\CienciaArgentina\\GIT\\Microservices\\CienciaArgentina.Microservices\\CienciaArgentina.Microservices.csproj",
       "projectName": "CienciaArgentina.Microservices",
-      "projectPath": "C:\\Users\\Asus\\source\\repos\\CienciaArg\\CienciaArgentina\\CienciaArgentina.Microservices\\CienciaArgentina.Microservices.csproj",
+      "projectPath": "C:\\Users\\Asus\\Dropbox\\Lucas\\Work\\CienciaArgentina\\GIT\\Microservices\\CienciaArgentina.Microservices\\CienciaArgentina.Microservices.csproj",
       "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Asus\\source\\repos\\CienciaArg\\CienciaArgentina\\CienciaArgentina.Microservices\\obj\\",
+      "outputPath": "C:\\Users\\Asus\\Dropbox\\Lucas\\Work\\CienciaArgentina\\GIT\\Microservices\\CienciaArgentina.Microservices\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

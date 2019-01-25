@@ -693,11 +693,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Asus\\source\\repos\\CienciaArg\\CienciaArgentina\\CienciaArgentina.Microservices.Entities\\CienciaArgentina.Microservices.Entities.csproj",
+      "projectUniqueName": "C:\\Users\\Asus\\Dropbox\\Lucas\\Work\\CienciaArgentina\\GIT\\Microservices\\CienciaArgentina.Microservices.Entities\\CienciaArgentina.Microservices.Entities.csproj",
       "projectName": "CienciaArgentina.Microservices.Entities",
-      "projectPath": "C:\\Users\\Asus\\source\\repos\\CienciaArg\\CienciaArgentina\\CienciaArgentina.Microservices.Entities\\CienciaArgentina.Microservices.Entities.csproj",
+      "projectPath": "C:\\Users\\Asus\\Dropbox\\Lucas\\Work\\CienciaArgentina\\GIT\\Microservices\\CienciaArgentina.Microservices.Entities\\CienciaArgentina.Microservices.Entities.csproj",
       "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Asus\\source\\repos\\CienciaArg\\CienciaArgentina\\CienciaArgentina.Microservices.Entities\\obj\\",
+      "outputPath": "C:\\Users\\Asus\\Dropbox\\Lucas\\Work\\CienciaArgentina\\GIT\\Microservices\\CienciaArgentina.Microservices.Entities\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
