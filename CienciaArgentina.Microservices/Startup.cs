@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CienciaArgentina.Microservices.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,6 +42,7 @@ namespace CienciaArgentina.Microservices
                 app.UseHsts();
             }
 
+            app.UseCienciaArgMiddleware();
             app.UseHttpsRedirection();
             app.UseMvc();
         }
