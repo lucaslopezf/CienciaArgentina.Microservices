@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CienciaArgentina.Microservices.Data
 {
-    class CienciaArgentinaDbContext : DbContext
+    public class CienciaArgentinaDbContext : DbContext
     {
         public CienciaArgentinaDbContext(DbContextOptions<CienciaArgentinaDbContext> options) : base(options)
         {
 
         }
 
-        public DbSet<UserModel> Users { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
