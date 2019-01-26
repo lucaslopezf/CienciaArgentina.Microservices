@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices", "CienciaArgentina.Microservices\CienciaArgentina.Microservices.csproj", "{F9F90A24-89F1-494F-BC11-C3EF98052C7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Entities", "CienciaArgentina.Microservices.Entities\CienciaArgentina.Microservices.Entities.csproj", "{0BB29E33-FC8E-446F-ABE9-B7ECB28469F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices.Entities", "CienciaArgentina.Microservices.Entities\CienciaArgentina.Microservices.Entities.csproj", "{0BB29E33-FC8E-446F-ABE9-B7ECB28469F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Business", "CienciaArgentina.Microservices.Business\CienciaArgentina.Microservices.Business.csproj", "{106DBF34-7FD3-4807-82F4-194542FFEB76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices.Business", "CienciaArgentina.Microservices.Business\CienciaArgentina.Microservices.Business.csproj", "{106DBF34-7FD3-4807-82F4-194542FFEB76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Commons", "CienciaArgentina.Microservices.Commons\CienciaArgentina.Microservices.Commons.csproj", "{1A0F46E0-3340-4DEB-A2BF-2062C1DDB32D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices.Commons", "CienciaArgentina.Microservices.Commons\CienciaArgentina.Microservices.Commons.csproj", "{1A0F46E0-3340-4DEB-A2BF-2062C1DDB32D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Data", "CienciaArgentina.Microservices.Data\CienciaArgentina.Microservices.Data.csproj", "{C258D8D6-812B-445F-962D-592FD16AC4AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices.Data", "CienciaArgentina.Microservices.Data\CienciaArgentina.Microservices.Data.csproj", "{C258D8D6-812B-445F-962D-592FD16AC4AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices", "CienciaArgentina.Microservices\CienciaArgentina.Microservices.csproj", "{713CB6ED-95A2-41D2-8347-43E40D895239}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F9F90A24-89F1-494F-BC11-C3EF98052C7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9F90A24-89F1-494F-BC11-C3EF98052C7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9F90A24-89F1-494F-BC11-C3EF98052C7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9F90A24-89F1-494F-BC11-C3EF98052C7E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0BB29E33-FC8E-446F-ABE9-B7ECB28469F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0BB29E33-FC8E-446F-ABE9-B7ECB28469F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BB29E33-FC8E-446F-ABE9-B7ECB28469F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{C258D8D6-812B-445F-962D-592FD16AC4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C258D8D6-812B-445F-962D-592FD16AC4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C258D8D6-812B-445F-962D-592FD16AC4AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713CB6ED-95A2-41D2-8347-43E40D895239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713CB6ED-95A2-41D2-8347-43E40D895239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713CB6ED-95A2-41D2-8347-43E40D895239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713CB6ED-95A2-41D2-8347-43E40D895239}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
