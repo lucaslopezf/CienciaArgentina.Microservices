@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CienciaArgentina.Microservices.Data.Migrations
@@ -8,41 +9,42 @@ namespace CienciaArgentina.Microservices.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Institute",
+                name: "Institutes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    IdInstitute = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Initials = table.Column<string>(nullable: true),
                     Logo = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     DescriptionLarge = table.Column<string>(nullable: true),
                     Link = table.Column<string>(nullable: true),
-                    AddressId = table.Column<Guid>(nullable: true),
+                    IdAddress1 = table.Column<int>(nullable: true),
                     DateFrom = table.Column<DateTime>(nullable: false),
                     DateTo = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Institute", x => x.Id);
+                    table.PrimaryKey("PK_Institutes", x => x.IdInstitute);
                     table.ForeignKey(
-                        name: "FK_Institute_Address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Address",
-                        principalColumn: "Id",
+                        name: "FK_Institutes_Addresses_IdAddress1",
+                        column: x => x.IdAddress1,
+                        principalTable: "Addresses",
+                        principalColumn: "IdAddress",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Institute_AddressId",
-                table: "Institute",
-                column: "AddressId");
+                name: "IX_Institutes_IdAddress1",
+                table: "Institutes",
+                column: "IdAddress1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Institute");
+                name: "Institutes");
         }
     }
 }

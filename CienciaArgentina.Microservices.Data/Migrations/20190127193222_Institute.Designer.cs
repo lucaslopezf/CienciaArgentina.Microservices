@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CienciaArgentina.Microservices.Data.Migrations
 {
     [DbContext(typeof(CienciaArgentinaDbContext))]
-    [Migration("20190127032505_SocialNetwork")]
-    partial class SocialNetwork
+    [Migration("20190127193222_Institute")]
+    partial class Institute
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,12 +23,11 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.Address", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("IdAddress")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Additionals");
-
-                    b.Property<string>("City");
 
                     b.Property<string>("Country");
 
@@ -46,17 +45,16 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<string>("ZipCode");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdAddress");
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.Institute", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("AddressId");
+                    b.Property<int>("IdInstitute")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DateFrom");
 
@@ -66,6 +64,8 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<string>("DescriptionLarge");
 
+                    b.Property<int?>("IdAddress1");
+
                     b.Property<string>("Initials");
 
                     b.Property<string>("Link");
@@ -74,17 +74,18 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdInstitute");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("IdAddress1");
 
-                    b.ToTable("Institute");
+                    b.ToTable("Institutes");
                 });
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.Job", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("IdJob")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Addittions");
 
@@ -98,52 +99,42 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdJob");
 
-                    b.ToTable("Job");
+                    b.ToTable("Jobs");
                 });
 
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.Rol", b =>
+            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.Role", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("IdRole")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("RolName");
+                    b.Property<string>("RoleName");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdRole");
 
-                    b.ToTable("Rol");
+                    b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.SocialNetwork", b =>
+            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.Sex", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("IdSex")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateFrom");
+                    b.Property<string>("Description");
 
-                    b.Property<DateTime>("DateTo");
+                    b.HasKey("IdSex");
 
-                    b.Property<string>("SocialNetworkName");
-
-                    b.Property<string>("Url");
-
-                    b.Property<Guid?>("UserId");
-
-                    b.Property<string>("UserName");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SocialNetwork");
+                    b.ToTable("Sex");
                 });
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("IdUser")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Blocked");
@@ -154,21 +145,28 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateTo");
 
+                    b.Property<int?>("IdRole1");
+
+                    b.Property<int?>("IdUserData1");
+
                     b.Property<string>("Password");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("Username");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdUser");
+
+                    b.HasIndex("IdRole1");
+
+                    b.HasIndex("IdUserData1");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.UserData", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("AddressId");
+                    b.Property<int>("IdUserData")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Birthday");
 
@@ -178,9 +176,13 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<string>("Identifier");
+                    b.Property<int?>("IdAddress1");
 
-                    b.Property<Guid?>("JobId");
+                    b.Property<int?>("IdJob1");
+
+                    b.Property<int?>("IdSex1");
+
+                    b.Property<string>("Identifier");
 
                     b.Property<string>("LastName");
 
@@ -188,40 +190,48 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("Sex");
+                    b.HasKey("IdUserData");
 
-                    b.HasKey("Id");
+                    b.HasIndex("IdAddress1");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("IdJob1");
 
-                    b.HasIndex("JobId");
+                    b.HasIndex("IdSex1");
 
-                    b.ToTable("UserData");
+                    b.ToTable("UsersData");
                 });
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.Institute", b =>
                 {
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.Address", "Address")
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.Address", "IdAddress")
                         .WithMany()
-                        .HasForeignKey("AddressId");
+                        .HasForeignKey("IdAddress1");
                 });
 
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.SocialNetwork", b =>
+            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.User", b =>
                 {
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.User", "User")
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.Role", "IdRole")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("IdRole1");
+
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.UserData", "IdUserData")
+                        .WithMany()
+                        .HasForeignKey("IdUserData1");
                 });
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.UserData", b =>
                 {
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.Address", "Address")
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.Address", "IdAddress")
                         .WithMany()
-                        .HasForeignKey("AddressId");
+                        .HasForeignKey("IdAddress1");
 
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.Job", "Job")
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.Job", "IdJob")
                         .WithMany()
-                        .HasForeignKey("JobId");
+                        .HasForeignKey("IdJob1");
+
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.Sex", "IdSex")
+                        .WithMany()
+                        .HasForeignKey("IdSex1");
                 });
 #pragma warning restore 612, 618
         }

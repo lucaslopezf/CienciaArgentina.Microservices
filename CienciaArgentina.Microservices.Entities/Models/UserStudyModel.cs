@@ -5,16 +5,16 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models
 {
-    public class User
+    public class UserStudy
     {
         [Key]
-        public Guid IdUser { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public int IdUserStudy { get; set; }
+        public UserStudyType IdUserStudyType { get; set; }
+        public string Carrer { get; set; }
+        public string Institution { get; set; }
+        public string Additional { get; set; }
+        public University IdUniversity { get; set; }
         public UserData IdUserData { get; set; }
-        public Role IdRole { get; set; }
-        public bool Blocked { get; set; }
-        public bool Confirmed { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
     }

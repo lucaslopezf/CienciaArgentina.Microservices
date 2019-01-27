@@ -1,31 +1,30 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CienciaArgentina.Microservices.Data.Migrations
 {
-    public partial class Country : Migration
+    public partial class UserStudyType : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Country",
+                name: "UserStudyTypes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Iso2 = table.Column<string>(nullable: true),
-                    Iso3 = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    IdUserStudyType = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Country", x => x.Id);
+                    table.PrimaryKey("PK_UserStudyTypes", x => x.IdUserStudyType);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Country");
+                name: "UserStudyTypes");
         }
     }
 }

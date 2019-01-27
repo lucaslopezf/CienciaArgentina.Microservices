@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CienciaArgentina.Microservices.Data.Migrations
 {
     [DbContext(typeof(CienciaArgentinaDbContext))]
-    [Migration("20190127031259_Address")]
-    partial class Address
+    [Migration("20190127191423_User")]
+    partial class User
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,39 +21,9 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.Address", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Additionals");
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("Country");
-
-                    b.Property<DateTime>("DateFrom");
-
-                    b.Property<DateTime>("DateTo");
-
-                    b.Property<string>("Department");
-
-                    b.Property<string>("State");
-
-                    b.Property<string>("StreetName");
-
-                    b.Property<string>("StreetNumber");
-
-                    b.Property<string>("ZipCode");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Address");
-                });
-
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("IdUser")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Blocked");
@@ -66,9 +36,9 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<string>("Password");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("Username");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdUser");
 
                     b.ToTable("Users");
                 });

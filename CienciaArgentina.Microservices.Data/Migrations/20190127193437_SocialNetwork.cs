@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CienciaArgentina.Microservices.Data.Migrations
@@ -8,38 +9,39 @@ namespace CienciaArgentina.Microservices.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "SocialNetwork",
+                name: "SocialNetworks",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    IdSocialNetwork = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     SocialNetworkName = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true),
                     DateFrom = table.Column<DateTime>(nullable: false),
                     DateTo = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: true)
+                    IdUser1 = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SocialNetwork", x => x.Id);
+                    table.PrimaryKey("PK_SocialNetworks", x => x.IdSocialNetwork);
                     table.ForeignKey(
-                        name: "FK_SocialNetwork_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_SocialNetworks_Users_IdUser1",
+                        column: x => x.IdUser1,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "IdUser",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SocialNetwork_UserId",
-                table: "SocialNetwork",
-                column: "UserId");
+                name: "IX_SocialNetworks_IdUser1",
+                table: "SocialNetworks",
+                column: "IdUser1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SocialNetwork");
+                name: "SocialNetworks");
         }
     }
 }

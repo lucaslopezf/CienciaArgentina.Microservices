@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CienciaArgentina.Microservices.Data.Migrations
@@ -8,13 +9,13 @@ namespace CienciaArgentina.Microservices.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Address",
+                name: "Addresses",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    IdAddress = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Country = table.Column<string>(nullable: true),
                     State = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
                     StreetName = table.Column<string>(nullable: true),
                     StreetNumber = table.Column<string>(nullable: true),
                     ZipCode = table.Column<string>(nullable: true),
@@ -25,14 +26,14 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Address", x => x.Id);
+                    table.PrimaryKey("PK_Addresses", x => x.IdAddress);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "Addresses");
         }
     }
 }
