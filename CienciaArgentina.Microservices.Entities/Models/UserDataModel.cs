@@ -6,7 +6,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
 {
     public class UserData
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -14,8 +14,8 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public string Sex { get; set; }
         public DateTime Birthday { get; set; }
         public string Identifier { get; set; }
-        public Address Address { get; set; }
-        public Job Job { get; set; }
+        public Address IdAddress { get; set; }
+        public Job IdJob { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
     }

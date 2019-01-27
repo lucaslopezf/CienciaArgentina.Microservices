@@ -4,11 +4,11 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models
 {
-    public class University
+    public class UserLaboratory
     {
         public int Id { get; set; }
-        public Country IdCountry { get; set; }
-        public string Name { get; set; }
-        public string Url { get; set; }
+        public Laboratory IdLaboratory { get; set; }
+        public Rol IdRol { get; set; }
+        public User IdUser { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
 {
     public class Job
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Company { get; set; }
         public string Charge { get; set; }
         public string Description { get; set; }

@@ -10,7 +10,7 @@ namespace CienciaArgentina.Microservices.Data
     {
         public CienciaArgentinaDbContext(DbContextOptions<CienciaArgentinaDbContext> options) : base(options)
         {
-
+            
         }
 
         public DbSet<User> Users { get; set; }
@@ -24,5 +24,10 @@ namespace CienciaArgentina.Microservices.Data
         public DbSet<University> University { get; set; }
         public DbSet<Laboratory> Laboratory { get; set; }
         public DbSet<ActionKey> ActionKey { get; set; }
+        public DbSet<UserStudy> UserStudy { get; set; }
+        public DbSet<UserStudyTypes> UserStudyTypes { get; set; }
+        public DbSet<UserKeys> UserKeys { get; set; }
+        public DbSet<UserLaboratory> UserLaboratory { get; set; }
+        public DbSet<UserInstitute> UserInstitute { get; set; }
     }
 }
