@@ -9,7 +9,9 @@ using CienciaArgentina.Microservices.Entities.Dtos;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Middlewares;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -19,6 +21,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NLog.Extensions.Logging;
+using NLog.Web;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace CienciaArgentina.Microservices
@@ -35,17 +39,20 @@ namespace CienciaArgentina.Microservices
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Add DbContext and interfaces
+            //Add DbContext and connectionString
             services.AddDbContext<CienciaArgentinaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            //Repositories
             services.AddScoped<IUserRepository, UserRepository>();
 
+            //Api Documentation => Swagger
             //TODO Take version and title from config
             services.AddSwaggerGen(config =>
             {
                 config.SwaggerDoc("v1", new Info { Title = "Ciencia Argentina Microservices", Version = "v1" });
             });
 
+            //ApiVersioning
             services.AddApiVersioning(config =>
             {
                 config.ReportApiVersions = true;
@@ -54,6 +61,17 @@ namespace CienciaArgentina.Microservices
                 config.ApiVersionReader = new HeaderApiVersionReader("api-version");
             });
 
+            //Logging
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
+                loggingBuilder.AddConsole();
+                loggingBuilder.AddDebug();
+            });
+            //needed for NLog.Web 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            //Config MVC
             services.AddMvc(config =>
                 {
                     config.ReturnHttpNotAcceptable = true;
@@ -64,14 +82,34 @@ namespace CienciaArgentina.Microservices
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            env.ConfigureNLog("nlog.config");
+            //add NLog to ASP.NET Core
+            loggerFactory.AddNLog();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
+                app.UseExceptionHandler(errorApp =>
+                {
+                    errorApp.Run(async context =>
+                    {
+                        context.Response.StatusCode = 500;
+                        context.Response.ContentType = "text/plain";
+                        var errorFeature = context.Features.Get<IExceptionHandlerFeature>();
+                        if (errorFeature != null)
+                        {
+                            var logger = loggerFactory.CreateLogger("Global exception logger");
+                            logger.LogError(500, errorFeature.Error, errorFeature.Error.Message);
+                        }
+
+                        await context.Response.WriteAsync("There was an error");
+                    });
+                });
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
