@@ -18,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace CienciaArgentina.Microservices
 {
@@ -37,6 +38,12 @@ namespace CienciaArgentina.Microservices
             services.AddDbContext<CienciaArgentinaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IUserRepository, UserRepository>();
+
+            //TODO Take version and title from config
+            services.AddSwaggerGen(config =>
+            {
+                config.SwaggerDoc("v1", new Info { Title = "Ciencia Argentina Microservices", Version = "v1" });
+            });
 
             services.AddMvc(config =>
                 {
@@ -62,6 +69,13 @@ namespace CienciaArgentina.Microservices
 
             //app.UseCienciaArgMiddleware();
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Ciencia Argentina Microservices");
+            });
 
             AutoMapper.Mapper.Initialize(mapper =>
             {
