@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Data;
 using CienciaArgentina.Microservices.Data.IRepositories;
@@ -94,22 +95,25 @@ namespace CienciaArgentina.Microservices
             }
             else
             {
+                //TODO: Stacktrace
                 app.UseExceptionHandler(errorApp =>
                 {
                     errorApp.Run(async context =>
                     {
-                        context.Response.StatusCode = 500;
-                        context.Response.ContentType = "text/plain";
-                        var errorFeature = context.Features.Get<IExceptionHandlerFeature>();
-                        if (errorFeature != null)
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        context.Response.ContentType = "text/html";
+                        var exception = context.Features.Get<IExceptionHandlerFeature>();
+                        if (exception != null)
                         {
                             var logger = loggerFactory.CreateLogger("Global exception logger");
-                            logger.LogError(500, errorFeature.Error, errorFeature.Error.Message);
+                            logger.LogError(context.Response.StatusCode, exception.Error, exception.Error.Message);
                         }
 
                         await context.Response.WriteAsync("There was an error");
                     });
                 });
+                
+                // SSL
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -126,6 +130,7 @@ namespace CienciaArgentina.Microservices
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "Ciencia Argentina Microservices");
             });
 
+            //Mapper DTO -> Models
             AutoMapper.Mapper.Initialize(mapper =>
             {
                 mapper.CreateMap<User, UserCreateDto>().ReverseMap();
