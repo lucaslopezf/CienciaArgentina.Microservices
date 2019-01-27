@@ -8,7 +8,9 @@ namespace CienciaArgentina.Microservices.Entities.Models
     public class Sex
     {
         [Key]
-        public int IdSex { get; set; }
+        public int Id { get; set; }
         public string Description { get; set; }
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
     }
 }

@@ -8,12 +8,14 @@ namespace CienciaArgentina.Microservices.Entities.Models
     public class Laboratory
     {
         [Key]
-        public int IdLaboratory { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Link { get; set; }
         public string Boss { get; set; }
-        public Address IdAddress { get; set; }
-        public Institute IdInstitute { get; set; }
+        public Address Address { get; set; }
+        public Institute Institute { get; set; }
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
     }
 }

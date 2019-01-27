@@ -9,7 +9,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
     public class Address
     {
         [Key]
-        public int IdAddress { get; set; }
+        public int Id { get; set; }
         public string Country { get; set; }
         public string State { get; set; }
         public string StreetName { get; set; }

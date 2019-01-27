@@ -8,11 +8,11 @@ namespace CienciaArgentina.Microservices.Entities.Models
     public class UserKey
     {
         [Key]
-        public int IdUserKeys { get; set; }
-        public User IdUser { get; set; }
-        public ActionKey IdActionKey { get; set; }
+        public int Id { get; set; }
+        public User User { get; set; }
+        public ActionKey ActionKey { get; set; }
+        public bool Used { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
-        public bool Used { get; set; }
     }
 }

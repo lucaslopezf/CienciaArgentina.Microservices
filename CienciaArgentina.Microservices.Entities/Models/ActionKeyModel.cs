@@ -8,7 +8,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
     public class ActionKey
     {
         [Key]
-        public int IdActionKey { get; set; }
+        public int Id { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
         public DateTime DateFrom { get; set; }

@@ -8,9 +8,11 @@ namespace CienciaArgentina.Microservices.Entities.Models
     public class UserInstitute
     {
         [Key]
-        public int IdUserInstitute { get; set; }
-        public Institute IdInstitute { get; set; }
-        public Role IdRole { get; set; }
-        public User IdUser { get; set; }
+        public int Id { get; set; }
+        public Institute Institute { get; set; }
+        public Role Role { get; set; }
+        public User User { get; set; }
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
     }
 }

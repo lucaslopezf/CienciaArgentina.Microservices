@@ -8,7 +8,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
     public class Job
     {
         [Key]
-        public int IdJob { get; set; }
+        public int Id { get; set; }
 
         public string Company { get; set; }
         public string Charge { get; set; }

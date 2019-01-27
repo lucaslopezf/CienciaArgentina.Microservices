@@ -11,5 +11,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public int Id { get; set; }
         public string RoleName { get; set; }
         public string Description { get; set; }
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
     }
 }

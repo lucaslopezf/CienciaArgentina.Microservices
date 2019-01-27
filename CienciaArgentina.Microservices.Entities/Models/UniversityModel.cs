@@ -8,9 +8,11 @@ namespace CienciaArgentina.Microservices.Entities.Models
     public class University
     {
         [Key]
-        public int IdUniversity { get; set; }
-        public Country IdCountry { get; set; }
+        public int Id { get; set; }
+        public Country Country { get; set; }
         public string Name { get; set; }
-        public int Url { get; set; }
+        public string Url { get; set; }
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
     }
 }
