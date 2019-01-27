@@ -24,7 +24,7 @@ namespace CienciaArgentina.Microservices.Data.Repositories
 
         public User GetSingle(Guid id)
         {
-            return _context.Users.FirstOrDefault(x => x.Id == id);
+            return _context.Users.FirstOrDefault(x => x.IdUser == id);
         }
 
         public void Add(User item)

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models
 {
     public class Institute
     {
-        public int Id { get; set; }
+        [Key]
+        public int IdInstitute { get; set; }
         public string Name { get; set; }
         public string Initials { get; set; }
         public string Logo { get; set; }

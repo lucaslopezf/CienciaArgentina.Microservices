@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
+using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models
 {
     public class Address
     {
-        public int Id { get; set; }
+        [Key]
+        public int IdAddress { get; set; }
         public string Country { get; set; }
         public string State { get; set; }
-        public string City { get; set; }
         public string StreetName { get; set; }
         public string StreetNumber { get; set; }
         public string ZipCode { get; set; }

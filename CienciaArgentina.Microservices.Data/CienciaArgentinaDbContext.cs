@@ -14,20 +14,22 @@ namespace CienciaArgentina.Microservices.Data
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Address> Address { get; set; }
-        public DbSet<Job> Job { get; set; }
-        public DbSet<UserData> UserData { get; set; }
-        public DbSet<Rol> Rol { get; set; }
-        public DbSet<Institute> Institute { get; set; }
-        public DbSet<SocialNetwork> SocialNetwork { get; set; }
-        public DbSet<Country> Country { get; set; }
-        public DbSet<University> University { get; set; }
-        public DbSet<Laboratory> Laboratory { get; set; }
-        public DbSet<ActionKey> ActionKey { get; set; }
-        public DbSet<UserStudy> UserStudy { get; set; }
-        public DbSet<UserStudyTypes> UserStudyTypes { get; set; }
-        public DbSet<UserKeys> UserKeys { get; set; }
-        public DbSet<UserLaboratory> UserLaboratory { get; set; }
-        public DbSet<UserInstitute> UserInstitute { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<UserData> UsersData { get; set; }
+        public DbSet<Sex> Sex { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Institute> Institutes { get; set; }
+        public DbSet<SocialNetwork> SocialNetworks { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<University> Universities { get; set; }
+        public DbSet<UserStudyType> UserStudyTypes { get; set; }
+        public DbSet<UserStudy> UserStudies { get; set; }
+        public DbSet<Laboratory> Laboratories { get; set; }
+        public DbSet<ActionKey> ActionKeys { get; set; }
+        public DbSet<UserKey> UserKeys { get; set; }
+        public DbSet<UserLaboratory> UserLaboratories { get; set; }
+        public DbSet<UserInstitute> UserInstitutes { get; set; }
+        
     }
 }
