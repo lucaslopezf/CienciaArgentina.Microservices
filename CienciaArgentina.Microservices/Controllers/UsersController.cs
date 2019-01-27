@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CienciaArgentina.Microservices.Data.IRepositories;
+using CienciaArgentina.Microservices.Entities.Dtos;
+using CienciaArgentina.Microservices.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,6 +17,11 @@ namespace CienciaArgentina.Microservices.Controllers
     {
         private IUserRepository _userRepository;
 
+        public UsersController(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
         // GET: api/<controller>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -22,16 +30,42 @@ namespace CienciaArgentina.Microservices.Controllers
         }
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        [Route("{id}", Name = "Get")]
+        public IActionResult Get(Guid id)
         {
-            return "value";
+            var user = _userRepository.GetSingle(id);
+
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]UserCreateDto userDto)
         {
+            if (userDto == null)
+                return BadRequest("User object is null");
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            User toAdd = Mapper.Map<User>(userDto);
+
+            _userRepository.Add(toAdd);
+
+            bool result = _userRepository.Save();
+
+            if (!result)
+            {
+                throw new Exception("Something went wrong when adding a new user");
+            }
+
+            return CreatedAtRoute("Get", new { id = toAdd.Id }, Mapper.Map<UserCreateDto>(toAdd));
         }
 
         // PUT api/<controller>/5

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Data;
 using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Data.Repositories;
+using CienciaArgentina.Microservices.Entities.Dtos;
+using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,8 +53,13 @@ namespace CienciaArgentina.Microservices
                 app.UseHsts();
             }
 
-            app.UseCienciaArgMiddleware();
+            //app.UseCienciaArgMiddleware();
             app.UseHttpsRedirection();
+
+            AutoMapper.Mapper.Initialize(mapper =>
+            {
+                mapper.CreateMap<User, UserCreateDto>().ReverseMap();
+            });
             app.UseMvc();
         }
     }
