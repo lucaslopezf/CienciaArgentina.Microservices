@@ -4,38 +4,22 @@ using CienciaArgentina.Microservices.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CienciaArgentina.Microservices.Data.Migrations
 {
     [DbContext(typeof(CienciaArgentinaDbContext))]
-    partial class CienciaArgentinaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190127032955_Laboratory")]
+    partial class Laboratory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.ActionKey", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateFrom");
-
-                    b.Property<DateTime>("DateTo");
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ActionKey");
-                });
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.Address", b =>
                 {
