@@ -58,7 +58,7 @@ namespace CienciaArgentina.Microservices
                 {
                     config.ReturnHttpNotAcceptable = true;
                     config.OutputFormatters.Add(new XmlSerializerOutputFormatter());
-                    config.InputFormatters.Add(new XmlSerializerInputFormatter());
+                    config.InputFormatters.Add(new XmlSerializerInputFormatter(config));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
