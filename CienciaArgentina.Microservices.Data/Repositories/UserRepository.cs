@@ -22,9 +22,9 @@ namespace CienciaArgentina.Microservices.Data.Repositories
             return _context.Users.Select(x => x);
         }
 
-        public User GetSingle(Guid id)
+        public User GetSingle(int id)
         {
-            return _context.Users.FirstOrDefault(x => x.IdUser == id);
+            return _context.Users.FirstOrDefault(x => x.Id == id);
         }
 
         public void Add(User item)
@@ -32,7 +32,7 @@ namespace CienciaArgentina.Microservices.Data.Repositories
             _context.Users.Add(item);
         }
 
-        public void Delete(Guid id)
+        public void Delete(int id)
         {
             User user = GetSingle(id);
             _context.Users.Remove(user);

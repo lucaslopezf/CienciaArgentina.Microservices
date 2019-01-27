@@ -7,9 +7,9 @@ namespace CienciaArgentina.Microservices.Data.IRepositories
     public interface IUserRepository
     {
         IQueryable<User> GetAll();
-        User GetSingle(Guid id);
+        User GetSingle(int id);
         void Add(User item);
-        void Delete(Guid id);
+        void Delete(int id);
         void Update(User item);
         int Count();
         bool Save();

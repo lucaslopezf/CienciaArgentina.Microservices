@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CienciaArgentina.Microservices.Controllers
 {
+    //[ApiVersion("1.0", Deprecated = true)]
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
@@ -32,7 +34,7 @@ namespace CienciaArgentina.Microservices.Controllers
         // GET api/<controller>/5
         [HttpGet]
         [Route("{id}", Name = "Get")]
-        public IActionResult Get(Guid id)
+        public IActionResult Get(int id)
         {
             var user = _userRepository.GetSingle(id);
 

@@ -8,11 +8,11 @@ namespace CienciaArgentina.Microservices.Entities.Models
     public class User
     {
         [Key]
-        public Guid IdUser { get; set; }
+        public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public UserData IdUserData { get; set; }
-        public Role IdRole { get; set; }
+        public UserData UserData { get; set; }
+        public Role Rol { get; set; }
         public bool Blocked { get; set; }
         public bool Confirmed { get; set; }
         public DateTime DateFrom { get; set; }

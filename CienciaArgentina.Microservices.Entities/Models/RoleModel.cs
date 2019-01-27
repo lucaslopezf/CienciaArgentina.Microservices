@@ -8,7 +8,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
     public class Role
     {
         [Key]
-        public int IdRole { get; set; }
+        public int Id { get; set; }
         public string RoleName { get; set; }
         public string Description { get; set; }
     }

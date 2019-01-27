@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,6 +46,14 @@ namespace CienciaArgentina.Microservices
                 config.SwaggerDoc("v1", new Info { Title = "Ciencia Argentina Microservices", Version = "v1" });
             });
 
+            services.AddApiVersioning(config =>
+            {
+                config.ReportApiVersions = true;
+                config.AssumeDefaultVersionWhenUnspecified = true;
+                config.DefaultApiVersion = new ApiVersion(1, 0);
+                config.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            });
+
             services.AddMvc(config =>
                 {
                     config.ReturnHttpNotAcceptable = true;
@@ -70,8 +79,10 @@ namespace CienciaArgentina.Microservices
             //app.UseCienciaArgMiddleware();
             app.UseHttpsRedirection();
 
+            app.UseApiVersioning();
             app.UseSwagger();
 
+            //TODO: Get url and name from appsettings
             app.UseSwaggerUI(config =>
             {
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "Ciencia Argentina Microservices");
