@@ -67,8 +67,6 @@ namespace CienciaArgentina.Microservices
                 loggingBuilder.AddConsole();
                 loggingBuilder.AddDebug();
             });
-            //needed for NLog.Web 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //Config MVC
             services.AddMvc(config =>

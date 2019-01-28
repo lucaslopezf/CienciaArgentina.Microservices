@@ -7,6 +7,7 @@ using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Entities.Dtos;
 using CienciaArgentina.Microservices.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,10 +19,12 @@ namespace CienciaArgentina.Microservices.Controllers
     public class UsersController : Controller
     {
         private IUserRepository _userRepository;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUserRepository userRepository, ILogger<UsersController> logger)
         {
             _userRepository = userRepository;
+            _logger = logger;
         }
 
         // GET: api/<controller>
@@ -33,9 +36,12 @@ namespace CienciaArgentina.Microservices.Controllers
 
         // GET api/<controller>/5
         [HttpGet]
+        [ProducesResponseType(typeof(int), 200)]
+        [ProducesResponseType(typeof(int), 404)]
         [Route("{id}", Name = "Get")]
         public IActionResult Get(int id)
         {
+            _logger.LogInformation("GetUser");
             var user = _userRepository.GetSingle(id);
 
             if (user == null)
