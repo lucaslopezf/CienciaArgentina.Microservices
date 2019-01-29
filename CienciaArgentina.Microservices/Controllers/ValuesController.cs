@@ -15,9 +15,7 @@ namespace CienciaArgentina.Microservices.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            System.ArgumentException argEx = new System.ArgumentException("Index is out of range", "index");
-            throw argEx;
-            return null;
+            return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5

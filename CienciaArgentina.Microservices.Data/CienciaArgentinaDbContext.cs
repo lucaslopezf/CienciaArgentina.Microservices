@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using CienciaArgentina.Microservices.Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace CienciaArgentina.Microservices.Data
 {
-    public class CienciaArgentinaDbContext : DbContext
+    public class CienciaArgentinaDbContext : IdentityDbContext<ApplicationUser>
     {
         public CienciaArgentinaDbContext(DbContextOptions<CienciaArgentinaDbContext> options) : base(options)
         {

@@ -14,6 +14,7 @@
       "launchBrowser": true,
       "launchUrl": "api/values",
       "environmentVariables": {
+        "apiSecretKey": "lkajsdkaldjka!*nxmnxamnAA1",
         "ASPNETCORE_ENVIRONMENT": "Developmente"
       }
     },
