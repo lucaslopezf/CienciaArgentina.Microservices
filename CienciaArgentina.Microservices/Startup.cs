@@ -95,13 +95,20 @@ namespace CienciaArgentina.Microservices
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         context.Response.ContentType = "text/html";
                         var exception = context.Features.Get<IExceptionHandlerFeature>();
+                        Guid guid = Guid.NewGuid();
+                        var message = "Error en la aplicación";
                         if (exception != null)
                         {
                             var logger = loggerFactory.CreateLogger("Global exception logger");
-                            logger.LogError(context.Response.StatusCode, exception.Error, exception.Error.Message);
+                            message = $"Error: {exception.Error.Message}." +
+                                      $"Id: {guid}";
+                            logger.LogError(context.Response.StatusCode, exception.Error, message);
+                           
                         }
+                        
+                        await context.Response.WriteAsync(message);
 
-                        await context.Response.WriteAsync("There was an error");
+
                     });
                 });
                 

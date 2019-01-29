@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CienciaArgentina.Microservices.Controllers
 {
@@ -14,7 +15,9 @@ namespace CienciaArgentina.Microservices.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            System.ArgumentException argEx = new System.ArgumentException("Index is out of range", "index");
+            throw argEx;
+            return null;
         }
 
         // GET api/values/5
