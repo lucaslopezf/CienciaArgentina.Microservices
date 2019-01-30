@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Entities.Models;
+using CienciaArgentina.Microservices.Entities.QueryParameters;
+using System.Linq.Dynamic.Core;
 
 namespace CienciaArgentina.Microservices.Data.Repositories
 {
@@ -16,13 +18,29 @@ namespace CienciaArgentina.Microservices.Data.Repositories
             _context = context;
         }
 
-        //TODO GetAll with pagination
-        public IQueryable<User> GetAll()
+        public IQueryable<User> Get(QueryParameters userQueryParameters)
+        {
+            IQueryable<User> allUsers = _context.Users.OrderBy(userQueryParameters.OrderBy,
+                userQueryParameters.Descending);
+
+            if (userQueryParameters.HasQuery)
+            {
+                allUsers = allUsers
+                    .Where(x => x.Username.ToLowerInvariant().Contains(userQueryParameters.Query.ToLowerInvariant()));
+                //|| x.LastName.ToLowerInvariant().Contains(userQueryParameters.Query.ToLowerInvariant()));
+            }
+
+            return allUsers.OrderBy(x => x.Username)
+                .Skip(userQueryParameters.PageCount * (userQueryParameters.Page - 1))
+                .Take(userQueryParameters.PageCount);
+        }
+
+        public IQueryable<User> Get()
         {
             return _context.Users.Select(x => x);
         }
 
-        public User GetSingle(int id)
+        public User Get(int id)
         {
             return _context.Users.FirstOrDefault(x => x.Id == id);
         }
@@ -34,7 +52,7 @@ namespace CienciaArgentina.Microservices.Data.Repositories
 
         public void Delete(int id)
         {
-            User user = GetSingle(id);
+            User user = Get(id);
             _context.Users.Remove(user);
         }
 

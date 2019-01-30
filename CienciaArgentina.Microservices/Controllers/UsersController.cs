@@ -6,10 +6,13 @@ using AutoMapper;
 using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Entities.Dtos;
 using CienciaArgentina.Microservices.Entities.Models;
+using CienciaArgentina.Microservices.Entities.QueryParameters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,11 +33,19 @@ namespace CienciaArgentina.Microservices.Controllers
             _logger = logger;
         }
 
-        // GET: api/<controller>
+        // GET api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [ProducesResponseType(typeof(List<User>), 200)]
+        public IActionResult Get(QueryParameters userQueryParameters)
         {
-            return new string[] { "Lucas", "Nico" };
+            var allUsers = _userRepository.Get(userQueryParameters).ToList();
+
+            var allUsersDto = allUsers.Select(x => Mapper.Map<UserCreateDto>(x));
+
+            Response.Headers.Add("X-Pagination",
+                JsonConvert.SerializeObject(new { totalCount = _userRepository.Count() }));
+
+            return Ok(allUsersDto);
         }
 
         // GET api/<controller>/5
@@ -45,7 +56,7 @@ namespace CienciaArgentina.Microservices.Controllers
         public IActionResult Get(int id)
         {
             _logger.LogInformation("GetUser");
-            var user = _userRepository.GetSingle(id);
+            var user = _userRepository.Get(id);
 
             if (user == null)
                 return NotFound();
@@ -81,14 +92,101 @@ namespace CienciaArgentina.Microservices.Controllers
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]UserCreateDto model)
         {
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingUser = _userRepository.Get(id);
+
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
+
+            Mapper.Map(model, existingUser);
+
+            _userRepository.Update(existingUser);
+
+            bool result = _userRepository.Save();
+
+            if (!result)
+            {
+                throw new Exception($"something went wrong when updating the user with id: {id}");
+            }
+
+            return Ok(Mapper.Map<UserCreateDto>(existingUser));
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var existingUser = _userRepository.Get(id);
+
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
+            _userRepository.Delete(id);
+
+            bool result = _userRepository.Save();
+
+            if (!result)
+            {
+                throw new Exception($"something went wrong when deleting the user with id: {id}");
+            }
+
+            return NoContent();
+        }
+
+        [HttpPatch]
+        [Route("{id}")]
+        public IActionResult Patch(int id, [FromBody] JsonPatchDocument<UserCreateDto> userPatchDoc)
+        {
+            if (userPatchDoc == null)
+            {
+                return BadRequest();
+            }
+
+            var existingUser = _userRepository.Get(id);
+
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
+            var customerToPatch = Mapper.Map<UserCreateDto>(existingUser);
+            userPatchDoc.ApplyTo(customerToPatch, ModelState);
+
+            TryValidateModel(customerToPatch);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Mapper.Map(customerToPatch, existingUser);
+
+            _userRepository.Update(existingUser);
+
+            bool result = _userRepository.Save();
+
+            if (!result)
+            {
+                throw new Exception($"something went wrong when updating the user with id: {id}");
+            }
+
+            return Ok(Mapper.Map<UserCreateDto>(existingUser));
         }
     }
 }
