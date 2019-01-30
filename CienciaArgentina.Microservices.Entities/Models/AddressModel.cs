@@ -10,8 +10,9 @@ namespace CienciaArgentina.Microservices.Entities.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Country { get; set; }
-        public string State { get; set; }
+        public Country Country { get; set; }
+        public State State { get; set; }
+        public City City { get; set; }
         public string StreetName { get; set; }
         public string StreetNumber { get; set; }
         public string ZipCode { get; set; }

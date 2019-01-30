@@ -12,7 +12,6 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public UserData UserData { get; set; }
-        public Role Rol { get; set; }
         public bool Blocked { get; set; }
         public bool Confirmed { get; set; }
         public DateTime DateFrom { get; set; }

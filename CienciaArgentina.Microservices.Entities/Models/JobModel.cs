@@ -14,6 +14,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public string Charge { get; set; }
         public string Description { get; set; }
         public string Addittions { get; set; }
+        public Address Address { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
     }
