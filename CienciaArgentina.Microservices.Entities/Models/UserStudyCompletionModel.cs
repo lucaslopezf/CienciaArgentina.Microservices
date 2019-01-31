@@ -5,13 +5,12 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models
 {
-    public class UserKey
+    public class UserStudyCompletion
     {
         [Key]
         public int Id { get; set; }
-        public User User { get; set; }
-        public ActionKey ActionKey { get; set; }
-        public bool Used { get; set; }
+
+        public string Description { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
     }

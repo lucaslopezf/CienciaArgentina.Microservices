@@ -10,7 +10,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
         [Key]
         public int Id { get; set; }
         public Institute Institute { get; set; }
-        public Role Role { get; set; }
+        public Position Position { get; set; }
         public User User { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }

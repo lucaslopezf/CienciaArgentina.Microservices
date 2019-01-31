@@ -13,11 +13,12 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Identifier { get; set; }
-        public string Email { get; set; }
+        public SocialNetwork SocialNetwork { get; set; }
+        public UserInstitute UserInstitute { get; set; }
         public Sex Sex { get; set; }
         public DateTime Birthday { get; set; }
         public Address Address { get; set; }
-        public Job Job { get; set; }
+        public Career Career { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
     }
