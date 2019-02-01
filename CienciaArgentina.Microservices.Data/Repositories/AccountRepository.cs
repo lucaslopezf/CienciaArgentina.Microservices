@@ -1,50 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Text;
+using System.Threading.Tasks;
+using CienciaArgentina.Microservices.Data.IRepositories;
+using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models;
+using CienciaArgentina.Microservices.Entities.QueryParameters;
+using Microsoft.AspNetCore.Identity;
 
 namespace CienciaArgentina.Microservices.Data.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         //TODO: Replace User for Account
         private readonly CienciaArgentinaDbContext _context;
 
-        public AccountRepository(CienciaArgentinaDbContext context)
+        public AccountRepository(CienciaArgentinaDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        public User GetSingle(int id)
+        public IQueryable<ApplicationUser> Get(QueryParameters userQueryParameters)
         {
-            return _context.Users.FirstOrDefault(x => x.Id == id);
+            
+            IQueryable<ApplicationUser> allUsers;
+            if (!userQueryParameters.HasQuery)
+                allUsers = _context.Users.OrderBy(userQueryParameters.OrderBy,userQueryParameters.Descending);
+            else
+                allUsers = _context.Users
+                    .Where(x => x.UserName.ToLowerInvariant().Contains(userQueryParameters.Query.ToLowerInvariant()))
+                    .OrderBy(userQueryParameters.OrderBy, userQueryParameters.Descending);
+
+            return allUsers.OrderBy(x => x.UserName)
+                .Skip(userQueryParameters.PageCount * (userQueryParameters.Page - 1))
+                .Take(userQueryParameters.PageCount);
         }
 
-        public void Add(User item)
+        public async Task<ApplicationUser> Get(string id)
         {
-            _context.Users.Add(item);
+            var user = await _userManager.FindByIdAsync(id);
+            return user;
         }
 
-        public void Delete(int id)
+        public async Task<IdentityResult> Add(ApplicationUser user,string password)
         {
-            User user = GetSingle(id);
-            _context.Users.Remove(user);
+            var result = await _userManager.CreateAsync(user,password);
+            //TODO: Redis
+            return result;
         }
 
-        public void Update(User item)
+        public async Task<IdentityResult> Update(ApplicationUser user)
         {
-            _context.Users.Update(item);
+            var result = await _userManager.UpdateAsync(user);
+            return result;
+        }
+
+        public async Task<IdentityResult> Delete(ApplicationUser user)
+        {
+            user.DateDeleted = DateTime.Now;
+
+            var result = await Update(user);
+            return result;
         }
 
         public int Count()
         {
             return _context.Users.Count();
-        }
-
-        public bool Save()
-        {
-            return _context.SaveChanges() >= 0;
         }
     }
 }
