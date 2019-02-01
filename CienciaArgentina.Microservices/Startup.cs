@@ -8,6 +8,7 @@ using CienciaArgentina.Microservices.Data;
 using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Data.Repositories;
 using CienciaArgentina.Microservices.Entities.Dtos;
+using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -47,7 +48,6 @@ namespace CienciaArgentina.Microservices
             services.AddDbContext<CienciaArgentinaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //Repositories
-            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             //Authentication
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -157,7 +157,7 @@ namespace CienciaArgentina.Microservices
             //Mapper DTO -> Models
             AutoMapper.Mapper.Initialize(mapper =>
             {
-                mapper.CreateMap<User, UserCreateDto>().ReverseMap();
+                mapper.CreateMap<ApplicationUser, UserCreateDto>().ReverseMap();
             });
 
             //Use authentication

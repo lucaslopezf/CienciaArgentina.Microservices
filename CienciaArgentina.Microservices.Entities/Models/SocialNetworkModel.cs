@@ -12,7 +12,6 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public string SocialNetworkName { get; set; }
         public string UserName { get; set; }
         public string Url { get; set; }
-        public User User { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
     }

@@ -4,26 +4,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CienciaArgentina.Microservices.Data.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class firstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "ActionKeys",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    DateFrom = table.Column<DateTime>(nullable: false),
-                    DateTo = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ActionKeys", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Addresses",
                 columns: table => new
@@ -43,6 +27,20 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Addresses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -112,6 +110,23 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SocialNetworks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    SocialNetworkName = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true),
+                    DateFrom = table.Column<DateTime>(nullable: false),
+                    DateTo = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SocialNetworks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserStudyTypes",
                 columns: table => new
                 {
@@ -151,6 +166,27 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         principalTable: "Addresses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RoleId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -250,35 +286,36 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Username = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    UserDataId = table.Column<int>(nullable: true),
-                    RolId = table.Column<int>(nullable: true),
-                    Blocked = table.Column<bool>(nullable: false),
-                    Confirmed = table.Column<bool>(nullable: false),
-                    DateFrom = table.Column<DateTime>(nullable: false),
-                    DateTo = table.Column<DateTime>(nullable: false)
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    DateDeleted = table.Column<DateTime>(nullable: false),
+                    UserDataId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Roles_RolId",
-                        column: x => x.RolId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Users_UsersData_UserDataId",
+                        name: "FK_AspNetUsers_UsersData_UserDataId",
                         column: x => x.UserDataId,
                         principalTable: "UsersData",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -320,27 +357,88 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SocialNetworks",
+                name: "AspNetUserClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SocialNetworkName = table.Column<string>(nullable: true),
-                    UserName = table.Column<string>(nullable: true),
-                    Url = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: true),
-                    DateFrom = table.Column<DateTime>(nullable: false),
-                    DateTo = table.Column<DateTime>(nullable: false)
+                    UserId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SocialNetworks", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SocialNetworks_Users_UserId",
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
+                    ProviderDisplayName = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    RoleId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -351,7 +449,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     InstituteId = table.Column<int>(nullable: true),
                     RoleId = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
                     DateFrom = table.Column<DateTime>(nullable: false),
                     DateTo = table.Column<DateTime>(nullable: false)
                 },
@@ -371,38 +469,9 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserInstitutes_Users_UserId",
+                        name: "FK_UserInstitutes_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserKeys",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(nullable: true),
-                    ActionKeyId = table.Column<int>(nullable: true),
-                    Used = table.Column<bool>(nullable: false),
-                    DateFrom = table.Column<DateTime>(nullable: false),
-                    DateTo = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserKeys", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserKeys_ActionKeys_ActionKeyId",
-                        column: x => x.ActionKeyId,
-                        principalTable: "ActionKeys",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UserKeys_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -415,7 +484,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     LaboratoryId = table.Column<int>(nullable: true),
                     RoleId = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
                     DateFrom = table.Column<DateTime>(nullable: false),
                     DateTo = table.Column<DateTime>(nullable: false)
                 },
@@ -435,12 +504,56 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserLaboratories_Users_UserId",
+                        name: "FK_UserLaboratories_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_UserDataId",
+                table: "AspNetUsers",
+                column: "UserDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Institutes_AddressId",
@@ -456,11 +569,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 name: "IX_Laboratories_InstituteId",
                 table: "Laboratories",
                 column: "InstituteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SocialNetworks_UserId",
-                table: "SocialNetworks",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Universities_CountryId",
@@ -483,16 +591,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserKeys_ActionKeyId",
-                table: "UserKeys",
-                column: "ActionKeyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserKeys_UserId",
-                table: "UserKeys",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserLaboratories_LaboratoryId",
                 table: "UserLaboratories",
                 column: "LaboratoryId");
@@ -506,16 +604,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 name: "IX_UserLaboratories_UserId",
                 table: "UserLaboratories",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_RolId",
-                table: "Users",
-                column: "RolId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_UserDataId",
-                table: "Users",
-                column: "UserDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersData_AddressId",
@@ -551,13 +639,25 @@ namespace CienciaArgentina.Microservices.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
                 name: "SocialNetworks");
 
             migrationBuilder.DropTable(
                 name: "UserInstitutes");
-
-            migrationBuilder.DropTable(
-                name: "UserKeys");
 
             migrationBuilder.DropTable(
                 name: "UserLaboratories");
@@ -566,13 +666,16 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 name: "UserStudies");
 
             migrationBuilder.DropTable(
-                name: "ActionKeys");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Laboratories");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Universities");
@@ -582,9 +685,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Institutes");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "UsersData");

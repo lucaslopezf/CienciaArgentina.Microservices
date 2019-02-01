@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 
-namespace CienciaArgentina.Microservices.Data
+namespace CienciaArgentina.Microservices.Entities.Identity
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationRole : IdentityRole
     {
 
     }

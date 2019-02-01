@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CienciaArgentina.Microservices.Data.Migrations
 {
     [DbContext(typeof(CienciaArgentinaDbContext))]
-    [Migration("20190129050758_identity")]
-    partial class identity
+    [Migration("20190201025530_SecondMigration")]
+    partial class SecondMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CienciaArgentina.Microservices.Data.ApplicationUser", b =>
+            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -30,6 +30,8 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -56,6 +58,8 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
+                    b.Property<int?>("UserDataId");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
@@ -69,26 +73,9 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("UserDataId");
+
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.ActionKey", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateFrom");
-
-                    b.Property<DateTime>("DateTo");
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ActionKeys");
                 });
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.Address", b =>
@@ -276,13 +263,9 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<string>("Url");
 
-                    b.Property<int?>("UserId");
-
                     b.Property<string>("UserName");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("SocialNetworks");
                 });
@@ -308,37 +291,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Universities");
-                });
-
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Blocked");
-
-                    b.Property<bool>("Confirmed");
-
-                    b.Property<DateTime>("DateFrom");
-
-                    b.Property<DateTime>("DateTo");
-
-                    b.Property<string>("Password");
-
-                    b.Property<int?>("RolId");
-
-                    b.Property<int?>("UserDataId");
-
-                    b.Property<string>("Username");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RolId");
-
-                    b.HasIndex("UserDataId");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.UserData", b =>
@@ -394,7 +346,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<int?>("RoleId");
 
-                    b.Property<int?>("UserId");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
@@ -405,31 +357,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserInstitutes");
-                });
-
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.UserKey", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ActionKeyId");
-
-                    b.Property<DateTime>("DateFrom");
-
-                    b.Property<DateTime>("DateTo");
-
-                    b.Property<bool>("Used");
-
-                    b.Property<int?>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ActionKeyId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserKeys");
                 });
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.UserLaboratory", b =>
@@ -446,7 +373,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<int?>("RoleId");
 
-                    b.Property<int?>("UserId");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
@@ -619,6 +546,13 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser", b =>
+                {
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.UserData", "UserData")
+                        .WithMany()
+                        .HasForeignKey("UserDataId");
+                });
+
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.Institute", b =>
                 {
                     b.HasOne("CienciaArgentina.Microservices.Entities.Models.Address", "Address")
@@ -637,29 +571,11 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         .HasForeignKey("InstituteId");
                 });
 
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.SocialNetwork", b =>
-                {
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.University", b =>
                 {
                     b.HasOne("CienciaArgentina.Microservices.Entities.Models.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId");
-                });
-
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.User", b =>
-                {
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.Role", "Rol")
-                        .WithMany()
-                        .HasForeignKey("RolId");
-
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.UserData", "UserData")
-                        .WithMany()
-                        .HasForeignKey("UserDataId");
                 });
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.UserData", b =>
@@ -687,18 +603,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId");
 
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.UserKey", b =>
-                {
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.ActionKey", "ActionKey")
-                        .WithMany()
-                        .HasForeignKey("ActionKeyId");
-
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.User", "User")
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
@@ -713,7 +618,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId");
 
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.User", "User")
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
@@ -743,7 +648,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("CienciaArgentina.Microservices.Data.ApplicationUser")
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -751,7 +656,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("CienciaArgentina.Microservices.Data.ApplicationUser")
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -764,7 +669,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CienciaArgentina.Microservices.Data.ApplicationUser")
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -772,7 +677,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("CienciaArgentina.Microservices.Data.ApplicationUser")
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -5,66 +5,159 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using CienciaArgentina.Microservices.Data;
+using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Data.Repositories;
 using CienciaArgentina.Microservices.Entities.Dtos;
+using CienciaArgentina.Microservices.Entities.Identity;
+using CienciaArgentina.Microservices.Entities.QueryParameters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace CienciaArgentina.Microservices.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
-    [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAccountRepository _accountRepository;
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _configuration;
 
-        public AccountController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, 
-            IAccountRepository accountRepository, 
-            ILogger<AccountController> logger,
-            IConfiguration configuration
-            )
+        public AccountController(SignInManager<ApplicationUser> signInManager, IAccountRepository accountRepository, ILogger<AccountController> logger, IConfiguration configuration)
         {
             _accountRepository = accountRepository;
             _logger = logger;
             _signInManager = signInManager;
-            _userManager = userManager;
             _configuration = configuration;
         }
 
-        [Route("Create")]
-        [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserCreateDto model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.UserName };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    return BuildToken(model);
-                }
-                else
-                {
-                    return BadRequest("Username or password invalid");
-                }
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
 
+        //GET api/<controller>
+        [HttpGet]
+        public IActionResult Get(QueryParameters userQueryParameters)
+        {
+            var allUsers = _accountRepository.Get(userQueryParameters).ToList();
+
+            var allUsersDto = allUsers.Select(x => Mapper.Map<UserCreateDto>(x));
+
+            Response.Headers.Add("X-Pagination",
+                JsonConvert.SerializeObject(new { totalCount = _accountRepository.Count() }));
+
+            return Ok(allUsersDto);
         }
 
+        //GET api/<controller>/5
+        [HttpGet]
+        [ProducesResponseType(typeof(int), 200)]
+        [ProducesResponseType(typeof(int), 404)]
+        [Route("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            var user = await _accountRepository.Get(id);
+
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] UserCreateDto model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var user = new ApplicationUser
+            {
+                UserName = model.UserName,
+            };
+
+            var result = await _accountRepository.Add(user, model.Password);
+
+            return result.Succeeded ? BuildToken(model) : BadRequest("Username or password invalid");
+        }
+
+        // PUT api/<controller>/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(string id, [FromBody]UserCreateDto model)
+        {
+            if (model == null)
+                return BadRequest();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await _accountRepository.Get(id);
+
+            if (user == null)
+                return NotFound();
+
+            Mapper.Map(model, user);
+
+            var result = await _accountRepository.Update(user);
+
+            if (!result.Succeeded)
+                throw new Exception($"something went wrong when updating the user with id: {id}");
+
+            return Ok(Mapper.Map<UserCreateDto>(user));
+        }
+
+        // DELETE api/<controller>/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await _accountRepository.Get(id);
+
+            if (user == null)
+                return NotFound();
+
+            var result = await _accountRepository.Delete(user);
+
+            if (!result.Succeeded)
+                throw new Exception($"something went wrong when deleting the user with id: {id}");
+
+            return NoContent();
+        }
+
+        [HttpPatch]
+        [Route("{id}")]
+        public async Task<IActionResult> Patch(string id, [FromBody] JsonPatchDocument<UserCreateDto> userPatchDoc)
+        {
+            if (userPatchDoc == null)
+                return BadRequest();
+
+            var user = await _accountRepository.Get(id);
+
+            if (user == null)
+                return NotFound();
+
+            var userToPatch = Mapper.Map<UserCreateDto>(user);
+            userPatchDoc.ApplyTo(userToPatch, ModelState);
+
+            TryValidateModel(userToPatch);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            Mapper.Map(userToPatch, user);
+
+            var result = await _accountRepository.Update(user);
+
+            if (!result.Succeeded)
+                throw new Exception($"something went wrong when updating the user with id: {id}");
+
+            return Ok(Mapper.Map<UserCreateDto>(user));
+        }
+
+        //
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] UserCreateDto userInfo)
@@ -88,6 +181,7 @@ namespace CienciaArgentina.Microservices.Controllers
             }
         }
 
+        //TODO: BuildToken debe ir en otro lugar?
         private IActionResult BuildToken(UserCreateDto userInfo)
         {
             var claims = new[]
@@ -103,21 +197,19 @@ namespace CienciaArgentina.Microservices.Controllers
             var expiration = DateTime.UtcNow.AddHours(1);
 
             //TODO: Get config from appsettings
-            JwtSecurityToken token = new JwtSecurityToken(
+            var token = new JwtSecurityToken(
                issuer: "cienciaargentina.com",
                audience: "cienciaargentina.com",
                claims: claims,
                expires: expiration,
                signingCredentials: creds);
 
+            //TODO: CreatedAtRoute
             return Ok(new
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = expiration
+                expiration
             });
-
         }
-
-
     }
 }
