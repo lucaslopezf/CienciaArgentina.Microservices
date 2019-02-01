@@ -18,7 +18,7 @@ namespace CienciaArgentina.Microservices.Data
         }
 
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<Career> Careers { get; set; }
+        public DbSet<WorkExperience> WorkExperience { get; set; }
         public DbSet<UserData> UsersData { get; set; }
         public DbSet<Sex> Sex { get; set; }
         public DbSet<Position> Positions { get; set; }

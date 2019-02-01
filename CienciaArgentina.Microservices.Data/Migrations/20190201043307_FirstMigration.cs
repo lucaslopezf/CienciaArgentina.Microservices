@@ -4,29 +4,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CienciaArgentina.Microservices.Data.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Addresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    StreetName = table.Column<string>(nullable: true),
-                    StreetNumber = table.Column<string>(nullable: true),
-                    ZipCode = table.Column<string>(nullable: true),
-                    Department = table.Column<string>(nullable: true),
-                    Additionals = table.Column<string>(nullable: true),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateDeleted = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -137,26 +118,114 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Careers",
+                name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Company = table.Column<string>(nullable: true),
-                    Charge = table.Column<string>(nullable: true),
+                    RoleId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "States",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
-                    Addittions = table.Column<string>(nullable: true),
-                    AddressId = table.Column<int>(nullable: true),
+                    CountryId = table.Column<int>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateDeleted = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Careers", x => x.Id);
+                    table.PrimaryKey("PK_States", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Careers_Addresses_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Addresses",
+                        name: "FK_States_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(nullable: true),
+                    StateId = table.Column<int>(nullable: true),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateDeleted = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cities_States_StateId",
+                        column: x => x.StateId,
+                        principalTable: "States",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Localities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(nullable: true),
+                    CityId = table.Column<int>(nullable: true),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateDeleted = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Localities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Localities_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    StreetName = table.Column<string>(nullable: true),
+                    StreetNumber = table.Column<string>(nullable: true),
+                    ZipCode = table.Column<string>(nullable: true),
+                    Department = table.Column<string>(nullable: true),
+                    Additionals = table.Column<string>(nullable: true),
+                    LocalityId = table.Column<int>(nullable: true),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateDeleted = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_Localities_LocalityId",
+                        column: x => x.LocalityId,
+                        principalTable: "Localities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -212,44 +281,26 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
+                name: "WorkExperience",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    RoleId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "States",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Company = table.Column<string>(nullable: true),
+                    Charge = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    CountryId = table.Column<int>(nullable: true),
+                    Addittions = table.Column<string>(nullable: true),
+                    AddressId = table.Column<int>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateDeleted = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_States", x => x.Id);
+                    table.PrimaryKey("PK_WorkExperience", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_States_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
+                        name: "FK_WorkExperience_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -286,50 +337,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    StateId = table.Column<int>(nullable: true),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateDeleted = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cities_States_StateId",
-                        column: x => x.StateId,
-                        principalTable: "States",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Localities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    CityId = table.Column<int>(nullable: true),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateDeleted = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Localities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Localities_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UsersData",
                 columns: table => new
                 {
@@ -344,7 +351,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                     SexId = table.Column<int>(nullable: true),
                     Birthday = table.Column<DateTime>(nullable: false),
                     AddressId = table.Column<int>(nullable: true),
-                    CareerId = table.Column<int>(nullable: true),
+                    WorkExperienceId = table.Column<int>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateDeleted = table.Column<DateTime>(nullable: false)
                 },
@@ -358,12 +365,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UsersData_Careers_CareerId",
-                        column: x => x.CareerId,
-                        principalTable: "Careers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_UsersData_Sex_SexId",
                         column: x => x.SexId,
                         principalTable: "Sex",
@@ -373,6 +374,12 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         name: "FK_UsersData_SocialNetworks_SocialNetworkId",
                         column: x => x.SocialNetworkId,
                         principalTable: "SocialNetworks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UsersData_WorkExperience_WorkExperienceId",
+                        column: x => x.WorkExperienceId,
+                        principalTable: "WorkExperience",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -613,6 +620,11 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Addresses_LocalityId",
+                table: "Addresses",
+                column: "LocalityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -655,11 +667,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 name: "IX_AspNetUsers_UserDataId",
                 table: "AspNetUsers",
                 column: "UserDataId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Careers_AddressId",
-                table: "Careers",
-                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_StateId",
@@ -732,11 +739,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UsersData_CareerId",
-                table: "UsersData",
-                column: "CareerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UsersData_SexId",
                 table: "UsersData",
                 column: "SexId");
@@ -750,6 +752,11 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 name: "IX_UsersData_UserInstituteId",
                 table: "UsersData",
                 column: "UserInstituteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersData_WorkExperienceId",
+                table: "UsersData",
+                column: "WorkExperienceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserStudies_UniversityId",
@@ -771,6 +778,11 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 table: "UserStudies",
                 column: "UserStudyTypeId");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkExperience_AddressId",
+                table: "WorkExperience",
+                column: "AddressId");
+
             migrationBuilder.AddForeignKey(
                 name: "FK_UsersData_UserInstitutes_UserInstituteId",
                 table: "UsersData",
@@ -782,6 +794,10 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Addresses_Localities_LocalityId",
+                table: "Addresses");
+
             migrationBuilder.DropForeignKey(
                 name: "FK_UserInstitutes_AspNetUsers_UserId",
                 table: "UserInstitutes");
@@ -802,9 +818,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Localities");
-
-            migrationBuilder.DropTable(
                 name: "UserLaboratories");
 
             migrationBuilder.DropTable(
@@ -812,9 +825,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Laboratories");
@@ -829,6 +839,12 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 name: "UserStudyTypes");
 
             migrationBuilder.DropTable(
+                name: "Localities");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
+
+            migrationBuilder.DropTable(
                 name: "States");
 
             migrationBuilder.DropTable(
@@ -841,9 +857,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 name: "UsersData");
 
             migrationBuilder.DropTable(
-                name: "Careers");
-
-            migrationBuilder.DropTable(
                 name: "Sex");
 
             migrationBuilder.DropTable(
@@ -851,6 +864,9 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserInstitutes");
+
+            migrationBuilder.DropTable(
+                name: "WorkExperience");
 
             migrationBuilder.DropTable(
                 name: "Institutes");
