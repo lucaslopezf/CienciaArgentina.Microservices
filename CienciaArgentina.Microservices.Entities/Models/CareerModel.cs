@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models
 {
-    public class Career
+    public class WorkExperience
     {
         [Key]
         public int Id { get; set; }

@@ -18,7 +18,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public Sex Sex { get; set; }
         public DateTime Birthday { get; set; }
         public Address Address { get; set; }
-        public Career Career { get; set; }
+        public WorkExperience WorkExperience { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateDeleted { get; set; }
     }
