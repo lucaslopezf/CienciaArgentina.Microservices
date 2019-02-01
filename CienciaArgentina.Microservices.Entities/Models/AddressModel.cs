@@ -15,7 +15,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public string ZipCode { get; set; }
         public string Department { get; set; }
         public string Additionals { get; set; }
-        public DateTime DateFrom { get; set; }
-        public DateTime DateTo { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateDeleted { get; set; }
     }
 }
