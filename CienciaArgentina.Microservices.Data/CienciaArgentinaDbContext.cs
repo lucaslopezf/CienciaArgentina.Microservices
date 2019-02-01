@@ -18,10 +18,10 @@ namespace CienciaArgentina.Microservices.Data
         }
 
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<Job> Jobs { get; set; }
+        public DbSet<Career> Careers { get; set; }
         public DbSet<UserData> UsersData { get; set; }
         public DbSet<Sex> Sex { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<Position> Positions { get; set; }
         public DbSet<Institute> Institutes { get; set; }
         public DbSet<SocialNetwork> SocialNetworks { get; set; }
         public DbSet<Country> Countries { get; set; }
@@ -31,6 +31,10 @@ namespace CienciaArgentina.Microservices.Data
         public DbSet<Laboratory> Laboratories { get; set; }
         public DbSet<UserLaboratory> UserLaboratories { get; set; }
         public DbSet<UserInstitute> UserInstitutes { get; set; }
+        public DbSet<State> States { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<UserStudyCompletion> UserStudiesCompletion { get; set; }
+        public DbSet<Locality> Localities { get; set; }
         
     }
 }

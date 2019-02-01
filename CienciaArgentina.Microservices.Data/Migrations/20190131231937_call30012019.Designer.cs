@@ -4,14 +4,16 @@ using CienciaArgentina.Microservices.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CienciaArgentina.Microservices.Data.Migrations
 {
     [DbContext(typeof(CienciaArgentinaDbContext))]
-    partial class CienciaArgentinaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190131231937_call30012019")]
+    partial class call30012019
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("CienciaArgentina.Microservices.Data.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -28,8 +30,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -56,8 +56,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<int?>("UserDataId");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
@@ -70,8 +68,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("UserDataId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -301,9 +297,13 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<string>("Url");
 
+                    b.Property<int?>("UserId");
+
                     b.Property<string>("UserName");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("SocialNetworks");
                 });
@@ -438,7 +438,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<int?>("PositionId");
 
-                    b.Property<string>("UserId");
+                    b.Property<int?>("UserId");
 
                     b.HasKey("Id");
 
@@ -465,7 +465,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<int?>("PositionId");
 
-                    b.Property<string>("UserId");
+                    b.Property<int?>("UserId");
 
                     b.HasKey("Id");
 
@@ -761,7 +761,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         .WithMany()
                         .HasForeignKey("PositionId");
 
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser", "User")
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
@@ -776,7 +776,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         .WithMany()
                         .HasForeignKey("PositionId");
 
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser", "User")
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
@@ -810,7 +810,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser")
+                    b.HasOne("CienciaArgentina.Microservices.Data.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -818,7 +818,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser")
+                    b.HasOne("CienciaArgentina.Microservices.Data.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -831,7 +831,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser")
+                    b.HasOne("CienciaArgentina.Microservices.Data.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -839,7 +839,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser")
+                    b.HasOne("CienciaArgentina.Microservices.Data.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
