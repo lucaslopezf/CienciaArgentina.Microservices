@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using CienciaArgentina.Microservices.Commons;
 using CienciaArgentina.Microservices.Data;
 using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Data.Repositories;
@@ -129,11 +130,14 @@ namespace CienciaArgentina.Microservices
                             message = $"Error: {exception.Error.Message}." +
                                       $"Id: {guid}";
                             logger.LogError(context.Response.StatusCode, exception.Error, message);
-                           
+
+                            //Storage!
+                            var action = ExceptionAction.Enqueue;
+                            var exceptionStorage = new Exception("PruebaStorageException");
+                            exceptionStorage.Log(action);
                         }
                         
                         await context.Response.WriteAsync(message);
-
 
                     });
                 });
