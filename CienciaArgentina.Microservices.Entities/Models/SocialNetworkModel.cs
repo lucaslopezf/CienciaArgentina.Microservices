@@ -15,4 +15,11 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public DateTime DateCreated { get; set; }
         public DateTime? DateDeleted { get; set; }
     }
+
+    public class SocialNetworkDto
+    {
+        public string SocialNetworkName { get; set; }
+        public string UserName { get; set; }
+        public string Url { get; set; }
+    }
 }

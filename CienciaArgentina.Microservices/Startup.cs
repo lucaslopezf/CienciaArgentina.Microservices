@@ -110,45 +110,10 @@ namespace CienciaArgentina.Microservices
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
             else
-            {
-                //TODO: Stacktrace
-                app.UseExceptionHandler(errorApp =>
-                {
-                    errorApp.Run(async context =>
-                    {
-                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        context.Response.ContentType = "text/html";
-                        var exception = context.Features.Get<IExceptionHandlerFeature>();
-                        Guid guid = Guid.NewGuid();
-                        var message = "Error en la aplicación";
-                        if (exception != null)
-                        {
-                            var logger = loggerFactory.CreateLogger("Global exception logger");
-                            message = $"Error: {exception.Error.Message}." +
-                                      $"Id: {guid}";
-                            logger.LogError(context.Response.StatusCode, exception.Error, message);
-
-                            //Storage!
-                            var action = ExceptionAction.Enqueue;
-                            var exceptionStorage = new Exception("PruebaStorageException");
-                            exceptionStorage.Log(action);
-                        }
-                        
-                        await context.Response.WriteAsync(message);
-
-                    });
-                });
-                
-                // SSL
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
 
-            //app.UseCienciaArgMiddleware();
             app.UseHttpsRedirection();
             app.UseApiVersioning();
             app.UseSwagger();
@@ -164,11 +129,19 @@ namespace CienciaArgentina.Microservices
             {
                 mapper.CreateMap<ApplicationUser, UserCreateDto>().ReverseMap();
                 mapper.CreateMap<UserData, UserDataDto>().ReverseMap();
+                //mapper.CreateMap<SocialNetwork, SocialNetworkDto>().ReverseMap();
             });
 
             //Use authentication
             app.UseAuthentication();
+
+            //Initialize storage
             FullStorageInitializer.Initialize();
+
+            //ExceptionHandler middleware
+            app.UseExceptionMiddleware();
+
+            //
             app.UseMvc();
         }
     }
