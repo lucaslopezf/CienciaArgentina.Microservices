@@ -145,7 +145,6 @@ namespace CienciaArgentina.Microservices
 
             //app.UseCienciaArgMiddleware();
             app.UseHttpsRedirection();
-            FullStorageInitializer.Initialize();
             app.UseApiVersioning();
             app.UseSwagger();
 
