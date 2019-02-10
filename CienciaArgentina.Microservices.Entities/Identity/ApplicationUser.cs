@@ -9,7 +9,5 @@ namespace CienciaArgentina.Microservices.Entities.Identity
     public class ApplicationUser : IdentityUser
     {
         public DateTime DateDeleted { get; set; }
-        public int? UserDataId { get; set; }
-        public UserData UserData { get; set; }
     }
 }

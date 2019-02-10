@@ -51,6 +51,7 @@ namespace CienciaArgentina.Microservices
 
             //Repositories
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IUserDataRepository, UserDataRepository>();
             //Authentication
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<CienciaArgentinaDbContext>()
@@ -162,6 +163,7 @@ namespace CienciaArgentina.Microservices
             AutoMapper.Mapper.Initialize(mapper =>
             {
                 mapper.CreateMap<ApplicationUser, UserCreateDto>().ReverseMap();
+                mapper.CreateMap<UserData, UserDataDto>().ReverseMap();
             });
 
             //Use authentication

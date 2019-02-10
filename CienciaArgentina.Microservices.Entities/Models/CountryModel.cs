@@ -13,6 +13,6 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public string Iso3 { get; set; }
         public string Name { get; set; }
         public DateTime DateCreated { get; set; }
-        public DateTime DateDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
     }
 }

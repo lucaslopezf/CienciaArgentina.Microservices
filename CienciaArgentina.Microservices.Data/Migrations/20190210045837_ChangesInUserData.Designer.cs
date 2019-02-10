@@ -4,14 +4,16 @@ using CienciaArgentina.Microservices.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CienciaArgentina.Microservices.Data.Migrations
 {
     [DbContext(typeof(CienciaArgentinaDbContext))]
-    partial class CienciaArgentinaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190210045837_ChangesInUserData")]
+    partial class ChangesInUserData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,7 +84,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Department");
 
@@ -109,7 +111,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Description");
 
@@ -130,7 +132,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Iso2");
 
@@ -153,7 +155,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Description");
 
@@ -184,7 +186,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreatedd");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Description");
 
@@ -213,7 +215,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Description");
 
@@ -232,7 +234,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Description");
 
@@ -251,7 +253,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Description");
 
@@ -268,7 +270,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("SocialNetworkName");
 
@@ -291,7 +293,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Description");
 
@@ -312,7 +314,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Name");
 
@@ -381,7 +383,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<int?>("InstituteId");
 
@@ -408,7 +410,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<int?>("LaboratoryId");
 
@@ -441,7 +443,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Institution");
 
@@ -476,7 +478,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Description");
 
@@ -493,7 +495,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Description");
 
@@ -518,7 +520,7 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime?>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted");
 
                     b.Property<string>("Description");
 

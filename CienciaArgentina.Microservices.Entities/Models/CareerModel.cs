@@ -16,6 +16,6 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public string Addittions { get; set; }
         public Address Address { get; set; }
         public DateTime DateCreated { get; set; }
-        public DateTime DateDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
     }
 }

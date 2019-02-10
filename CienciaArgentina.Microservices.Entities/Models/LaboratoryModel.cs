@@ -15,6 +15,6 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public Address Address { get; set; }
         public Institute Institute { get; set; }
         public DateTime DateCreatedd { get; set; }
-        public DateTime DateDeleted { get; set; }
+        public DateTime? DateDeleted { get; set; }
     }
 }
