@@ -11,6 +11,7 @@ using CienciaArgentina.Microservices.Entities.Dtos;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Middlewares;
+using CienciaArgentina.Microservices.Storage.Azure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -144,7 +145,7 @@ namespace CienciaArgentina.Microservices
 
             //app.UseCienciaArgMiddleware();
             app.UseHttpsRedirection();
-
+            FullStorageInitializer.Initialize();
             app.UseApiVersioning();
             app.UseSwagger();
 
@@ -162,7 +163,7 @@ namespace CienciaArgentina.Microservices
 
             //Use authentication
             app.UseAuthentication();
-
+            FullStorageInitializer.Initialize();
             app.UseMvc();
         }
     }

@@ -11,7 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Data", "CienciaArgentina.Microservices.Data\CienciaArgentina.Microservices.Data.csproj", "{C258D8D6-812B-445F-962D-592FD16AC4AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices", "CienciaArgentina.Microservices\CienciaArgentina.Microservices.csproj", "{8644A955-4F31-4BE6-8CFA-4A83CC60C2F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices", "CienciaArgentina.Microservices\CienciaArgentina.Microservices.csproj", "{8644A955-4F31-4BE6-8CFA-4A83CC60C2F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices.Storage.Azure", "CienciaArgentina.Microservices.Storage.Azure\CienciaArgentina.Microservices.Storage.Azure.csproj", "{7316EDFC-4449-4155-A16E-24ACEAF629EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices.QueueConsumers", "CienciaArgentina.Microservices.QueueConsumers\CienciaArgentina.Microservices.QueueConsumers.csproj", "{6C7D186B-A633-47BD-B89E-4BE0BB67BF4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices.Worker", "CienciaArgentina.Microservices.Worker\CienciaArgentina.Microservices.Worker.csproj", "{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,18 @@ Global
 		{8644A955-4F31-4BE6-8CFA-4A83CC60C2F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8644A955-4F31-4BE6-8CFA-4A83CC60C2F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8644A955-4F31-4BE6-8CFA-4A83CC60C2F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7316EDFC-4449-4155-A16E-24ACEAF629EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7316EDFC-4449-4155-A16E-24ACEAF629EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7316EDFC-4449-4155-A16E-24ACEAF629EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7316EDFC-4449-4155-A16E-24ACEAF629EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C7D186B-A633-47BD-B89E-4BE0BB67BF4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C7D186B-A633-47BD-B89E-4BE0BB67BF4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C7D186B-A633-47BD-B89E-4BE0BB67BF4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C7D186B-A633-47BD-B89E-4BE0BB67BF4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
