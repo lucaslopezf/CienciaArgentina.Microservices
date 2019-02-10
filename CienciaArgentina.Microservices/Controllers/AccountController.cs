@@ -82,7 +82,8 @@ namespace CienciaArgentina.Microservices.Controllers
 
             var result = await _accountRepository.Add(user, model.Password);
 
-            return result.Succeeded ? BuildToken(model) : BadRequest("Username or password invalid");
+            // Let Identity handle the possible error messages output
+            return result.Succeeded ? BuildToken(model) : BadRequest(result.Errors);
         }
 
         // PUT api/<controller>/5
