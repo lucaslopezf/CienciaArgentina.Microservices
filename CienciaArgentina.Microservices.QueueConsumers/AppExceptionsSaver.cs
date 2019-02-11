@@ -35,11 +35,11 @@ namespace CienciaArgentina.Microservices.QueueConsumers
                 messageLog.Date ?? (message.InsertionTime?.DateTime ?? DateTime.UtcNow))
             {
                 CustomMessage = messageLog.CustomMessage,
-                InnerExceptionMessage = messageLog.Exception.InnerException?.Message,
+                InnerExceptionMessage = messageLog.Message, //TODO: InnerException
                 Url = messageLog.Url,
                 UrlReferrer = messageLog.UrlReferrer,
-                Message = messageLog.Exception.Message,
-                StackTrace = messageLog.Exception.StackTrace,
+                Message = messageLog.Message,
+                StackTrace = messageLog.Detail,
             });
         }
     }
