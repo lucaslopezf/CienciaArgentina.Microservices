@@ -129,7 +129,11 @@ namespace CienciaArgentina.Microservices
             {
                 mapper.CreateMap<ApplicationUser, UserCreateDto>().ReverseMap();
                 mapper.CreateMap<UserData, UserDataDto>().ReverseMap();
-                //mapper.CreateMap<SocialNetwork, SocialNetworkDto>().ReverseMap();
+                mapper.CreateMap<SocialNetwork, SocialNetworkDto>().ReverseMap();
+                mapper.CreateMap<Address, AddressDto>().ReverseMap();
+                mapper.CreateMap<Institute, InstituteDto>().ReverseMap();
+                mapper.CreateMap<Position, PositionDto>().ReverseMap();
+                mapper.CreateMap<UserInstitute, UserInstituteDto>().ReverseMap();
             });
 
             //Use authentication

@@ -13,6 +13,9 @@ namespace CienciaArgentina.Microservices.Entities.Dtos
         public string LastName { get; set; }
         public string Identifier { get; set; }
         public SocialNetworkDto SocialNetwork { get; set; }
+        public UserInstituteDto UserInstitute { get; set; }
+        public int Sex { get; set; }
+        public AddressDto Address { get; set; }
         public DateTime Birthday { get; set; }
     }
 }
