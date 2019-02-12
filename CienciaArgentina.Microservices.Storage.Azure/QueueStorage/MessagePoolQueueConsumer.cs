@@ -33,7 +33,7 @@ namespace CienciaArgentina.Microservices.Storage.Azure.QueueStorage
                     {
                         try
                         {
-                            Consumer.ProcessMessages(message);
+                            await Consumer.ProcessMessages(message);
                             await queue.Remove(message);
                         }
                         catch (Exception e)
