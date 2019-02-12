@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models
 {
-    public class UserStudy
+    public class UserStudy : EntityDateModel
     {
         [Key]
         public int Id { get; set; }
@@ -18,7 +18,5 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public int? TotalSubjects { get; set; }
         public UserStudyCompletion UserStudyCompletion { get; set; }
         public UserData UserData { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime? DateDeleted { get; set; }
     }
 }

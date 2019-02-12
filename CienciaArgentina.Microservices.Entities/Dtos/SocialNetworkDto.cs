@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CienciaArgentina.Microservices.Entities.Models
+namespace CienciaArgentina.Microservices.Entities.Dtos
 {
-    public class SocialNetwork : EntityDateModel
+    public class SocialNetworkDto
     {
-        [Key]
-        public int Id { get; set; }
         public string SocialNetworkName { get; set; }
         public string UserName { get; set; }
         public string Url { get; set; }

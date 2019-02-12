@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models
 {
-    public class Laboratory
+    public class Laboratory : EntityDateModel
     {
         [Key]
         public int Id { get; set; }
@@ -14,7 +14,5 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public string Link { get; set; }
         public Address Address { get; set; }
         public Institute Institute { get; set; }
-        public DateTime DateCreatedd { get; set; }
-        public DateTime? DateDeleted { get; set; }
     }
 }

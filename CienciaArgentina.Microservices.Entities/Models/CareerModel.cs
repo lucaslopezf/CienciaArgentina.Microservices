@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models
 {
-    public class WorkExperience
+    public class WorkExperience : EntityDateModel
     {
         [Key]
         public int Id { get; set; }
@@ -15,7 +15,5 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public string Description { get; set; }
         public string Addittions { get; set; }
         public Address Address { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime? DateDeleted { get; set; }
     }
 }

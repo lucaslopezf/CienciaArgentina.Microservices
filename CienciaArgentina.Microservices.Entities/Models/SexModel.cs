@@ -5,12 +5,10 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models
 {
-    public class Sex
+    public class Sex : EntityDateModel
     {
         [Key]
         public int Id { get; set; }
         public string Description { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime? DateDeleted { get; set; }
     }
 }

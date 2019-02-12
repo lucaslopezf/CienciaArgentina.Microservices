@@ -6,14 +6,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CienciaArgentina.Microservices.Entities.Models
 {
-    public class City
+    public class City : EntityDateModel
     {
         [Key]
         public int Id { get; set; }
         public string Description { get; set; }
         public State State { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime? DateDeleted { get; set; }
 
     }
 }
