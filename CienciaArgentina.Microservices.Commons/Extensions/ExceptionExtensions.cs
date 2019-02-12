@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Http;
 
-namespace CienciaArgentina.Microservices.Commons
+namespace CienciaArgentina.Microservices.Commons.Extensions
 {
     public enum ExceptionAction
     {
@@ -35,6 +34,8 @@ namespace CienciaArgentina.Microservices.Commons
             if (context != null)
             {
                 var request = context.Request;
+                urlreferer = context.Request.Headers["Referer"].ToString();
+
                 url = $"{request.Scheme}://" +
                       $"{request.Host.ToUriComponent()}" +
                       $"{request.PathBase.ToUriComponent()}" +
@@ -50,11 +51,10 @@ namespace CienciaArgentina.Microservices.Commons
 
             var message = new AppException
             {
-                IdFront = idGuid,
+                IdFront = idGuid.ToString(),
                 CustomMessage = customMessage,
                 Message = exception.Message,
                 Detail = exception.StackTrace,
-                HResult = exception.HResult,
                 Url = url,
                 UrlReferrer = urlreferer,
             };
@@ -91,9 +91,9 @@ namespace CienciaArgentina.Microservices.Commons
                     //mailSender.Send(mailMessage);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                //estamos en la B, error del error
+                Console.WriteLine(ex.Message);
             }
 
             try
@@ -115,8 +115,15 @@ namespace CienciaArgentina.Microservices.Commons
 
             if (context != null)
             {
-                //TODO: url
-                //url = context.Request.Url?.ToString();
+                var request = context.Request;
+                urlreferer = context.Request.Headers["Referer"].ToString();
+
+                url = $"{request.Scheme}://" +
+                      $"{request.Host.ToUriComponent()}" +
+                      $"{request.PathBase.ToUriComponent()}" +
+                      $"{request.Path.ToUriComponent()}" +
+                      $"{request.QueryString.ToUriComponent()}";
+
                 if (context.User?.Identity != null && context.User.Identity.IsAuthenticated)
                 {
                     customMessage += $"| LoggedUser: {context.User.Identity.Name}";
@@ -129,7 +136,6 @@ namespace CienciaArgentina.Microservices.Commons
                 CustomMessage = customMessage,
                 Message = exception.Message,
                 Detail = exception.StackTrace,
-                HResult = exception.HResult,
                 Url = url,
                 UrlReferrer = urlreferer,
             };
@@ -166,8 +172,9 @@ namespace CienciaArgentina.Microservices.Commons
                     //mailSender.Send(mailMessage);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 //estamos en la B, error del error
             }
 
