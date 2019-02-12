@@ -6,7 +6,7 @@ using CienciaArgentina.Microservices.Entities.Identity;
 
 namespace CienciaArgentina.Microservices.Entities.Models
 {
-    public class UserLaboratory
+    public class UserLaboratory : EntityDateModel
     {
         [Key]
         public int Id { get; set; }
@@ -14,7 +14,5 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public Position Position { get; set; }
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime? DateDeleted { get; set; }
     }
 }
