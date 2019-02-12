@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CienciaArgentina.Microservices.Data.Repositories
 {
-    public class LogRepository : ILogRepository
+    public class ExceptionRepository : IExceptionRepository
     {
         private static readonly AppExceptionQuery azureStorage = new AppExceptionQuery(AzureStorageAccount.DefaultAccount);
 

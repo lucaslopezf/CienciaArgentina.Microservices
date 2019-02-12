@@ -10,22 +10,22 @@ using Newtonsoft.Json;
 namespace CienciaArgentina.Microservices.Controllers
 {
     [Route("api/[controller]")]
-    public class LogController : ControllerBase
+    public class ExceptionController : ControllerBase
     {
-        private readonly ILogRepository _logRepository;
+        private readonly IExceptionRepository _exceptionRepository;
 
-        public LogController(ILogRepository logRepository)
+        public ExceptionController(IExceptionRepository exceptionRepository)
         {
-            _logRepository = logRepository;
+            _exceptionRepository = exceptionRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get(QueryParameters queryParameters)
         {
-            var result = await _logRepository.Get(queryParameters);
+            var result = await _exceptionRepository.Get(queryParameters);
 
             Response.Headers.Add("X-Pagination",
-                JsonConvert.SerializeObject(new { totalCount = _logRepository.Count() }));
+                JsonConvert.SerializeObject(new { totalCount = _exceptionRepository.Count() }));
 
             return Ok(result);
         }
@@ -33,7 +33,7 @@ namespace CienciaArgentina.Microservices.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(string id)
         {
-            var result = await _logRepository.Get(id);
+            var result = await _exceptionRepository.Get(id);
 
             if (result == null)
                 return NotFound();
