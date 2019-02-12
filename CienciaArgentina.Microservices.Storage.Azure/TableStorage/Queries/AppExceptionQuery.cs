@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using CienciaArgentina.Microservices.Entities.QueryParameters;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -17,16 +19,7 @@ namespace CienciaArgentina.Microservices.Storage.Azure.TableStorage.Queries
             _table = tableClient.GetTableReference(nameof(AppException));
         }
 
-        //TODO: GetExceptions
-        //public IEnumerable<AppExceptionData> GetExceptions(DateTime date)
-        //{
-        //    var query = new TableQuery<AppExceptionData>().Where(
-        //         TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, date.ToString("yyyyMMdd")));
-
-        //    return _table.ExecuteQuery(query);
-        //}
-
-        public async Task<IEnumerable<AppExceptionData>> GetExceptions(string idFront)
+        public async Task<AppExceptionData> GetExceptions(string idFront)
         {
             var filterForIdFront = TableQuery.GenerateFilterCondition(
                 nameof(AppExceptionData.IdFront),
@@ -42,10 +35,34 @@ namespace CienciaArgentina.Microservices.Storage.Azure.TableStorage.Queries
                 listExceptions.AddRange(page.Results);
             } while (continuationToken != null);
 
-            return listExceptions;
+            return listExceptions.FirstOrDefault();
+        }
+        public async Task<IQueryable<AppExceptionData>> GetExceptions(QueryParameters queryParameters)
+        {
+            var filterForCustomMessage = TableQuery.GenerateFilterCondition(
+                nameof(AppExceptionData.CustomMessage),
+                QueryComparisons.Equal, queryParameters.Query.ToLowerInvariant());
+
+            var filterForUrl = TableQuery.GenerateFilterCondition(
+                nameof(AppExceptionData.Url),
+                QueryComparisons.Equal, queryParameters.Query.ToLowerInvariant());
+
+            var filter = TableQuery.CombineFilters(filterForCustomMessage, TableOperators.Or, filterForUrl);
+
+            var query = new TableQuery<AppExceptionData>().Where(filter);
+            TableContinuationToken continuationToken = null;
+            var listExceptions = new List<AppExceptionData>();
+            do
+            {
+                var page = await _table.ExecuteQuerySegmentedAsync(query, continuationToken);
+                continuationToken = page.ContinuationToken;
+                listExceptions.AddRange(page.Results);
+            } while (continuationToken != null);
+
+            return listExceptions.AsQueryable();
         }
 
-        public async Task<IEnumerable<AppExceptionData>> GetExceptions()
+        public async Task<IQueryable<AppExceptionData>> GetExceptions()
         {
             var query = new TableQuery<AppExceptionData>();
             TableContinuationToken continuationToken = null;
@@ -57,7 +74,8 @@ namespace CienciaArgentina.Microservices.Storage.Azure.TableStorage.Queries
                 listExceptions.AddRange(page.Results);
             } while (continuationToken != null);
 
-            return listExceptions;
+            return listExceptions.AsQueryable();
         }
+
     }
 }
