@@ -23,7 +23,6 @@ namespace CienciaArgentina.Microservices.Storage.Azure.TableStorage
         public string UrlReferrer { get; set; }
         public string Message { get; set; }
         public string StackTrace { get; set; }
-        public string InnerExceptionMessage { get; set; }
         public string IdFront { get; set; }
     }
 }
