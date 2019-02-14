@@ -15,7 +15,7 @@ namespace CienciaArgentina.Microservices.Storage.Azure.TableStorage
             Date = date.ToUniversalTime();
         }
 
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public string Id { get; set; }
 
         public string CustomMessage { get; set; }
@@ -24,5 +24,7 @@ namespace CienciaArgentina.Microservices.Storage.Azure.TableStorage
         public string Message { get; set; }
         public string StackTrace { get; set; }
         public string IdFront { get; set; }
+
+        public string Source { get; set; }
     }
 }

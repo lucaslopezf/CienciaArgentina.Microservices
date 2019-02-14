@@ -40,7 +40,7 @@ namespace CienciaArgentina.Microservices.Storage.Azure.TableStorage.Queries
         public async Task<IQueryable<AppExceptionData>> GetExceptions(QueryParameters queryParameters)
         {
             var filterForCustomMessage = TableQuery.GenerateFilterCondition(
-                nameof(AppExceptionData.CustomMessage),
+                nameof(AppExceptionData.Source),
                 QueryComparisons.Equal, queryParameters.Query.ToLowerInvariant());
 
             var filterForUrl = TableQuery.GenerateFilterCondition(

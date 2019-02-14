@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
 using Microsoft.ApplicationInsights;
@@ -15,17 +16,8 @@ namespace CienciaArgentina.Microservices.Commons.Extensions
 
     public static class ExceptionExtensions
     {
-        public static void Log(this Exception exception, ExceptionAction action = ExceptionAction.Enqueue)
-        {
-            Log(exception, null, string.Empty, action);
-        }
-
-        public static void Log(this Exception exception, HttpContext context, ExceptionAction action = ExceptionAction.Enqueue)
-        {
-           Log(exception, context, string.Empty, action);
-        }
-
-        public static async void Log(this Exception exception, HttpContext context, Guid idGuid, string customMessage = "CienciaArgentina.Error", ExceptionAction action = ExceptionAction.Enqueue)
+        //TODO: Return NOT void. Problem with ExceptionMiddleware 
+        public static async void Log(this Exception exception, HttpContext context, Guid idGuid, string source = "Microservices", string customMessage = "CienciaArgentina.Error", ExceptionAction action = ExceptionAction.Enqueue)
         {
 
             var url = "Not available";
@@ -57,6 +49,7 @@ namespace CienciaArgentina.Microservices.Commons.Extensions
                 Detail = exception.StackTrace,
                 Url = url,
                 UrlReferrer = urlreferer,
+                Source = source
             };
 
             try
@@ -107,7 +100,7 @@ namespace CienciaArgentina.Microservices.Commons.Extensions
             }
         }
 
-        public static async void Log(this Exception exception, HttpContext context, string customMessage = "CienciaArgentina.Error", ExceptionAction action = ExceptionAction.Enqueue)
+        public static async void Log(this Exception exception, HttpContext context, string source = "Microservices",string customMessage = "CienciaArgentina.Error", ExceptionAction action = ExceptionAction.Enqueue)
         {
 
             var url = "Not available";
@@ -138,6 +131,7 @@ namespace CienciaArgentina.Microservices.Commons.Extensions
                 Detail = exception.StackTrace,
                 Url = url,
                 UrlReferrer = urlreferer,
+                Source = source
             };
 
             try

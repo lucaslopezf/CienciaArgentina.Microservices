@@ -12,5 +12,6 @@ namespace CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages
         public string CustomMessage { get; set; }
         public string Url { get; set; }
         public string UrlReferrer { get; set; }
+        public string Source { get; set; }
     }
 }

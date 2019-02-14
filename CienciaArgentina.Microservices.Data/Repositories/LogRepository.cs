@@ -16,13 +16,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CienciaArgentina.Microservices.Data.Repositories
 {
-    public class ExceptionRepository : IExceptionRepository
+    public class LogRepository : ILogRepository
     {
         private static readonly AppExceptionQuery azureStorage = new AppExceptionQuery(AzureStorageAccount.DefaultAccount);
 
         public async Task<IQueryable<AppExceptionData>> Get(QueryParameters logQueryParameters)
         {
-
             IQueryable<AppExceptionData> listExceptions;
 
             if (!logQueryParameters.HasQuery)

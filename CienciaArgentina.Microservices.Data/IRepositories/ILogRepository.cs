@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CienciaArgentina.Microservices.Data.IRepositories
 {
-    public interface IExceptionRepository
+    public interface ILogRepository
     {
         Task<IQueryable<AppExceptionData>> Get(QueryParameters userQueryParameters);
 
