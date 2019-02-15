@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
+using Scrutor;
 
 namespace CienciaArgentina.Microservices
 {
@@ -40,8 +41,13 @@ namespace CienciaArgentina.Microservices
             services.AddDbContext<CienciaArgentinaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //Repositories
-            services.AddScoped<IAccountRepository, AccountRepository>();
-            services.AddScoped<IUserDataRepository, UserDataRepository>();
+            services.Scan(scan => scan
+                .FromExecutingAssembly()
+                .FromApplicationDependencies(a => a.FullName.StartsWith("CienciaArgentina"))
+                .AddClasses(publicOnly: true)
+                .AsMatchingInterface((service, filter) =>
+                    filter.Where(implementation => implementation.Name.Equals($"I{service.Name}", StringComparison.OrdinalIgnoreCase)))
+                .WithScopedLifetime());
             //Authentication
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<CienciaArgentinaDbContext>()
