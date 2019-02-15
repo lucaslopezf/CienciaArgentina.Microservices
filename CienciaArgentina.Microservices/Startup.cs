@@ -11,6 +11,7 @@ using CienciaArgentina.Microservices.Storage.Azure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -100,6 +101,9 @@ namespace CienciaArgentina.Microservices
                     config.InputFormatters.Add(new XmlSerializerInputFormatter(config));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            //Evaluate performance
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
