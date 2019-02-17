@@ -39,7 +39,8 @@ namespace CienciaArgentina.Microservices.QueueConsumers
                 UrlReferrer = messageLog.UrlReferrer,
                 Message = messageLog.Message,
                 StackTrace = messageLog.Detail,
-                IdFront = messageLog.IdFront
+                IdFront = messageLog.IdFront,
+                Source =  messageLog.Source
             });
         }
     }
