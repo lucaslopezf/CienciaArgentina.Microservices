@@ -65,8 +65,9 @@ namespace CienciaArgentina.Microservices.Controllers
             }
 
             var exception = new Exception(logDto.Message);
+
             var guid = Guid.NewGuid();
-            exception.Log(_httpContextAccessor.HttpContext,guid,logDto.Source,logDto.CustomMessage);
+            exception.Log(_httpContextAccessor.HttpContext,guid,logDto.Detail,logDto.Source,logDto.CustomMessage);
 
             return CreatedAtRoute("Get", new { id = guid }, logDto);
         }
