@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using AutoMapper;
 using CienciaArgentina.Microservices.Commons.Extensions;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace CienciaArgentina.Microservices.Controllers
@@ -35,7 +37,7 @@ namespace CienciaArgentina.Microservices.Controllers
             if (result == null) return NotFound();
 
             Response.Headers.Add("X-Pagination",
-                JsonConvert.SerializeObject(new { totalCount = _logRepository.Count() }));
+                JsonConvert.SerializeObject(new { totalCount = result.Count() }));
 
             return Ok(result);
         }

@@ -13,7 +13,5 @@ namespace CienciaArgentina.Microservices.Data.IRepositories
         Task<IQueryable<AppExceptionData>> Get(QueryParameters userQueryParameters);
 
         Task<AppExceptionData> Get(string id);
-
-        int Count();
     }
 }

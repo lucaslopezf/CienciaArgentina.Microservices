@@ -76,6 +76,5 @@ namespace CienciaArgentina.Microservices.Storage.Azure.TableStorage.Queries
 
             return listExceptions.AsQueryable();
         }
-
     }
 }

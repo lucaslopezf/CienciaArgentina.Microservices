@@ -18,16 +18,16 @@ namespace CienciaArgentina.Microservices.Data.Repositories
 {
     public class LogRepository : ILogRepository
     {
-        private static readonly AppExceptionQuery azureStorage = new AppExceptionQuery(AzureStorageAccount.DefaultAccount);
+        private static readonly AppExceptionQuery _azureStorage = new AppExceptionQuery(AzureStorageAccount.DefaultAccount);
 
         public async Task<IQueryable<AppExceptionData>> Get(QueryParameters logQueryParameters)
         {
             IQueryable<AppExceptionData> listExceptions;
 
             if (!logQueryParameters.HasQuery)
-                listExceptions = await azureStorage.GetExceptions();
+                listExceptions = await _azureStorage.GetExceptions();
             else
-                listExceptions = await azureStorage.GetExceptions(logQueryParameters);
+                listExceptions = await _azureStorage.GetExceptions(logQueryParameters);
 
             if(logQueryParameters.Descending)
                 return listExceptions.OrderByDescending(x => x.Date)
@@ -41,14 +41,8 @@ namespace CienciaArgentina.Microservices.Data.Repositories
 
         public async Task<AppExceptionData> Get(string id)
         {
-            var exception = await azureStorage.GetExceptions(id);
+            var exception = await _azureStorage.GetExceptions(id);
             return exception;
-        }
-
-        //TODO: Count
-        public int Count()
-        {
-            return 1;
         }
     }
 }
