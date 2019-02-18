@@ -188,21 +188,22 @@ namespace CienciaArgentina.Microservices.Controllers
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.UserName),
+                new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
                 //new Claim("miValor", "Lo que yo quiera"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["apiSecretKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["ApiAuthJWT:SecretKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var expiration = DateTime.UtcNow.AddHours(1);
 
-            //TODO: Get config from appsettings
             var token = new JwtSecurityToken(
-               issuer: "cienciaargentina.com",
-               audience: "cienciaargentina.com",
+               issuer: _configuration["ApiAuthJWT:Issuer"],
+               audience: _configuration["ApiAuthJWT:Audience"],
                claims: claims,
                expires: expiration,
+               notBefore: DateTime.UtcNow,
                signingCredentials: creds);
 
             return Ok(new

@@ -67,10 +67,10 @@ namespace CienciaArgentina.Microservices
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = "cienciaargentina.com",
-                        ValidAudience = "cienciaargentina.com",
+                        ValidIssuer = Configuration["ApiAuthJWT:Issuer"],
+                        ValidAudience = Configuration["ApiAuthJWT:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(Configuration["apiSecretKey"])),
+                            Encoding.UTF8.GetBytes(Configuration["ApiAuthJWT:SecretKey"])),
                         ClockSkew = TimeSpan.Zero
                     });
 
