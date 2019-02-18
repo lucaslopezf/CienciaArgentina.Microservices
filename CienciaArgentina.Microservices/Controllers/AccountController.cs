@@ -205,7 +205,6 @@ namespace CienciaArgentina.Microservices.Controllers
                expires: expiration,
                signingCredentials: creds);
 
-            //TODO: CreatedAtRoute
             return Ok(new
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token),

@@ -50,7 +50,12 @@ namespace CienciaArgentina.Microservices
                     filter.Where(implementation => implementation.Name.Equals($"I{service.Name}", StringComparison.OrdinalIgnoreCase)))
                 .WithScopedLifetime());
             //Authentication
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                    {
+                        //options.Lockout.MaxFailedAccessAttempts = 5;
+                        //options.SignIn.RequireConfirmedEmail = true;
+                        //options.User.RequireUniqueEmail = true;
+                    })
                 .AddEntityFrameworkStores<CienciaArgentinaDbContext>()
                 .AddDefaultTokenProviders();
 
