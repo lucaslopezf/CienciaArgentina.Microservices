@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CienciaArgentina.Microservices.Entities.Dtos;
+using CienciaArgentina.Microservices;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 
