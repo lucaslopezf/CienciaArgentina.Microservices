@@ -12,6 +12,8 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public int Id { get; set; }
         public Laboratory Laboratory { get; set; }
         public Position Position { get; set; }
+
+        //For identity
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
     }

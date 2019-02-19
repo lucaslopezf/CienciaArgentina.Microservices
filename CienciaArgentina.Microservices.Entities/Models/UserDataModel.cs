@@ -22,6 +22,6 @@ namespace CienciaArgentina.Microservices.Entities.Models
         [Column(TypeName = "Date")]
         public DateTime Birthday { get; set; }
         public Address Address { get; set; }
-        public WorkExperience WorkExperience { get; set; }
+        public List<WorkExperience> WorkExperience { get; set; }
     }
 }
