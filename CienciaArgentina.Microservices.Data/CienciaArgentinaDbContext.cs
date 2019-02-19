@@ -39,14 +39,12 @@ namespace CienciaArgentina.Microservices.Data
         public DbSet<Locality> Localities { get; set; }
         public DbSet<ResearchLine> ResearchLines { get; set; }
         public DbSet<LaboratoryResearchLine> LaboratoryResearchLines { get; set; }
+        public DbSet<JobOffer> JobOffer { get; set; }
         public DbSet<JobReferral> JobReferrals { get; set; }
         public DbSet<JobOfferCandidateReferral> JobOfferCandidateReferrals { get; set; }
-        public DbSet<JobOfferDescriptionModel> JobOfferDescriptionModel { get; set; }
         public DbSet<JobOfferCandidate> JobOfferCandidates { get; set; }
         public DbSet<JobOfferDescriptionTag> JobOfferDescriptionTags { get; set; }
-        public DbSet<Tag> Tags { get; set; }
         public DbSet<JobType> JobTypes { get; set; }
-
-
+        public DbSet<Tag> Tags { get; set; }
     }
 }
