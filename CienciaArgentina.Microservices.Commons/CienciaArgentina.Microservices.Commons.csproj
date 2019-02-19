@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CienciaArgentina.Microservices.Data\CienciaArgentina.Microservices.Data.csproj" />
     <ProjectReference Include="..\CienciaArgentina.Microservices.Storage.Azure\CienciaArgentina.Microservices.Storage.Azure.csproj" />
   </ItemGroup>
 
