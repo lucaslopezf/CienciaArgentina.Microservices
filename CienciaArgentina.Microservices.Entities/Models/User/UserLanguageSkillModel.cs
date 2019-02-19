@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace CienciaArgentina.Microservices.Entities.Models.User
+{
+    public class UserLanguageSkill : EntityDateModel
+    {
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public UserLanguageKnowledge UserLanguageKnowledge { get; set; }
+    }
+}

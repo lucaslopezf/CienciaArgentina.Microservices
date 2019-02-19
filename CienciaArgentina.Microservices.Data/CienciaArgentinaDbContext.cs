@@ -46,5 +46,8 @@ namespace CienciaArgentina.Microservices.Data
         public DbSet<JobOfferDescriptionTag> JobOfferDescriptionTags { get; set; }
         public DbSet<JobType> JobTypes { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<UserLanguage> UserLanguages { get; set; }
+        public DbSet<UserLanguageKnowledge> UserLanguagesKnowledge { get; set; }
+        public DbSet<UserLanguageSkill> UserLanguagesSkill { get; set; }
     }
 }
