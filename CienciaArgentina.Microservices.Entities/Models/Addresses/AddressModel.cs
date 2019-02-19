@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using System.Text;
 
-namespace CienciaArgentina.Microservices.Entities.Models
+namespace CienciaArgentina.Microservices.Entities.Models.Addresses
 {
     public class Address : EntityDateModel
     {
