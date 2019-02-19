@@ -12,6 +12,7 @@ namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
     {
         [Key]
         public int Id { get; set; }
+        public UserLanguageKnowledge UserLanguageKnowledge { get; set; }
         public JobOffer JobOffer { get; set; }
         public string Condition { get; set; }
     }
