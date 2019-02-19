@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models.User
 {
-    public class UserStudy : EntityDateModel
+    public class UserStudy : BaseModel
     {
         [Key]
         public int Id { get; set; }

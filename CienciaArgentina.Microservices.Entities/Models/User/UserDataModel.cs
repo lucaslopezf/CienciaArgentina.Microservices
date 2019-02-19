@@ -9,7 +9,7 @@ using CienciaArgentina.Microservices.Entities.Models.Commons;
 
 namespace CienciaArgentina.Microservices.Entities.Models.User
 {
-    public class UserData : EntityDateModel
+    public class UserData : BaseModel
     {
         [Key]
         public int Id { get; set; }

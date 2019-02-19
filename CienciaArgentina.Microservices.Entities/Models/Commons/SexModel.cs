@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models.Commons
 {
-    public class Sex : EntityDateModel
+    public class Sex : BaseModel
     {
         [Key]
         public int Id { get; set; }

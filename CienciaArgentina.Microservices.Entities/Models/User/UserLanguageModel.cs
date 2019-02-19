@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models.User
 {
-    public class UserLanguage : EntityDateModel
+    public class UserLanguage : BaseModel
     {
         public int Id { get; set; }
         public string Description { get; set; }

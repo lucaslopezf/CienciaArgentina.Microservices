@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models.Institutes
 {
-    public class ResearchLine : EntityDateModel
+    public class ResearchLine : BaseModel
     {
         public int Id { get; set; }
         public string Title { get; set; }

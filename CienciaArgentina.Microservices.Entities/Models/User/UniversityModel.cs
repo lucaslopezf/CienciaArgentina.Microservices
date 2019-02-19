@@ -6,7 +6,7 @@ using CienciaArgentina.Microservices.Entities.Models.Addresses;
 
 namespace CienciaArgentina.Microservices.Entities.Models.User
 {
-    public class University : EntityDateModel
+    public class University : BaseModel
     {
         [Key]
         public int Id { get; set; }

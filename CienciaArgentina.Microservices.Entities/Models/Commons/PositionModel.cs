@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models.Commons
 {
-    public class Position : EntityDateModel
+    public class Position : BaseModel
     {
         [Key]
         public int Id { get; set; }

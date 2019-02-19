@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models.Commons
 {
-    public class SocialNetwork : EntityDateModel
+    public class SocialNetwork : BaseModel
     {
         [Key]
         public int Id { get; set; }

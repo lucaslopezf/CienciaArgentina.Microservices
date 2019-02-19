@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models.User
 {
-    public class JobType : EntityDateModel
+    public class JobType : BaseModel
     {
         public int Id { get; set; }
         public string Description { get; set; }

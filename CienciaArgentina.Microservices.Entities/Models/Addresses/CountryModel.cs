@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models.Addresses
 {
-    public class Country : EntityDateModel
+    public class Country : BaseModel
     {
         [Key]
         public int Id { get; set; }

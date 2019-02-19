@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CienciaArgentina.Microservices.Entities.Models.Addresses
 {
-    public class City : EntityDateModel
+    public class City : BaseModel
     {
         [Key]
         public int Id { get; set; }
