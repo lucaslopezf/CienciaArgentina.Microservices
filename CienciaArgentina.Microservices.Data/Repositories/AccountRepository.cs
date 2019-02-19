@@ -15,7 +15,6 @@ namespace CienciaArgentina.Microservices.Data.Repositories
     public class AccountRepository : IAccountRepository
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        //TODO: Replace User for Account
         private readonly CienciaArgentinaDbContext _context;
 
         public AccountRepository(CienciaArgentinaDbContext context, UserManager<ApplicationUser> userManager)

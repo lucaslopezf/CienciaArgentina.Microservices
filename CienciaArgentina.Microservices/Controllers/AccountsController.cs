@@ -40,7 +40,6 @@ namespace CienciaArgentina.Microservices.Controllers
             _configuration = configuration;
         }
 
-
         //GET api/<controller>
         [HttpGet]
         public IActionResult Get(QueryParameters userQueryParameters)

@@ -15,7 +15,6 @@ namespace CienciaArgentina.Microservices.Controllers
     [Route("api/[controller]")]
     public class UserDataController : ControllerBase
     {
-
         private readonly IUserDataRepository _userDataRepository;
 
         public UserDataController(IUserDataRepository userDataRepository)
