@@ -39,8 +39,6 @@ namespace CienciaArgentina.Microservices.Data
         public DbSet<LaboratoryResearchLine> LaboratoryResearchLines { get; set; }
         public DbSet<JobReferral> JobReferrals { get; set; }
         public DbSet<JobOfferCandidateReferral> JobOfferCandidateReferrals { get; set; }
-        
-
         public DbSet<JobOfferDescriptionModel> JobOfferDescriptionModel { get; set; }
 
 
