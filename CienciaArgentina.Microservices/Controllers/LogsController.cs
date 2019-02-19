@@ -18,12 +18,12 @@ using Newtonsoft.Json;
 namespace CienciaArgentina.Microservices.Controllers
 {
     [Route("api/[controller]")]
-    public class LogController : ControllerBase
+    public class LogsController : ControllerBase
     {
         private readonly ILogRepository _logRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LogController(IHttpContextAccessor httpContextAccessor,ILogRepository logRepository)
+        public LogsController(IHttpContextAccessor httpContextAccessor,ILogRepository logRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _logRepository = logRepository;

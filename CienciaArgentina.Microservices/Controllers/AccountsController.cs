@@ -25,14 +25,14 @@ namespace CienciaArgentina.Microservices.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/[controller]")]
-    public class AccountController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAccountRepository _accountRepository;
-        private readonly ILogger<AccountController> _logger;
+        private readonly ILogger<AccountsController> _logger;
         private readonly IConfiguration _configuration;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, IAccountRepository accountRepository, ILogger<AccountController> logger, IConfiguration configuration)
+        public AccountsController(SignInManager<ApplicationUser> signInManager, IAccountRepository accountRepository, ILogger<AccountsController> logger, IConfiguration configuration)
         {
             _accountRepository = accountRepository;
             _logger = logger;
