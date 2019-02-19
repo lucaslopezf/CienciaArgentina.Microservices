@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CienciaArgentina.Microservices.Data.IRepositories;
-using CienciaArgentina.Microservices.Entities.Dtos;
+using CienciaArgentina.Microservices;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 using Microsoft.EntityFrameworkCore;
