@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using CienciaArgentina.Microservices.Entities.Identity;
+using CienciaArgentina.Microservices.Entities.Models.Commons;
 using CienciaArgentina.Microservices.Entities.Models.Institutes;
 using CienciaArgentina.Microservices.Entities.Models.User;
 

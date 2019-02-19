@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CienciaArgentina.Microservices;
 using CienciaArgentina.Microservices.Entities.Models;
+using CienciaArgentina.Microservices.Entities.Models.User;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 
 namespace CienciaArgentina.Microservices.Data.IRepositories

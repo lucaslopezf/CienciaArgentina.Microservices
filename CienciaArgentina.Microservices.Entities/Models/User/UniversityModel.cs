@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using CienciaArgentina.Microservices.Entities.Models.Addresses;
 
 namespace CienciaArgentina.Microservices.Entities.Models.User
 {

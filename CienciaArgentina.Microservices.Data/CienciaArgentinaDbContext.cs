@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models;
+using CienciaArgentina.Microservices.Entities.Models.Addresses;
+using CienciaArgentina.Microservices.Entities.Models.Commons;
 using CienciaArgentina.Microservices.Entities.Models.Institutes;
 using CienciaArgentina.Microservices.Entities.Models.JobOffer;
 using CienciaArgentina.Microservices.Entities.Models.User;

@@ -6,6 +6,7 @@ using AutoMapper;
 using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Entities.Dtos;
 using CienciaArgentina.Microservices.Entities.Models;
+using CienciaArgentina.Microservices.Entities.Models.User;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 

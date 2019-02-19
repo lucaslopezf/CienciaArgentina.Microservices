@@ -4,6 +4,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CienciaArgentina.Microservices.Entities.Identity;
+using CienciaArgentina.Microservices.Entities.Models.Addresses;
 using CienciaArgentina.Microservices.Entities.Models.User;
 
 namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
