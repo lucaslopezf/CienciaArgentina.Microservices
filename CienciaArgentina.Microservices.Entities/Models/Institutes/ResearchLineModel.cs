@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CienciaArgentina.Microservices.Entities.Models
+namespace CienciaArgentina.Microservices.Entities.Models.Institutes
 {
     public class ResearchLine : EntityDateModel
     {

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CienciaArgentina.Microservices.Entities.Models.Institutes;
 
-namespace CienciaArgentina.Microservices.Entities.Models
+namespace CienciaArgentina.Microservices.Entities.Models.Institutes
 {
     public class LaboratoryResearchLine : EntityDateModel
     {

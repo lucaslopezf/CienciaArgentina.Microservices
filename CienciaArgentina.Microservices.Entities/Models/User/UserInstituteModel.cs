@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using CienciaArgentina.Microservices.Entities.Identity;
+using CienciaArgentina.Microservices.Entities.Models.Institutes;
+using CienciaArgentina.Microservices.Entities.Models.User;
 
-namespace CienciaArgentina.Microservices.Entities.Models
+namespace CienciaArgentina.Microservices.Entities.Models.User
 {
     public class UserInstitute : EntityDateModel
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CienciaArgentina.Microservices.Entities.Models
+namespace CienciaArgentina.Microservices.Entities.Models.Institutes
 {
     public class Laboratory : EntityDateModel
     {
