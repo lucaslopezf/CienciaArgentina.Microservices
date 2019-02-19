@@ -4,6 +4,7 @@ using System.Text;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.Models.JobOffer;
+using CienciaArgentina.Microservices.Entities.Models.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -42,6 +43,9 @@ namespace CienciaArgentina.Microservices.Data
         public DbSet<JobOfferCandidateReferral> JobOfferCandidateReferrals { get; set; }
         public DbSet<JobOfferDescriptionModel> JobOfferDescriptionModel { get; set; }
         public DbSet<JobOfferCandidate> JobOfferCandidates { get; set; }
+        public DbSet<JobOfferDescriptionTag> JobOfferDescriptionTags { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<JobType> JobTypes { get; set; }
 
 
     }

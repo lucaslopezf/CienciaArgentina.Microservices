@@ -15,6 +15,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
         public string Name { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public string IdentifierType { get; set; }
         public string Identifier { get; set; }
         public SocialNetwork SocialNetwork { get; set; }
         public UserInstitute UserInstitute { get; set; }
@@ -22,6 +23,7 @@ namespace CienciaArgentina.Microservices.Entities.Models
         [Column(TypeName = "Date")]
         public DateTime Birthday { get; set; }
         public Address Address { get; set; }
+        public Country Nationality { get; set; }
         public List<WorkExperience> WorkExperience { get; set; }
     }
 }
