@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using CienciaArgentina.Microservices.Data.IRepositories;
 
 namespace CienciaArgentina.Microservices.Commons.Helpers
 {
