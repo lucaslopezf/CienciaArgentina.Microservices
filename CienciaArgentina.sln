@@ -13,11 +13,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices", "CienciaArgentina.Microservices\CienciaArgentina.Microservices.csproj", "{8644A955-4F31-4BE6-8CFA-4A83CC60C2F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices.Storage.Azure", "CienciaArgentina.Microservices.Storage.Azure\CienciaArgentina.Microservices.Storage.Azure.csproj", "{7316EDFC-4449-4155-A16E-24ACEAF629EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Storage.Azure", "CienciaArgentina.Microservices.Storage.Azure\CienciaArgentina.Microservices.Storage.Azure.csproj", "{7316EDFC-4449-4155-A16E-24ACEAF629EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices.QueueConsumers", "CienciaArgentina.Microservices.QueueConsumers\CienciaArgentina.Microservices.QueueConsumers.csproj", "{6C7D186B-A633-47BD-B89E-4BE0BB67BF4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.QueueConsumers", "CienciaArgentina.Microservices.QueueConsumers\CienciaArgentina.Microservices.QueueConsumers.csproj", "{6C7D186B-A633-47BD-B89E-4BE0BB67BF4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices.Worker", "CienciaArgentina.Microservices.Worker\CienciaArgentina.Microservices.Worker.csproj", "{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Worker", "CienciaArgentina.Microservices.Worker\CienciaArgentina.Microservices.Worker.csproj", "{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Worker", "Worker", "{6E8EC9B6-CC3A-446A-9517-B1508218D184}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{F65941E3-347C-4D92-A1DF-02342B1424E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D81D71A0-E100-4BE5-AB48-E006C97CA036}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices.UnitTests", "CienciaArgentina.Microservices.UnitTests\CienciaArgentina.Microservices.UnitTests.csproj", "{89A2B909-D397-4A17-AD88-432D90DEE463}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,9 +65,20 @@ Global
 		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89A2B909-D397-4A17-AD88-432D90DEE463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89A2B909-D397-4A17-AD88-432D90DEE463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89A2B909-D397-4A17-AD88-432D90DEE463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89A2B909-D397-4A17-AD88-432D90DEE463}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C258D8D6-812B-445F-962D-592FD16AC4AB} = {F65941E3-347C-4D92-A1DF-02342B1424E7}
+		{7316EDFC-4449-4155-A16E-24ACEAF629EE} = {F65941E3-347C-4D92-A1DF-02342B1424E7}
+		{6C7D186B-A633-47BD-B89E-4BE0BB67BF4E} = {6E8EC9B6-CC3A-446A-9517-B1508218D184}
+		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C} = {6E8EC9B6-CC3A-446A-9517-B1508218D184}
+		{89A2B909-D397-4A17-AD88-432D90DEE463} = {D81D71A0-E100-4BE5-AB48-E006C97CA036}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {901A74C7-AAF9-47E0-8EDE-17BB06A3FC36}
