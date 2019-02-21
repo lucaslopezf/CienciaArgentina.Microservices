@@ -6,6 +6,7 @@ namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
 {
     public class JobReferral : BaseModel
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string MiddleName { get; set; }

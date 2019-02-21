@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
 {
     public class JobOfferCandidate : BaseModel
     {
+        [Key]
         public int Id { get; set; }
         public Guid UserId { get; set; }
         public decimal ExpectedSalary { get; set; }
