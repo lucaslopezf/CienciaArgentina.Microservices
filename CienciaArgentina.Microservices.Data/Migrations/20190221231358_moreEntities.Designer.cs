@@ -4,14 +4,16 @@ using CienciaArgentina.Microservices.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CienciaArgentina.Microservices.Data.Migrations
 {
     [DbContext(typeof(CienciaArgentinaDbContext))]
-    partial class CienciaArgentinaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190221231358_moreEntities")]
+    partial class moreEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -423,11 +425,9 @@ namespace CienciaArgentina.Microservices.Data.Migrations
 
                     b.Property<string>("State");
 
-                    b.Property<string>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("JobOfferCandidates");
                 });
@@ -1029,13 +1029,6 @@ namespace CienciaArgentina.Microservices.Data.Migrations
                         .WithMany()
                         .HasForeignKey("JobTypeId");
 
-                    b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.JobOffer.JobOfferCandidate", b =>
-                {
                     b.HasOne("CienciaArgentina.Microservices.Entities.Identity.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
