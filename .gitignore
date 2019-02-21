@@ -339,6 +339,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database 
 healthchecksdb
-CienciaArgentina\.Microservices\.Storage\.Azure/AzureStorage\.cs
 
-CienciaArgentina\.Microservices/appsettings\.json
