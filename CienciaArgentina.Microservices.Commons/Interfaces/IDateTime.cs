@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CienciaArgentina.Microservices.Data.IRepositories
+namespace CienciaArgentina.Microservices.Commons.Interfaces
 {
     public interface IDateTime
     {

@@ -10,6 +10,7 @@ namespace CienciaArgentina.Microservices.Entities.Dtos
         public string ZipCode { get; set; }
         public string Department { get; set; }
         public string Additionals { get; set; }
-        public int LocalityId { get; set; }
+        public int LocalityId { get; set; }		
+		public int Prueba { get; set; }		
     }
 }
