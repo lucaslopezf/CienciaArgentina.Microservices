@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CienciaArgentina.Microservices.Entities.Models;
+using CienciaArgentina.Microservices.Entities.Dtos;
 
-namespace CienciaArgentina.Microservices.Entities.Dtos
+namespace CienciaArgentina.Microservices.Dtos
 {
     public class UserDataDto
     {
@@ -17,5 +15,6 @@ namespace CienciaArgentina.Microservices.Entities.Dtos
         public int Sex { get; set; }
         public AddressDto Address { get; set; }
         public DateTime Birthday { get; set; }
+        public AccountDto AccountDto { get; set; }
     }
 }
