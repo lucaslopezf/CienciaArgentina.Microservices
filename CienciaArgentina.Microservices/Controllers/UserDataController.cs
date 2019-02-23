@@ -7,6 +7,7 @@ using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Entities.Dtos;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.Models.User;
+using CienciaArgentina.Microservices.Repositories.IUoW;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,19 +17,19 @@ namespace CienciaArgentina.Microservices.Controllers
     [Route("api/[controller]")]
     public class UserDataController : ControllerBase
     {
-        private readonly IUserDataRepository _userDataRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserDataController(IUserDataRepository userDataRepository)
+        public UserDataController(IUnitOfWork unitOfWork)
         {
-            _userDataRepository = userDataRepository;
+            _unitOfWork = unitOfWork;
         }
 
         //GET api/<controller>/<userDataId>
         [HttpGet]
         [Route("{userDataId}")]
-        public async Task<IActionResult> Get(Guid userId)
+        public async Task<IActionResult> Get(int userId)
         {
-            var userData = await _userDataRepository.Get(userId);
+            var userData = await _unitOfWork.Repository<UserData>().GetByIdAsync(userId);
             if (userData == null) return NotFound();
             return Ok(userData);
         }
@@ -38,14 +39,14 @@ namespace CienciaArgentina.Microservices.Controllers
         public async Task<IActionResult> Post([FromBody] UserDataDto body)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = _userDataRepository.Add(Mapper.Map<UserData>(body));
-            await _userDataRepository.Save();
-            return Ok(result.Result);
+            var result = await _unitOfWork.Repository<UserData>().AddAsync(Mapper.Map<UserData>(body));
+            await _unitOfWork.Commit();
+            return Ok(result.Id);
         }
 
         // PUT api/<controller>/<userDataId>
         [HttpPut("{userDataId}")]
-        public async Task<IActionResult> Put(Guid userId, [FromBody] UserDataDto body)
+        public async Task<IActionResult> Put(int userId, [FromBody] UserDataDto body)
         {
             if (body == null)
                 return BadRequest();
@@ -53,28 +54,28 @@ namespace CienciaArgentina.Microservices.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var userData = await _userDataRepository.Get(userId);
+            var userData = await _unitOfWork.Repository<UserData>().GetByIdAsync(userId);
 
             if (userData == null)
                 return NotFound();
 
             Mapper.Map(body, userData);
 
-            _userDataRepository.Update(userData);
+            await _unitOfWork.Repository<UserData>().UpdateAsync(userData);
 
             return Ok(userData);
         }
 
         // DELETE api/<controller>/<userDataId>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var userData = await _userDataRepository.Get(id);
+            var userData = await _unitOfWork.Repository<UserData>().GetByIdAsync(id);
 
             if (userData == null)
                 return NotFound();
 
-            _userDataRepository.Delete(userData);
+            await _unitOfWork.Repository<UserData>().DeleteAsync(userData);
             
             return NoContent();
         }
@@ -82,12 +83,12 @@ namespace CienciaArgentina.Microservices.Controllers
         // PATCH api/<controller>/<userDataId>
         [HttpPatch]
         [Route("{iduserDataId}")]
-        public async Task<IActionResult> Patch(Guid id, [FromBody] JsonPatchDocument<UserDataDto> userDataDto)
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<UserDataDto> userDataDto)
         {
             if (userDataDto == null)
                 return BadRequest();
 
-            var userData = await _userDataRepository.Get(id);
+            var userData = await _unitOfWork.Repository<UserData>().GetByIdAsync(id);
 
             if (userData == null)
                 return NotFound();
@@ -102,7 +103,7 @@ namespace CienciaArgentina.Microservices.Controllers
 
             Mapper.Map(userToPatch, userData);
 
-            _userDataRepository.Update(userData);
+            await _unitOfWork.Repository<UserData>().UpdateAsync(userData);
 
             return Ok(Mapper.Map<UserDataDto>(userData));
         }

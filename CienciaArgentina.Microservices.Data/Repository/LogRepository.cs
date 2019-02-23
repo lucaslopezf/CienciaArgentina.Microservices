@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Dynamic.Core;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Data.IRepositories;
-using CienciaArgentina.Microservices.Entities.Identity;
-using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
-using CienciaArgentina.Microservices.Storage.Azure.TableStorage.Queries;
 using CienciaArgentina.Microservices.Storage.Azure;
 using CienciaArgentina.Microservices.Storage.Azure.TableStorage;
-using Microsoft.AspNetCore.Identity;
+using CienciaArgentina.Microservices.Storage.Azure.TableStorage.Queries;
 
-namespace CienciaArgentina.Microservices.Data.Repositories
+namespace CienciaArgentina.Microservices.Repositories.Repository
 {
     public class LogRepository : ILogRepository
     {

@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
 using CienciaArgentina.Microservices.Data.IRepositories;
-using CienciaArgentina.Microservices;
-using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.Models.User;
-using CienciaArgentina.Microservices.Entities.QueryParameters;
+using CienciaArgentina.Microservices.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace CienciaArgentina.Microservices.Data.Repositories
+namespace CienciaArgentina.Microservices.Repositories.Repository
 {
     public class UserDataRepository : IUserDataRepository
     {

@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Text;
 using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Entities.Identity;
-using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
+using CienciaArgentina.Microservices.Persistence;
 using Microsoft.AspNetCore.Identity;
 
-namespace CienciaArgentina.Microservices.Data.Repositories
+namespace CienciaArgentina.Microservices.Repositories.Repository
 {
     public class AccountRepository : IAccountRepository
     {
