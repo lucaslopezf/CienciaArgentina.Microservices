@@ -5,10 +5,10 @@ namespace CienciaArgentina.Microservices.Business.Interfaces
 {
     public interface IUserBusiness
     {
-        Task<UserData> GetUserById(int userId);
+        //Task<UserData> GetUserById(int userId);
 
-        Task<UserData> GetUserByUserName(string userName);
+        //Task<UserData> GetUserByUserName(string userName);
 
-        Task<UserData> AddUserAsync(UserData user);
+        //Task<UserData> AddUserAsync(UserData user);
     } 
 }

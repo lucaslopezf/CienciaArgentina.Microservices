@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CienciaArgentina.Microservices.Application.Interfaces;
+﻿using CienciaArgentina.Microservices.Business.Interfaces;
 
-namespace CienciaArgentina.Microservices.Application.Implementation
+namespace CienciaArgentina.Microservices.Business.Implementation
 {
     public class UserBusiness : IUserBusiness
     {
