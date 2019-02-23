@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CienciaArgentina.Microservices.Entities.Identity;
-using CienciaArgentina.Microservices.Entities.Models;
+﻿using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models.Addresses;
 using CienciaArgentina.Microservices.Entities.Models.Commons;
 using CienciaArgentina.Microservices.Entities.Models.Institutes;
 using CienciaArgentina.Microservices.Entities.Models.JobOffer;
 using CienciaArgentina.Microservices.Entities.Models.User;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-
-namespace CienciaArgentina.Microservices.Data
+namespace CienciaArgentina.Microservices.Persistence
 {
     public class CienciaArgentinaDbContext : IdentityDbContext<ApplicationUser>
     {
