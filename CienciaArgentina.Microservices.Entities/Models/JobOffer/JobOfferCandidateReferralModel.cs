@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using CienciaArgentina.Microservices.Entities.Identity;
 
 namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
 {
@@ -9,8 +10,11 @@ namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
     {
         [Key]
         public int Id { get; set; }
-        public Guid UserId { get; set; }
         public JobReferral JobReferral { get; set; }
         public string Description { get; set; }
+
+        //For identity
+        public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

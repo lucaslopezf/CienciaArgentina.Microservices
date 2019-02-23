@@ -13,7 +13,6 @@ namespace CienciaArgentina.Microservices.Entities.Models.User
     {
         [Key]
         public int Id { get; set; }
-        public Guid UserId { get; set; }
         public string Name { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -27,5 +26,9 @@ namespace CienciaArgentina.Microservices.Entities.Models.User
         public Address Address { get; set; }
         public Country Nationality { get; set; }
         public List<WorkExperience> WorkExperience { get; set; }
+
+        //For identity
+        public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }
