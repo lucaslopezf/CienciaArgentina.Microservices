@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.Models.User;
 using CienciaArgentina.Microservices.Persistence;
 using CienciaArgentina.Microservices.Repositories.IRepository;
@@ -13,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CienciaArgentina.Microservices.Repositories.Repository
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
     {
         private readonly CienciaArgentinaDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
@@ -69,20 +70,29 @@ namespace CienciaArgentina.Microservices.Repositories.Repository
             return await _context.Set<T>().Where(match).ToListAsync();
         }
 
+        #region Add
         public T Add(T entity)
         {
+            entity.DateCreated = DateTime.Now;
             _context.Set<T>().Add(entity);
-            _context.SaveChanges();
             return entity;
         }
 
         public async Task<T> AddAsync(T entity)
         {
+            entity.DateCreated = DateTime.Now;
             var result = await _context.Set<T>().AddAsync(entity);
             //await _unitOfWork.Commit();
             return result.Entity;
         }
 
+        public async Task AddAsync(IEnumerable<T> t)
+        {
+            await _context.AddRangeAsync(t);
+        }
+        #endregion
+
+        #region Update
         public T Update(T updated)
         {
             if (updated == null)
@@ -90,39 +100,47 @@ namespace CienciaArgentina.Microservices.Repositories.Repository
                 return null;
             }
 
-            _context.Set<T>().Attach(updated);
-            _context.Entry(updated).State = EntityState.Modified;
-            _context.SaveChanges();
+            //_context.Set<T>().Attach(updated);
+            //_context.Entry(updated).State = EntityState.Modified;
+            //_context.SaveChanges();
+            _context.Set<T>().Update(updated);
 
             return updated;
         }
 
-        public async Task<T> UpdateAsync(T updated)
-        {
-            if (updated == null)
-            {
-                return null;
-            }
+        //public async Task<T> UpdateAsync(T updated)
+        //{
+        //    if (updated == null)
+        //    {
+        //        return null;
+        //    }
 
-            _context.Set<T>().Attach(updated);
-            _context.Entry(updated).State = EntityState.Modified;
-            await _unitOfWork.Commit();
+        //    //_context.Set<T>().Update(updated);
+        //    _context.Set<T>().Attach(updated);
+        //    _context.Entry(updated).State = EntityState.Modified;
+        //    await _unitOfWork.Commit();
 
-            return updated;
-        }
+        //    return updated;
+        //}
+        #endregion
 
+        #region Delete
         public void Delete(T t)
         {
-            _context.Set<T>().Remove(t);
-            _context.SaveChanges();
+            t.DateDeleted = DateTime.Now;
+            _context.Set<T>().Update(t);
         }
 
-        public async Task<int> DeleteAsync(T t)
-        {
-            _context.Set<T>().Remove(t);
-            return await _unitOfWork.Commit();
-        }
+        //public async Task<int> DeleteAsync(T t)
+        //{
+        //    t.DateDeleted = DateTime.Now;
+        //    _context.Set<T>().Update(t);
+        //    return await _unitOfWork.Commit();
+        //}
 
+        #endregion
+
+        #region Extras
         public int Count()
         {
             return _context.Set<T>().Count();
@@ -132,6 +150,9 @@ namespace CienciaArgentina.Microservices.Repositories.Repository
         {
             return await _context.Set<T>().CountAsync();
         }
+        #endregion
+
+
 
         public IEnumerable<T> Filter(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "", int? page = null,
             int? pageSize = null)

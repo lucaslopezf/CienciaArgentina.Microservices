@@ -11,6 +11,7 @@ using CienciaArgentina.Microservices.Entities.Models.Commons;
 using CienciaArgentina.Microservices.Entities.Models.Institutes;
 using CienciaArgentina.Microservices.Entities.Models.User;
 using CienciaArgentina.Microservices.Middlewares;
+using CienciaArgentina.Microservices.Persistence;
 using CienciaArgentina.Microservices.Storage.Azure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

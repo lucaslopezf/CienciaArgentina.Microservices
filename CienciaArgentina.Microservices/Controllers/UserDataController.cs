@@ -61,7 +61,7 @@ namespace CienciaArgentina.Microservices.Controllers
 
             Mapper.Map(body, userData);
 
-            await _unitOfWork.Repository<UserData>().UpdateAsync(userData);
+            _unitOfWork.Repository<UserData>().Update(userData);
 
             return Ok(userData);
         }
@@ -75,7 +75,7 @@ namespace CienciaArgentina.Microservices.Controllers
             if (userData == null)
                 return NotFound();
 
-            await _unitOfWork.Repository<UserData>().DeleteAsync(userData);
+            _unitOfWork.Repository<UserData>().Delete(userData);
             
             return NoContent();
         }
@@ -103,7 +103,7 @@ namespace CienciaArgentina.Microservices.Controllers
 
             Mapper.Map(userToPatch, userData);
 
-            await _unitOfWork.Repository<UserData>().UpdateAsync(userData);
+            _unitOfWork.Repository<UserData>().Update(userData);
 
             return Ok(Mapper.Map<UserDataDto>(userData));
         }

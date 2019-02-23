@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Entities.Identity;
+using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Persistence;
 using CienciaArgentina.Microservices.Repositories.IRepository;
 using CienciaArgentina.Microservices.Repositories.IUoW;
@@ -31,7 +32,7 @@ namespace CienciaArgentina.Microservices.Repositories.UoW
             LogRepository = new LogRepository();
         }
 
-        public IGenericRepository<T> Repository<T>() where T : class
+        public IGenericRepository<T> Repository<T>() where T : BaseModel
         {
             if (Repositories.Keys.Contains(typeof(T)))
             {

@@ -33,11 +33,11 @@ namespace CienciaArgentina.Microservices.Repositories.IRepository
 
         T Update(T updated);
 
-        Task<T> UpdateAsync(T updated);
+        //Task<T> UpdateAsync(T updated);
 
         void Delete(T t);
 
-        Task<int> DeleteAsync(T t);
+        //Task<int> DeleteAsync(T t);
 
         int Count();
 
