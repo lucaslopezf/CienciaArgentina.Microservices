@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Text;
 using CienciaArgentina.Microservices.Data;
-using CienciaArgentina.Microservices.Data.IRepositories;
-using CienciaArgentina.Microservices.Data.Repositories;
 using CienciaArgentina.Microservices.Entities.Dtos;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models;

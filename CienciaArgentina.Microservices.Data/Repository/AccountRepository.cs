@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 using CienciaArgentina.Microservices.Persistence;
+using CienciaArgentina.Microservices.Repositories.IRepository;
 using Microsoft.AspNetCore.Identity;
 
 namespace CienciaArgentina.Microservices.Repositories.Repository

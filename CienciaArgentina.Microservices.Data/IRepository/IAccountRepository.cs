@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Entities.Identity;
-using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 using Microsoft.AspNetCore.Identity;
 
-namespace CienciaArgentina.Microservices.Data.IRepositories
+namespace CienciaArgentina.Microservices.Repositories.IRepository
 {
     public interface IAccountRepository
     {

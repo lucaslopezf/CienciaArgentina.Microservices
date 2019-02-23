@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using CienciaArgentina.Microservices.Data.IRepositories;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
+using CienciaArgentina.Microservices.Repositories.IRepository;
 using CienciaArgentina.Microservices.Storage.Azure;
 using CienciaArgentina.Microservices.Storage.Azure.TableStorage;
 using CienciaArgentina.Microservices.Storage.Azure.TableStorage.Queries;
