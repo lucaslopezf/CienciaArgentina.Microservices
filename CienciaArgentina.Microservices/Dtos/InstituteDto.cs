@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CienciaArgentina.Microservices.Entities;
 
-namespace CienciaArgentina.Microservices.Entities.Dtos
+namespace CienciaArgentina.Microservices.Dtos
 {
     public class OrganizationDto
     {

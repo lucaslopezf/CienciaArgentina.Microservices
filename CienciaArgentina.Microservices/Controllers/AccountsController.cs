@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using CienciaArgentina.Microservices.Entities.Dtos;
+using CienciaArgentina.Microservices.Dtos;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 using CienciaArgentina.Microservices.Repositories.IRepository;
