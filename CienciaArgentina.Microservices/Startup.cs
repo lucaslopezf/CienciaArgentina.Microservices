@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Text;
+using AutoMapper;
+using CienciaArgentina.Microservices.AutoMapper;
 using CienciaArgentina.Microservices.Dtos;
-using CienciaArgentina.Microservices.Entities.Dtos;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.Models.Addresses;
@@ -110,9 +111,15 @@ namespace CienciaArgentina.Microservices
                     config.InputFormatters.Add(new XmlSerializerInputFormatter(config));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            
+
             // FluentValidator
             services.AddMvc().AddFluentValidation();
+
+            // Mapper
+            //Mapper DTO -> Models
+            var mappingConfig = new MapperConfiguration(map => { map.AddProfile(new MappingProfile()); });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -133,17 +140,7 @@ namespace CienciaArgentina.Microservices
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "Ciencia Argentina Microservices");
             });
 
-            //Mapper DTO -> Models
-            AutoMapper.Mapper.Initialize(mapper =>
-            {
-                mapper.CreateMap<ApplicationUser, UserCreateDto>().ReverseMap();
-                mapper.CreateMap<UserProfile, UserProfileDto>().ReverseMap();
-                mapper.CreateMap<SocialNetwork, SocialNetworkDto>().ReverseMap();
-                mapper.CreateMap<Address, AddressDto>().ReverseMap();
-                mapper.CreateMap<Organization, OrganizationDto>().ReverseMap();
-                mapper.CreateMap<Position, PositionDto>().ReverseMap();
-                mapper.CreateMap<UserOrganization, UserOrganization>().ReverseMap();
-            });
+
 
             //Use authentication
             app.UseAuthentication();

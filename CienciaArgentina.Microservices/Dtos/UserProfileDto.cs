@@ -1,5 +1,5 @@
 ﻿using System;
-using CienciaArgentina.Microservices.Entities.Dtos;
+using CienciaArgentina.Microservices.Entities;
 
 namespace CienciaArgentina.Microservices.Dtos
 {

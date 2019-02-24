@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CienciaArgentina.Microservices.Entities.Dtos
+namespace CienciaArgentina.Microservices.Dtos
 {
     public class SocialNetworkDto
     {
