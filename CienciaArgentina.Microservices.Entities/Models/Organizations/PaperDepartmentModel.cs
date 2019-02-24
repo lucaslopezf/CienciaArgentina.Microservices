@@ -8,6 +8,5 @@ namespace CienciaArgentina.Microservices.Entities.Models.Organizations
     {
         public int Id { get; set; }
         public Department Deparment { get; set; }
-        public Paper Paper { get; set; }
     }
 }
