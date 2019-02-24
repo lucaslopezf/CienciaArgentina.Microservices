@@ -3,7 +3,6 @@ using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using AutoMapper;
 using CienciaArgentina.Microservices.Commons.Extensions;
-using CienciaArgentina.Microservices.Data;
 using CienciaArgentina.Microservices.Entities.Dtos;
 using CienciaArgentina.Microservices.Storage.Azure;
 using CienciaArgentina.Microservices.Storage.Azure.TableStorage.Queries;
