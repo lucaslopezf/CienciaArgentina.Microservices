@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using CienciaArgentina.Microservices.Entities.Identity;
+using CienciaArgentina.Microservices.Entities.Models.User;
 
 namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
 {
@@ -11,8 +12,8 @@ namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
         [Key]
         public int Id { get; set; }
         public decimal ExpectedSalary { get; set; }
-        public string CV { get; set; }
-        // TODO: Add JobOffer
+        public UserCv UserCv { get; set; }
+        public JobOffer JobOffer { get; set; }
         public string State { get; set; }
         public DateTime ReceivedDate { get; set; }
         public string IntroductionLetter { get; set; }
