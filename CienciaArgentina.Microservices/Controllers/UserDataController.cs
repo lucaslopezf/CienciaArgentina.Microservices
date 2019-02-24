@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using AutoMapper;
+using CienciaArgentina.Microservices.Commons.Helpers;
 using CienciaArgentina.Microservices.Dtos;
 using CienciaArgentina.Microservices.Entities.Dtos;
 using CienciaArgentina.Microservices.Entities.Models;
@@ -10,6 +12,7 @@ using CienciaArgentina.Microservices.Entities.Models.User;
 using CienciaArgentina.Microservices.Repositories.IUoW;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Language.CodeGeneration;
 
 namespace CienciaArgentina.Microservices.Controllers
 {
@@ -41,6 +44,7 @@ namespace CienciaArgentina.Microservices.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var result = await _unitOfWork.Repository<UserData>().AddAsync(Mapper.Map<UserData>(body));
             await _unitOfWork.Commit();
+            var a = DateTimeHelper.Now;
             return Ok(result.Id);
         }
 

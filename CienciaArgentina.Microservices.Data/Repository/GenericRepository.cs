@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using CienciaArgentina.Microservices.Commons.Helpers;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.Models.User;
 using CienciaArgentina.Microservices.Persistence;
@@ -73,14 +74,14 @@ namespace CienciaArgentina.Microservices.Repositories.Repository
         #region Add
         public T Add(T entity)
         {
-            entity.DateCreated = DateTime.Now;
+            entity.DateCreated = DateTimeHelper.Now;
             _context.Set<T>().Add(entity);
             return entity;
         }
 
         public async Task<T> AddAsync(T entity)
         {
-            entity.DateCreated = DateTime.Now;
+            entity.DateCreated = DateTimeHelper.Now;
             var result = await _context.Set<T>().AddAsync(entity);
             //await _unitOfWork.Commit();
             return result.Entity;
@@ -127,7 +128,7 @@ namespace CienciaArgentina.Microservices.Repositories.Repository
         #region Delete
         public void Delete(T t)
         {
-            t.DateDeleted = DateTime.Now;
+            t.DateDeleted = DateTimeHelper.Now;
             _context.Set<T>().Update(t);
         }
 

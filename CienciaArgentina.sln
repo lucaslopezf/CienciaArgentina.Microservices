@@ -27,7 +27,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D81D71A0-E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Tests", "CienciaArgentina.Microservices.UnitTests\CienciaArgentina.Microservices.Tests.csproj", "{89A2B909-D397-4A17-AD88-432D90DEE463}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.Microservices.Persistence", "CienciaArgentina.Microservices.Persistence\CienciaArgentina.Microservices.Persistence.csproj", "{8704B830-EAB9-4FB5-BF66-F04E62054C9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Persistence", "CienciaArgentina.Microservices.Persistence\CienciaArgentina.Microservices.Persistence.csproj", "{8704B830-EAB9-4FB5-BF66-F04E62054C9D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C875F7C8-21E5-4D6E-9622-8DAAA35D168E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{34105650-1FD5-47E5-9DAB-926935BF5018}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,7 +84,11 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{0BB29E33-FC8E-446F-ABE9-B7ECB28469F6} = {C875F7C8-21E5-4D6E-9622-8DAAA35D168E}
+		{106DBF34-7FD3-4807-82F4-194542FFEB76} = {34105650-1FD5-47E5-9DAB-926935BF5018}
+		{1A0F46E0-3340-4DEB-A2BF-2062C1DDB32D} = {C875F7C8-21E5-4D6E-9622-8DAAA35D168E}
 		{C258D8D6-812B-445F-962D-592FD16AC4AB} = {F65941E3-347C-4D92-A1DF-02342B1424E7}
+		{8644A955-4F31-4BE6-8CFA-4A83CC60C2F1} = {34105650-1FD5-47E5-9DAB-926935BF5018}
 		{7316EDFC-4449-4155-A16E-24ACEAF629EE} = {F65941E3-347C-4D92-A1DF-02342B1424E7}
 		{6C7D186B-A633-47BD-B89E-4BE0BB67BF4E} = {6E8EC9B6-CC3A-446A-9517-B1508218D184}
 		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C} = {6E8EC9B6-CC3A-446A-9517-B1508218D184}

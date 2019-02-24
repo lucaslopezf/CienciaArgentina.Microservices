@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using CienciaArgentina.Microservices.Commons.Helpers;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 using CienciaArgentina.Microservices.Persistence;
@@ -58,7 +59,7 @@ namespace CienciaArgentina.Microservices.Repositories.Repository
 
         public async Task<IdentityResult> Delete(ApplicationUser user)
         {
-            user.DateDeleted = Now;
+            user.DateDeleted = DateTimeHelper.Now;
 
             var result = await Update(user);
             return result;
