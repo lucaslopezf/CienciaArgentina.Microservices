@@ -9,11 +9,11 @@ using CienciaArgentina.Microservices.Entities.Models.User;
 
 namespace CienciaArgentina.Microservices.Entities.Models.User
 {
-    public class UserLaboratory : BaseModel
+    public class UserDepartment : BaseModel
     {
         [Key]
         public int Id { get; set; }
-        public Laboratory Laboratory { get; set; }
+        public Department Department { get; set; }
         public Position Position { get; set; }
 
         //For identity

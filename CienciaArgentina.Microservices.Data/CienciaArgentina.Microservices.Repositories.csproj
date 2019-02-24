@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CienciaArgentina.Microservices.Commons\CienciaArgentina.Microservices.Commons.csproj" />
     <ProjectReference Include="..\CienciaArgentina.Microservices.Entities\CienciaArgentina.Microservices.Entities.csproj" />
     <ProjectReference Include="..\CienciaArgentina.Microservices.Persistence\CienciaArgentina.Microservices.Persistence.csproj" />
     <ProjectReference Include="..\CienciaArgentina.Microservices.Storage.Azure\CienciaArgentina.Microservices.Storage.Azure.csproj" />
