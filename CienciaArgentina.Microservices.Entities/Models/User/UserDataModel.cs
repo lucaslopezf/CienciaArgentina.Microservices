@@ -18,7 +18,6 @@ namespace CienciaArgentina.Microservices.Entities.Models.User
         public string LastName { get; set; }
         public string IdentifierType { get; set; }
         public string Identifier { get; set; }
-        public SocialNetwork SocialNetwork { get; set; }
         public UserOrganization UserOrganization { get; set; }
         public Sex Sex { get; set; }
         [Column(TypeName = "Date")]
