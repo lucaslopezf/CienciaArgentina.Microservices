@@ -11,5 +11,6 @@ namespace CienciaArgentina.Microservices.Entities.Models.Organizations
         public int Year { get; set; }
         public string Magazine { get; set; }
         public string Link { get; set; }
+        public PaperDepartment PaperDepartment { get; set; }
     }
 }
