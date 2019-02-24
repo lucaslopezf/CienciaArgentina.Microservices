@@ -49,5 +49,6 @@ namespace CienciaArgentina.Microservices.Persistence
         public DbSet<UserLanguageSkill> UserLanguagesSkill { get; set; }
         public DbSet<Telephone> Telephones { get; set; }
         public DbSet<OrganizationType> OrganizationTypes { get; set; }
+        public DbSet<Paper> Papers { get; set; }
     }
 }
