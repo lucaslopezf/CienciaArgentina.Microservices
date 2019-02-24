@@ -6,14 +6,11 @@ using CienciaArgentina.Microservices.Entities.Models.User;
 
 namespace CienciaArgentina.Microservices.Entities.Models.Organizations
 {
-    public class OrganizationProject : BaseModel
+    public class OrganizationProjectImages : BaseModel
     {
         [Key]
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string About { get; set; }
-        //public string ExperimentalModel { get; set; }
-        public UserData Responsable { get; set; }
+        public string Image { get; set; }
+        public OrganizationProject OrganizationProject { get; set; }
     }
 }
