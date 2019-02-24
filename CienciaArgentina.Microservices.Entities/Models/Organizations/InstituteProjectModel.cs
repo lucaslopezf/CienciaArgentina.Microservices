@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CienciaArgentina.Microservices.Entities.Models.Institutes
+namespace CienciaArgentina.Microservices.Entities.Models.Organizations
 {
-    public class ResearchLine : BaseModel
+    public class OrganizationProject : BaseModel
     {
         [Key]
         public int Id { get; set; }

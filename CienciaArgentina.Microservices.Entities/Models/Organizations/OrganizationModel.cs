@@ -4,12 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using CienciaArgentina.Microservices.Entities.Models.Addresses;
 
-namespace CienciaArgentina.Microservices.Entities.Models.Institutes
+namespace CienciaArgentina.Microservices.Entities.Models.Organizations
 {
-    public class Institute : BaseModel
+    public class Organization : BaseModel
     {
         [Key]
         public int Id { get; set; }
+        public OrganizationType OrganizationType { get; set; }
         public string Name { get; set; }
         public string Initials { get; set; }
         public string Logo { get; set; }

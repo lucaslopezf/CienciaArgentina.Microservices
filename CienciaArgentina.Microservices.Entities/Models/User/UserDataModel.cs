@@ -19,13 +19,14 @@ namespace CienciaArgentina.Microservices.Entities.Models.User
         public string IdentifierType { get; set; }
         public string Identifier { get; set; }
         public SocialNetwork SocialNetwork { get; set; }
-        public UserInstitute UserInstitute { get; set; }
+        public UserOrganization UserOrganization { get; set; }
         public Sex Sex { get; set; }
         [Column(TypeName = "Date")]
         public DateTime Birthday { get; set; }
         public Address Address { get; set; }
         public Country Nationality { get; set; }
         public List<WorkExperience> WorkExperience { get; set; }
+        public List<Telephone> Telephone { get; set; }
 
         //For identity
         public string UserId { get; set; }

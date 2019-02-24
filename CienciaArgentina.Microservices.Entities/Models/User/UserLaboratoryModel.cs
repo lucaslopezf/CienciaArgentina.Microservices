@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models.Commons;
-using CienciaArgentina.Microservices.Entities.Models.Institutes;
+using CienciaArgentina.Microservices.Entities.Models.Organizations;
 using CienciaArgentina.Microservices.Entities.Models.User;
 
 namespace CienciaArgentina.Microservices.Entities.Models.User

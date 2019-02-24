@@ -58,7 +58,7 @@ namespace CienciaArgentina.Microservices.Repositories.Repository
 
         public async Task<IdentityResult> Delete(ApplicationUser user)
         {
-            user.DateDeleted = DateTime.Now;
+            user.DateDeleted = Now;
 
             var result = await Update(user);
             return result;
