@@ -28,7 +28,7 @@ namespace CienciaArgentina.Microservices.Persistence
         public DbSet<UserStudyType> UserStudyTypes { get; set; }
         public DbSet<UserStudy> UserStudies { get; set; }
         public DbSet<Department> Departments { get; set; }
-        public DbSet<UserLaboratory> UserLaboratories { get; set; }
+        public DbSet<UserDepartment> UserDepartments { get; set; }
         public DbSet<UserOrganization> UserOrganizations { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<City> Cities { get; set; }

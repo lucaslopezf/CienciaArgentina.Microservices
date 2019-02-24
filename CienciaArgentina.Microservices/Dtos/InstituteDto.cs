@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Dtos
 {
-    public class InstituteDto
+    public class OrganizationDto
     {
         public string Name { get; set; }
         public string Initials { get; set; }

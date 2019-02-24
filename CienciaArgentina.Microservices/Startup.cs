@@ -7,7 +7,7 @@ using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.Models.Addresses;
 using CienciaArgentina.Microservices.Entities.Models.Commons;
-using CienciaArgentina.Microservices.Entities.Models.Institutes;
+using CienciaArgentina.Microservices.Entities.Models.Organizations;
 using CienciaArgentina.Microservices.Entities.Models.User;
 using CienciaArgentina.Microservices.Middlewares;
 using CienciaArgentina.Microservices.Persistence;
@@ -141,9 +141,9 @@ namespace CienciaArgentina.Microservices
                 mapper.CreateMap<UserData, UserDataDto>().ReverseMap();
                 mapper.CreateMap<SocialNetwork, SocialNetworkDto>().ReverseMap();
                 mapper.CreateMap<Address, AddressDto>().ReverseMap();
-                mapper.CreateMap<Institute, InstituteDto>().ReverseMap();
+                mapper.CreateMap<Organization, OrganizationDto>().ReverseMap();
                 mapper.CreateMap<Position, PositionDto>().ReverseMap();
-                mapper.CreateMap<UserInstitute, UserInstituteDto>().ReverseMap();
+                mapper.CreateMap<UserOrganization, UserOrganization>().ReverseMap();
             });
 
             //Use authentication
