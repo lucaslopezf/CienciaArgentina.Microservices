@@ -12,6 +12,7 @@ using CienciaArgentina.Microservices.Entities.Models.User;
 using CienciaArgentina.Microservices.Middlewares;
 using CienciaArgentina.Microservices.Persistence;
 using CienciaArgentina.Microservices.Storage.Azure;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -110,9 +111,9 @@ namespace CienciaArgentina.Microservices
                     config.InputFormatters.Add(new XmlSerializerInputFormatter(config));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            //Evaluate performance
-            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
+            // FluentValidator
+            services.AddMvc().AddFluentValidation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
