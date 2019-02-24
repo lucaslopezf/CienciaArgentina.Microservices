@@ -3,7 +3,7 @@ using CienciaArgentina.Microservices.Entities.Dtos;
 
 namespace CienciaArgentina.Microservices.Dtos
 {
-    public class UserDataDto
+    public class UserProfileDto
     {
         public int UserId { get; set; }
         public string Name { get; set; }

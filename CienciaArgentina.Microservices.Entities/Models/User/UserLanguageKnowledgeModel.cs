@@ -10,6 +10,6 @@ namespace CienciaArgentina.Microservices.Entities.Models.User
         [Key]
         public int Id { get; set; }
         public UserLanguage UserLanguage { get; set; }
-        public UserData UserData { get; set; }
+        public UserProfile UserProfile { get; set; }
     }
 }

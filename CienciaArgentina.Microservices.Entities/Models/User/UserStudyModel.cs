@@ -17,6 +17,6 @@ namespace CienciaArgentina.Microservices.Entities.Models.User
         public int? ApprovedSubjects { get; set; }
         public int? TotalSubjects { get; set; }
         public UserStudyCompletion UserStudyCompletion { get; set; }
-        public UserData UserData { get; set; }
+        public UserProfile UserProfile { get; set; }
     }
 }

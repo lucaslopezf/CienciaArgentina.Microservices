@@ -14,9 +14,9 @@ namespace CienciaArgentina.Microservices.Business
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<UserData> GetUser(int userId)
+        public async Task<UserProfile> GetUser(int userId)
         {
-            return await _unitOfWork.Repository<UserData>().GetByIdAsync(userId);
+            return await _unitOfWork.Repository<UserProfile>().GetByIdAsync(userId);
         }
 
     }

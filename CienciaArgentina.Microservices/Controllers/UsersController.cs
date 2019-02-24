@@ -2,190 +2,114 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using AutoMapper;
+using CienciaArgentina.Microservices.Commons.Helpers;
+using CienciaArgentina.Microservices.Dtos;
 using CienciaArgentina.Microservices.Entities.Dtos;
 using CienciaArgentina.Microservices.Entities.Models;
-using CienciaArgentina.Microservices.Entities.QueryParameters;
-using CienciaArgentina.Microservices.Repositories.IRepository;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+using CienciaArgentina.Microservices.Entities.Models.User;
+using CienciaArgentina.Microservices.Repositories.IUoW;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Razor.Language.CodeGeneration;
 
 namespace CienciaArgentina.Microservices.Controllers
 {
-    //[ApiVersion("1.0", Deprecated = true)]
     [ApiVersion("1.0")]
     [Route("api/[controller]")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
-        private IAccountRepository _userRepository;
-        private readonly ILogger<UsersController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UsersController(IAccountRepository userRepository, ILogger<UsersController> logger)
+        public UsersController(IUnitOfWork unitOfWork)
         {
-            _userRepository = userRepository;
-            _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
-        // GET api/<controller>
+        //GET api/<controller>/<usersData>
         [HttpGet]
-        public IActionResult Get(QueryParameters userQueryParameters)
+        [Route("{userProfileId}")]
+        public async Task<IActionResult> Get(int userId)
         {
-            var allUsers = _userRepository.Get(userQueryParameters).ToList();
-
-            var allUsersDto = allUsers.Select(x => Mapper.Map<UserCreateDto>(x));
-
-            Response.Headers.Add("X-Pagination",
-                JsonConvert.SerializeObject(new { totalCount = _userRepository.Count() }));
-
-            return Ok(allUsersDto);
+            var userProfile = await _unitOfWork.Repository<UserProfile>().GetByIdAsync(userId);
+            if (userProfile == null) return NotFound();
+            return Ok(userProfile);
         }
 
-        //// GET api/<controller>/5
-        //[HttpGet]
-        //[ProducesResponseType(typeof(int), 200)]
-        //[ProducesResponseType(typeof(int), 404)]
-        //[Route("{id}", Name = "Get")]
-        //public IActionResult Get(int id)
-        //{
-        //    _logger.LogInformation("GetUser");
-        //    var user = _userRepository.Get(id);
+        // POST api/<controller>
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] UserProfileDto body)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var result = await _unitOfWork.Repository<UserProfile>().AddAsync(Mapper.Map<UserProfile>(body));
+            await _unitOfWork.Commit();
+            var a = DateTimeHelper.Now;
+            return Ok(result.Id);
+        }
 
-        //    if (user == null)
-        //        return NotFound();
+        // PUT api/<controller>/<userProfileId>
+        [HttpPut("{userProfileId}")]
+        public async Task<IActionResult> Put(int userId, [FromBody] UserProfileDto body)
+        {
+            if (body == null)
+                return BadRequest();
 
-        //    return Ok(user);
-        //}
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-        //// POST api/<controller>
-        //[HttpPost]
-        //public IActionResult Post([FromBody]UserCreateDto userDto)
-        //{
-        //    if (userDto == null)
-        //        return BadRequest("User object is null");
+            var userProfile = await _unitOfWork.Repository<UserProfile>().GetByIdAsync(userId);
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+            if (userProfile == null)
+                return NotFound();
 
-        //    User toAdd = Mapper.Map<User>(userDto);
+            Mapper.Map(body, userProfile);
 
-        //    _userRepository.Add(toAdd);
+            _unitOfWork.Repository<UserProfile>().Update(userProfile);
 
-        //    bool result = _userRepository.Save();
+            return Ok(userProfile);
+        }
 
-        //    if (!result)
-        //    {
-        //        throw new Exception("Something went wrong when adding a new user");
-        //    }
+        // DELETE api/<controller>/<userProfileId>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userProfile = await _unitOfWork.Repository<UserProfile>().GetByIdAsync(id);
 
-        //    return CreatedAtRoute("Get", new { id = toAdd.Id }, Mapper.Map<UserCreateDto>(toAdd));
-        //}
+            if (userProfile == null)
+                return NotFound();
 
-        //// PUT api/<controller>/5
-        //[HttpPut("{id}")]
-        //public IActionResult Put(int id, [FromBody]UserCreateDto model)
-        //{
-        //    if (model == null)
-        //    {
-        //        return BadRequest();
-        //    }
+            _unitOfWork.Repository<UserProfile>().Delete(userProfile);
+            
+            return NoContent();
+        }
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        // PATCH api/<controller>/<userProfileId>
+        [HttpPatch]
+        [Route("{userProfileId}")]
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<UserProfileDto> userProfileDto)
+        {
+            if (userProfileDto == null)
+                return BadRequest();
 
-        //    var existingUser = _userRepository.Get(id);
+            var userProfile = await _unitOfWork.Repository<UserProfile>().GetByIdAsync(id);
 
-        //    if (existingUser == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (userProfile == null)
+                return NotFound();
 
+            var userToPatch = Mapper.Map<UserProfileDto>(userProfile);
+            userProfileDto.ApplyTo(userToPatch, ModelState);
 
-        //    Mapper.Map(model, existingUser);
+            TryValidateModel(userToPatch);
 
-        //    _userRepository.Update(existingUser);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-        //    bool result = _userRepository.Save();
+            Mapper.Map(userToPatch, userProfile);
 
-        //    if (!result)
-        //    {
-        //        throw new Exception($"something went wrong when updating the user with id: {id}");
-        //    }
+            _unitOfWork.Repository<UserProfile>().Update(userProfile);
 
-        //    return Ok(Mapper.Map<UserCreateDto>(existingUser));
-        //}
-
-        //// DELETE api/<controller>/5
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(int id)
-        //{
-        //    var existingUser = _userRepository.Get(id);
-
-        //    if (existingUser == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _userRepository.Delete(id);
-
-        //    bool result = _userRepository.Save();
-
-        //    if (!result)
-        //    {
-        //        throw new Exception($"something went wrong when deleting the user with id: {id}");
-        //    }
-
-        //    return NoContent();
-        //}
-
-        //[HttpPatch]
-        //[Route("{id}")]
-        //public IActionResult Patch(int id, [FromBody] JsonPatchDocument<UserCreateDto> userPatchDoc)
-        //{
-        //    if (userPatchDoc == null)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    var existingUser = _userRepository.Get(id);
-
-        //    if (existingUser == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var customerToPatch = Mapper.Map<UserCreateDto>(existingUser);
-        //    userPatchDoc.ApplyTo(customerToPatch, ModelState);
-
-        //    TryValidateModel(customerToPatch);
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    Mapper.Map(customerToPatch, existingUser);
-
-        //    _userRepository.Update(existingUser);
-
-        //    bool result = _userRepository.Save();
-
-        //    if (!result)
-        //    {
-        //        throw new Exception($"something went wrong when updating the user with id: {id}");
-        //    }
-
-        //    return Ok(Mapper.Map<UserCreateDto>(existingUser));
-        //}
+            return Ok(Mapper.Map<UserProfileDto>(userProfile));
+        }
     }
 }

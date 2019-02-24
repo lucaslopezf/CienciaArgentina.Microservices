@@ -14,6 +14,6 @@ namespace CienciaArgentina.Microservices.Entities.Models.Organizations
         public string Description { get; set; }
         public string About { get; set; }
         public string ExperimentalModel { get; set; }
-        public UserData Responsable { get; set; }
+        public UserProfile Responsable { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace CienciaArgentina.Microservices.Entities.Models.Commons
         public string Url { get; set; }
 
         //TODO: Cabeceada => Pensar mejor
-        public UserData UserData { get; set; }
+        public UserProfile UserProfile { get; set; }
         public Department Department { get; set; }
         public Organization Organization { get; set; }
     }

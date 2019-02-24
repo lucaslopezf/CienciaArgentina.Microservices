@@ -11,7 +11,7 @@ namespace CienciaArgentina.Microservices.Entities.Models.Organizations
     {
         [Key]
         public int Id { get; set; }
-        public UserData UserData { get; set; }
+        public UserProfile UserProfile { get; set; }
         public Organization Organization { get; set; }
     }
 }
