@@ -83,6 +83,19 @@ namespace CienciaArgentina.Microservices.Controllers
             return result.Succeeded ? BuildToken(model) : BadRequest(result.Errors);
         }
 
+        [HttpPost]
+        [Route("{addClaim}")]
+        public async Task<IActionResult> AddClaim([FromBody] CreateClaimDto addClaim)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var user = await _accountRepository.Get(addClaim.ClaimType);
+            var claim = new Claim(addClaim.ClaimType, addClaim.ClaimValue);
+            var result = await _accountRepository.AddClaim(user, claim);
+
+            return Ok(result.Succeeded);
+        }
+
         // PUT api/<controller>/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, [FromBody]UserCreateDto model)

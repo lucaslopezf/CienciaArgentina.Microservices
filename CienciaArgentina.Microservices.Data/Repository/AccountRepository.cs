@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Commons.Helpers;
 using CienciaArgentina.Microservices.Entities.Identity;
@@ -38,15 +39,22 @@ namespace CienciaArgentina.Microservices.Repositories.Repository
                 .Take(userQueryParameters.PageCount);
         }
 
-        public async Task<ApplicationUser> Get(string id)
+        public async Task<ApplicationUser> Get(string email)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByEmailAsync(email);
             return user;
         }
 
         public async Task<IdentityResult> Add(ApplicationUser user,string password)
         {
             var result = await _userManager.CreateAsync(user,password);
+            //TODO: Redis
+            return result;
+        }
+
+        public async Task<IdentityResult> AddClaim(ApplicationUser user, Claim claim)
+        {
+            var result = await _userManager.AddClaimAsync(user, claim);
             //TODO: Redis
             return result;
         }
