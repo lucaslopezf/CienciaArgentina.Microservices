@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using CienciaArgentina.Microservices.Commons.Helpers;
+using CienciaArgentina.Microservices.Commons.Helpers.Date;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.Models.User;
 using CienciaArgentina.Microservices.Persistence;

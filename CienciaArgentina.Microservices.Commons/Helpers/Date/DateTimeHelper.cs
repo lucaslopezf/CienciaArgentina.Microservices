@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CienciaArgentina.Microservices.Commons.Helpers
+namespace CienciaArgentina.Microservices.Commons.Helpers.Date
 {
     public static class DateTimeHelper
     {

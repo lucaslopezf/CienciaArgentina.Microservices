@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CienciaArgentina.Microservices.Commons\CienciaArgentina.Microservices.Commons.csproj" />
     <ProjectReference Include="..\CienciaArgentina.Microservices.Storage.Azure\CienciaArgentina.Microservices.Storage.Azure.csproj" />
   </ItemGroup>
 

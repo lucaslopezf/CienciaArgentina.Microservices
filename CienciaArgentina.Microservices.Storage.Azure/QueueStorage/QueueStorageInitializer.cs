@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 
-namespace CienciaArgentina.Microservices.Storage.Azure
+namespace CienciaArgentina.Microservices.Storage.Azure.QueueStorage
 {
 	/// <summary>
 	/// Initialize a queue storage specific for a message type.

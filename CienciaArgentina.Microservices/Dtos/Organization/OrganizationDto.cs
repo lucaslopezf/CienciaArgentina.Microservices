@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CienciaArgentina.Microservices.Dtos;
 using CienciaArgentina.Microservices.Entities;
 
-namespace CienciaArgentina.Microservices.Dtos
+namespace CienciaArgentina.Microservices.Dtos.Organization
 {
     public class OrganizationDto
     {
         public string Name { get; set; }
         public string Initials { get; set; }
+        public OrganizationTypeDto OrganizationType { get; set; }
         public string Logo { get; set; }
         public string Description { get; set; }
         public string DescriptionLarge { get; set; }

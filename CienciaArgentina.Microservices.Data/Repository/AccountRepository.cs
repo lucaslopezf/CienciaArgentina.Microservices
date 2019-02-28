@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using CienciaArgentina.Microservices.Commons.Helpers;
+using CienciaArgentina.Microservices.Commons.Helpers.Date;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 using CienciaArgentina.Microservices.Persistence;
