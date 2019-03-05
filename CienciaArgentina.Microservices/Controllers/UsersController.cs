@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 using AutoMapper;
+using CienciaArgentina.Microservices.Business.Application.Papers;
 using CienciaArgentina.Microservices.Commons.Helpers.Date;
 using CienciaArgentina.Microservices.Dtos;
 using CienciaArgentina.Microservices.Entities.Models;
@@ -111,6 +112,23 @@ namespace CienciaArgentina.Microservices.Controllers
             _unitOfWork.Repository<UserProfile>().Update(userProfile);
 
             return Ok(Mapper.Map<UserProfileDto>(userProfile));
+        }
+
+        // TODO: Esto realmente va acá?
+        // Example: PMID = 29519839
+        [HttpGet]
+        [Route("/GetPMIDArticle/{pmid}")]
+        public async Task<IActionResult> GetPMIDArticle(int? pmid)
+        {
+            if (pmid == null)
+                return BadRequest();
+
+            var paper = await PapersWrapper.Get(pmid);
+
+            if (paper == null)
+                return NotFound();
+
+            return Ok(paper);
         }
     }
 }

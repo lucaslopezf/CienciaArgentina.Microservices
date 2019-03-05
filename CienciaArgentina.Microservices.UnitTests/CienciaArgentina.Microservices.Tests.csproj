@@ -19,11 +19,16 @@
     <Folder Include="ApplicationTest\IntegrationTests\" />
     <Folder Include="ApplicationTest\FunctionalTests\" />
     <Folder Include="ApplicationTest\End-To-EndTests\" />
+    <Folder Include="BusinessTest\UnitTests\" />
     <Folder Include="MicroservicesTest\ComponentTests\" />
     <Folder Include="MicroservicesTest\IntegrationTests\" />
     <Folder Include="MicroservicesTest\FunctionalTests\" />
     <Folder Include="MicroservicesTest\End-To-EndTests\" />
     <Folder Include="MicroservicesTest\UnitTests\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CienciaArgentina.Microservices.Business\CienciaArgentina.Microservices.Business.csproj" />
   </ItemGroup>
 
 </Project>
