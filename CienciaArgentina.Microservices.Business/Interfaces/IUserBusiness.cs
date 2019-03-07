@@ -9,6 +9,7 @@ namespace CienciaArgentina.Microservices.Business.Interfaces
     public interface IUserBusiness
     {
         //Task<UserData> GetUserById(int userId);
+        Task<LoginModel> Add(ApplicationUser user, string password);
 
         Task<LoginModel> Login(string userName,string password);
 

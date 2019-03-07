@@ -7,6 +7,8 @@ using CienciaArgentina.Microservices.Business.Interfaces;
 using CienciaArgentina.Microservices.Entities.BusinessModel;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Repositories.IRepository;
+using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
+using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,6 +27,22 @@ namespace CienciaArgentina.Microservices.Business.Implementation
             _accountRepository = accountRepository;
             _signInManager = signInManager;
         }
+
+        public async Task<LoginModel> Add(ApplicationUser user, string password)
+        {
+            var result = await _accountRepository.Add(user, password);
+            var response = new LoginModel
+            {
+                Success = result.Succeeded
+            };
+            if (result.Succeeded)
+                response.JwtToken = BuildToken(user.UserName, user.Email);
+            else
+                response.Message = "Error al agregar el usuario";
+
+            return response;
+        }
+
         public async Task<LoginModel> Login(string userName, string password)
         {
             var result = await _signInManager.PasswordSignInAsync(userName, password, isPersistent: false, lockoutOnFailure: false);
@@ -54,7 +72,14 @@ namespace CienciaArgentina.Microservices.Business.Implementation
         {
             var tokenConfirmation = await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
 
-            //enviar mail
+            var mailMessage = new MailMessage
+            {
+                From = "lucas@cienciaargentina.com",
+                To = user.Email,
+                Body = "Hola test",
+                Subject = "Confirmación de usuario"
+            };
+            await AzureQueue.EnqueueAsync(mailMessage);
         }
 
         private JwtToken BuildToken(string userName, string email)

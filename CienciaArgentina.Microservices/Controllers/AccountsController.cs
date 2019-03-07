@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CienciaArgentina.Microservices.Business.Interfaces;
@@ -13,14 +10,10 @@ using CienciaArgentina.Microservices.Entities.QueryParameters;
 using CienciaArgentina.Microservices.Repositories.IRepository;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Protocols;
 using Newtonsoft.Json;
 
 namespace CienciaArgentina.Microservices.Controllers
@@ -81,11 +74,12 @@ namespace CienciaArgentina.Microservices.Controllers
                 UserName = model.UserName,
             };
 
-            var result = await _accountRepository.Add(user, model.Password);
+            var result = await _userBusiness.Add(user, model.Password);
 
-            // Let Identity handle the possible error messages output
-            //return result.Succeeded ? BuildToken(model) : BadRequest(result.Errors);
-            return BadRequest(result.Errors);
+            if(!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(model);
         }
 
         [HttpPost]
