@@ -117,8 +117,8 @@ namespace CienciaArgentina.Microservices.Controllers
         // TODO: Esto realmente va acá?
         // Example: PMID = 29519839
         [HttpGet]
-        [Route("/GetPMIDArticle/{pmid}")]
-        public async Task<IActionResult> GetPMIDArticle(int? pmid)
+        [Route("GetArticleByPMID/{pmid}")]
+        public async Task<IActionResult> GetArticleByPMID(int? pmid)
         {
             if (pmid == null)
                 return BadRequest();
@@ -129,6 +129,21 @@ namespace CienciaArgentina.Microservices.Controllers
                 return NotFound();
 
             return Ok(paper);
+        }
+
+        [HttpGet]
+        [Route("GetArticlesByAlias/{alias}")]
+        public async Task<IActionResult> GetArticlesByAlias(string alias)
+        {
+            if (alias == null)
+                return BadRequest();
+
+            var papers = await PapersWrapper.Get(alias);
+
+            if (papers == null)
+                return NotFound();
+
+            return Ok(papers);
         }
     }
 }
