@@ -1,5 +1,8 @@
 ﻿using System.Threading.Tasks;
+using CienciaArgentina.Microservices.Entities.BusinessModel;
+using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models.User;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CienciaArgentina.Microservices.Business.Interfaces
 {
@@ -7,7 +10,9 @@ namespace CienciaArgentina.Microservices.Business.Interfaces
     {
         //Task<UserData> GetUserById(int userId);
 
-        //Task<UserData> GetUserByUserName(string userName);
+        Task<LoginModel> Login(string userName,string password);
+
+        Task SendEmailConfirmationAsync(ApplicationUser user);
 
         //Task<UserData> AddUserAsync(UserData user);
     } 

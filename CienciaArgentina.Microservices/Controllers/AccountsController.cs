@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using CienciaArgentina.Microservices.Business.Interfaces;
 using CienciaArgentina.Microservices.Dtos;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
@@ -27,15 +28,15 @@ namespace CienciaArgentina.Microservices.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAccountRepository _accountRepository;
-        private readonly ILogger<AccountsController> _logger;
         private readonly IConfiguration _configuration;
+        private readonly IUserBusiness _userBusiness;
 
-        public AccountsController(SignInManager<ApplicationUser> signInManager, IAccountRepository accountRepository, ILogger<AccountsController> logger, IConfiguration configuration)
+        public AccountsController(SignInManager<ApplicationUser> signInManager, IAccountRepository accountRepository, IUserBusiness userBusiness, IConfiguration configuration)
         {
             _accountRepository = accountRepository;
-            _logger = logger;
             _signInManager = signInManager;
             _configuration = configuration;
+            _userBusiness = userBusiness;
         }
 
         //GET api/<controller>
@@ -175,14 +176,14 @@ namespace CienciaArgentina.Microservices.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(userInfo.UserName, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
-                if (result.Succeeded)
+                var result = await _userBusiness.Login(userInfo.UserName, userInfo.Password);
+                if (result.Success)
                 {
-                    return BuildToken(userInfo);
+                    return Ok(result.JwtToken);
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, result.Message);
                     return BadRequest(ModelState);
                 }
             }
@@ -190,37 +191,6 @@ namespace CienciaArgentina.Microservices.Controllers
             {
                 return BadRequest(ModelState);
             }
-        }
-
-        //TODO: BuildToken debe ir en otro lugar?
-        private IActionResult BuildToken(UserCreateDto userInfo)
-        {
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.UserName),
-                new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
-                //new Claim("miValor", "Lo que yo quiera"),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["ApiAuthJWT:SecretKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var expiration = DateTime.UtcNow.AddHours(1);
-
-            var token = new JwtSecurityToken(
-               issuer: _configuration["ApiAuthJWT:Issuer"],
-               audience: _configuration["ApiAuthJWT:Audience"],
-               claims: claims,
-               expires: expiration,
-               notBefore: DateTime.UtcNow,
-               signingCredentials: creds);
-
-            return Ok(new
-            {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration
-            });
         }
     }
 }
