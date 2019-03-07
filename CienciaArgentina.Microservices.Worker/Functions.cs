@@ -20,5 +20,14 @@ namespace CienciaArgentina.Microservices.Worker
 
             logger.WriteLine($"AppExceptionsSaver: {queueM.Data.CustomMessage}");
         }
+
+        public static async Task MailsMessagesSender([QueueTrigger(nameof(MailMessage))] string queueMessage, DateTimeOffset expirationTime, DateTimeOffset insertionTime, DateTimeOffset nextVisibleTime, string id, string popReceipt, int dequeueCount, string queueTrigger, CloudStorageAccount cloudStorageAccount, TextWriter logger)
+        {
+            var queueM = MessageQueue<MailMessage>.GenerateQueueMessage(queueMessage, expirationTime, insertionTime, nextVisibleTime, id, popReceipt, dequeueCount, queueTrigger, cloudStorageAccount);
+
+            await new MailsMessagesSender().ProcessMessages(queueM);
+
+            logger.WriteLine($"MailsMessagesSender: {queueM.Data.Subject} (f: {queueM.Data.From} |t: {queueM.Data.To})");
+        }
     }
 }

@@ -52,7 +52,7 @@ namespace CienciaArgentina.Microservices.Business.Implementation
 
         public async Task SendEmailConfirmationAsync(ApplicationUser user)
         {
-            var tokenConfirmation = _accountRepository.GenerateEmailConfirmationTokenAsync(user);
+            var tokenConfirmation = await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
 
             //enviar mail
         }

@@ -11,6 +11,8 @@ using CienciaArgentina.Microservices.Dtos;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 using CienciaArgentina.Microservices.Repositories.IRepository;
+using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
+using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
@@ -18,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols;
 using Newtonsoft.Json;
 
 namespace CienciaArgentina.Microservices.Controllers
@@ -81,7 +84,8 @@ namespace CienciaArgentina.Microservices.Controllers
             var result = await _accountRepository.Add(user, model.Password);
 
             // Let Identity handle the possible error messages output
-            return result.Succeeded ? BuildToken(model) : BadRequest(result.Errors);
+            //return result.Succeeded ? BuildToken(model) : BadRequest(result.Errors);
+            return BadRequest(result.Errors);
         }
 
         [HttpPost]
@@ -191,6 +195,23 @@ namespace CienciaArgentina.Microservices.Controllers
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        [HttpPost]
+        [Route("Mail")]
+        public async Task<IActionResult> Mail()
+        {
+            var mailMessage = new MailMessage
+            {
+                From = "lucas@cienciaargentina.com",
+                To = "lucaslopezf@gmail.com",
+                Body = "Hola test",
+                Subject = "¡Hola"
+            };
+
+            await AzureQueue.EnqueueAsync(mailMessage);
+
+            return Ok("Ok");
         }
     }
 }
