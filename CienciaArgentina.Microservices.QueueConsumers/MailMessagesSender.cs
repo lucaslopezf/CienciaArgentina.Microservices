@@ -15,7 +15,7 @@ namespace CienciaArgentina.Microservices.QueueConsumers
     {
         public static readonly TimeSpan EstimatedTime = TimeSpan.FromSeconds(5);
 
-        public MailsMessagesSender(string mailServer, string userName, string password, string port)
+        public MailsMessagesSender(string mailServer, string port, string userName, string password)
         {
             MailServer = $"{mailServer}:{port}";
             UserName = userName;
