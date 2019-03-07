@@ -15,21 +15,23 @@ namespace CienciaArgentina.Microservices.QueueConsumers
     {
         public static readonly TimeSpan EstimatedTime = TimeSpan.FromSeconds(5);
 
+        public MailsMessagesSender(string mailServer, string userName, string password, string port)
+        {
+            MailServer = $"{mailServer}:{port}";
+            UserName = userName;
+            Password = password;
+        }
+        private string MailServer { get; }
+        private string UserName { get; }
+        private string Password { get; }
+
         public TimeSpan? EstimatedTimeToProcessMessageBlock { get; }
 
         public async Task ProcessMessages(QueueMessage<MailMessage> message)
         {
             try
             {
-                //var mailserver = ConfigurationManager.AppSettings["Mail.Server"];
-                //var username = ConfigurationManager.AppSettings["Mail.Username"];
-                //var password = ConfigurationManager.AppSettings["Mail.Password"];
-
-                var mailserver = "smtp-relay.sendinblue.com:587";
-                var username = "lucas@cienciaargentina.com";
-                var password = "hEMFQpfsA9gIrxD0";
-
-                var mailSender = new GeneralMailSender(mailserver, username, password);
+                var mailSender = new GeneralMailSender(MailServer, UserName, Password);
                 var mailMessage = new System.Net.Mail.MailMessage(
                     message.Data.From,
                     message.Data.To,
