@@ -2,6 +2,7 @@
 using System.Text;
 using AutoMapper;
 using CienciaArgentina.Microservices.AutoMapper;
+using CienciaArgentina.Microservices.Commons.Helpers.OAuth2;
 using CienciaArgentina.Microservices.Dtos;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models;
@@ -59,7 +60,7 @@ namespace CienciaArgentina.Microservices
                     {
                         //options.Lockout.MaxFailedAccessAttempts = 5;
                         //options.SignIn.RequireConfirmedEmail = true;
-                        //options.User.RequireUniqueEmail = true;
+                        options.User.RequireUniqueEmail = true;
                     })
                 .AddEntityFrameworkStores<CienciaArgentinaDbContext>()
                 .AddDefaultTokenProviders();
@@ -120,6 +121,9 @@ namespace CienciaArgentina.Microservices
             var mappingConfig = new MapperConfiguration(map => { map.AddProfile(new MappingProfile()); });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            services.AddAuthentication()
+                .AddGoogle(OAuth2Helper.GoogleOAuth2Options);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -146,7 +150,7 @@ namespace CienciaArgentina.Microservices
             app.UseAuthentication();
 
             //Initialize storage
-            FullStorageInitializer.Initialize();
+            //FullStorageInitializer.Initialize();
 
             //ExceptionHandler middleware
             app.UseExceptionMiddleware();
