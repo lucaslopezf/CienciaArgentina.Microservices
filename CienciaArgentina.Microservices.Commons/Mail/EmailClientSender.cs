@@ -16,7 +16,7 @@ namespace CienciaArgentina.Microservices.Commons.Mail
             string template = "Mail.Templates.HelloWorldTemplate";
 
             RazorParser renderer = new RazorParser(typeof(EmailClient).Assembly);
-            var body = renderer.UsingTemplateFromEmbedded(template,
+            var body = await renderer.UsingTemplateFromEmbedded(template,
                 new LogDto { Message = name });
 
             await SendEmailAsync(email, "Email Subject", body);

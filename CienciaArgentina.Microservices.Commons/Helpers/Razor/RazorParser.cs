@@ -13,15 +13,16 @@ namespace CienciaArgentina.Microservices.Commons.Helpers.Razor
             this._assembly = assembly;
         }
 
-        public string Parse<T>(string template, T model)
+        public async Task<string> Parse<T>(string template, T model)
         {
-            return ParseAsync(template, model).GetAwaiter().GetResult();
+            //return ParseAsync(template, model).GetAwaiter().GetResult();
+            return await ParseAsync(template, model);
         }
 
-        public string UsingTemplateFromEmbedded<T>(string path, T model)
+        public async Task<string> UsingTemplateFromEmbedded<T>(string path, T model)
         {
             var template = EmbeddedResourceHelper.GetResourceAsString(_assembly, GenerateFileAssemblyPath(path, _assembly));
-            var result = Parse(template, model);
+            var result = await Parse(template, model);
 
             return result;
         }
