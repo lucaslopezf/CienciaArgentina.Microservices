@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using RazorLight;
 
-namespace CienciaArgentina.Microservices.Commons.Helpers
+namespace CienciaArgentina.Microservices.Commons.Helpers.Razor
 {
     public class RazorParser
     {
@@ -39,7 +37,7 @@ namespace CienciaArgentina.Microservices.Commons.Helpers
         string GenerateFileAssemblyPath(string template, Assembly assembly)
         {
             string assemblyName = assembly.GetName().Name;
-            return string.Format("{0}.Mail.{1}.{2}", assemblyName, template, "cshtml");
+            return string.Format("{0}.{1}.{2}", assemblyName, template, "cshtml");
         }
     }
 }

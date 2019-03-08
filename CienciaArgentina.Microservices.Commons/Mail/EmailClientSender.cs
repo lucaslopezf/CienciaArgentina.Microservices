@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Commons.Dtos;
 using CienciaArgentina.Microservices.Commons.Helpers;
+using CienciaArgentina.Microservices.Commons.Helpers.Razor;
 using CienciaArgentina.Microservices.Commons.Mail.Interfaces;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;

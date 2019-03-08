@@ -194,9 +194,9 @@ namespace CienciaArgentina.Microservices.Controllers
 
         [HttpPost]
         [Route("Mail")]
-        public async Task<IActionResult> Mail()
+        public async Task<IActionResult> Mail(string email,string name)
         {
-            await _emailClientSender.SendHelloWorldEmail("lucaslopezf@gmail.com", "Lucas");
+            await _emailClientSender.SendHelloWorldEmail(email, name);
 
             return Ok("Ok");
         }
