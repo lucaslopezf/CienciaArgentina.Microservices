@@ -150,7 +150,7 @@ namespace CienciaArgentina.Microservices
             app.UseAuthentication();
 
             //Initialize storage
-            //FullStorageInitializer.Initialize();
+            FullStorageInitializer.Initialize();
 
             //ExceptionHandler middleware
             app.UseExceptionMiddleware();
