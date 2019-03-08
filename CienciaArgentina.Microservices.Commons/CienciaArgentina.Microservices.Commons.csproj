@@ -31,9 +31,11 @@
 
    <ItemGroup>
     <None Remove="Mail\Templates\HelloWorldTemplate.cshtml" />
+    <None Remove="Mail\Templates\SendConfirmationAccountTemplate.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Mail\Templates\SendConfirmationAccountTemplate.cshtml" />
     <EmbeddedResource Include="Mail\Templates\HelloWorldTemplate.cshtml" />
   </ItemGroup>
 

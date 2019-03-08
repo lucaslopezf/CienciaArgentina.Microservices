@@ -73,6 +73,8 @@ namespace CienciaArgentina.Microservices.Controllers
             var user = new ApplicationUser
             {
                 UserName = model.UserName,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber
             };
 
             var result = await _userBusiness.Add(user, model.Password);

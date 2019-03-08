@@ -4,6 +4,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Business.Interfaces;
+using CienciaArgentina.Microservices.Commons.Mail.Interfaces;
+using CienciaArgentina.Microservices.Commons.Mail.ModelTemplates;
 using CienciaArgentina.Microservices.Entities.BusinessModel;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Repositories.IRepository;
@@ -21,11 +23,13 @@ namespace CienciaArgentina.Microservices.Business.Implementation
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAccountRepository _accountRepository;
+        private readonly IEmailClientSender _emailClientSender;
 
-        public UserBusiness(SignInManager<ApplicationUser> signInManager, IAccountRepository accountRepository)
+        public UserBusiness(SignInManager<ApplicationUser> signInManager, IAccountRepository accountRepository, IEmailClientSender emailClientSender)
         {
             _accountRepository = accountRepository;
             _signInManager = signInManager;
+            _emailClientSender = emailClientSender;
         }
 
         public async Task<LoginModel> Add(ApplicationUser user, string password)
@@ -56,13 +60,16 @@ namespace CienciaArgentina.Microservices.Business.Implementation
                 if (!await _accountRepository.IsEmailConfirmedAsync(user))
                 {
                     await SendEmailConfirmationAsync(user);
+                    response.Success = false;
+                    response.Message = "Por favor debe confirmar la cuenta. Revisa el correo electronico.";
                 }
-                response.JwtToken = BuildToken(user.UserName,user.Email);
+                else
+                    response.JwtToken = BuildToken(user.UserName,user.Email);
             }
             else
             {
                 //TODO: Configuration Message
-                response.Message = "Por favor revisar el correo electronico.";
+                response.Message = "Contraseña incorrecta";
             }
 
             return response;
@@ -71,15 +78,8 @@ namespace CienciaArgentina.Microservices.Business.Implementation
         public async Task SendEmailConfirmationAsync(ApplicationUser user)
         {
             var tokenConfirmation = await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
-
-            var mailMessage = new MailMessage
-            {
-                From = "lucas@cienciaargentina.com",
-                To = user.Email,
-                Body = "Hola test",
-                Subject = "Confirmación de usuario"
-            };
-            await AzureQueue.EnqueueAsync(mailMessage);
+            var sendConfirmationModel = new SendConfirmationAccountModel(user.UserName, "", tokenConfirmation);
+            await _emailClientSender.SendConfirmationAccounEmail(user.Email, sendConfirmationModel);
         }
 
         private JwtToken BuildToken(string userName, string email)

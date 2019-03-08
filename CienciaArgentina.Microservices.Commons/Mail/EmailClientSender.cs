@@ -3,6 +3,7 @@ using CienciaArgentina.Microservices.Commons.Dtos;
 using CienciaArgentina.Microservices.Commons.Helpers;
 using CienciaArgentina.Microservices.Commons.Helpers.Razor;
 using CienciaArgentina.Microservices.Commons.Mail.Interfaces;
+using CienciaArgentina.Microservices.Commons.Mail.ModelTemplates;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
 
@@ -22,6 +23,16 @@ namespace CienciaArgentina.Microservices.Commons.Mail
             await SendEmailAsync(email, "Email Subject", body);
         }
 
+        public async Task SendConfirmationAccounEmail(string email,SendConfirmationAccountModel model)
+        {
+            string template = "Mail.Templates.SendConfirmationAccountTemplate";
+
+            RazorParser renderer = new RazorParser(typeof(EmailClient).Assembly);
+            var body = await renderer.UsingTemplateFromEmbedded(template,model);
+
+            await SendEmailAsync(email, "Confirmacion de cuenta", body);
+        }
+        
         private static async Task SendEmailAsync(string email, string subject, string message,string fromEmail = "no-reply@cienciaargentina.com.ar")
         {
             var mailMessage = new MailMessage
