@@ -18,8 +18,6 @@ namespace CienciaArgentina.Microservices.Worker
     {
         // Please set the following connection strings in app.config for this WebJob to run:
         // AzureWebJobsDashboard and AzureWebJobsStorage
-        public static IConfigurationRoot configuration;
-
         public static async Task Main(string[] args)
         {
             var builder = new HostBuilder()

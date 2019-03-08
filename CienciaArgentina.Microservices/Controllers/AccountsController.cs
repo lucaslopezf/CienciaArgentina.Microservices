@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using CienciaArgentina.Microservices.Business.Interfaces;
-using CienciaArgentina.Microservices.Dtos;
+using CienciaArgentina.Microservices.Commons.Dtos;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 using CienciaArgentina.Microservices.Repositories.IRepository;
@@ -24,14 +24,14 @@ namespace CienciaArgentina.Microservices.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAccountRepository _accountRepository;
-        private readonly IConfiguration _configuration;
+        private readonly IEmailClientSender _emailClientSender;
         private readonly IUserBusiness _userBusiness;
 
-        public AccountsController(SignInManager<ApplicationUser> signInManager, IAccountRepository accountRepository, IUserBusiness userBusiness, IConfiguration configuration)
+        public AccountsController(SignInManager<ApplicationUser> signInManager, IAccountRepository accountRepository, IUserBusiness userBusiness, IEmailClientSender emailClientSender)
         {
             _accountRepository = accountRepository;
             _signInManager = signInManager;
-            _configuration = configuration;
+            _emailClientSender = emailClientSender;
             _userBusiness = userBusiness;
         }
 
@@ -195,15 +195,7 @@ namespace CienciaArgentina.Microservices.Controllers
         [Route("Mail")]
         public async Task<IActionResult> Mail()
         {
-            var mailMessage = new MailMessage
-            {
-                From = "lucas@cienciaargentina.com",
-                To = "lucaslopezf@gmail.com",
-                Body = "Hola test",
-                Subject = "¡Hola"
-            };
-
-            await AzureQueue.EnqueueAsync(mailMessage);
+            await _emailClientSender.SendHelloWorldEmail("lucaslopezf@gmail.com", "Lucas");
 
             return Ok("Ok");
         }

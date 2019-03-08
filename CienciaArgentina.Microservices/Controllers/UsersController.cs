@@ -6,7 +6,7 @@ using System.Transactions;
 using AutoMapper;
 using CienciaArgentina.Microservices.Business.Application.Papers;
 using CienciaArgentina.Microservices.Commons.Helpers.Date;
-using CienciaArgentina.Microservices.Dtos;
+using CienciaArgentina.Microservices.Commons.Dtos;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.Models.User;
 using CienciaArgentina.Microservices.Repositories.IUoW;

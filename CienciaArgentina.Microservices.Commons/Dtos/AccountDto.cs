@@ -1,4 +1,4 @@
-﻿namespace CienciaArgentina.Microservices.Dtos
+﻿namespace CienciaArgentina.Microservices.Commons.Dtos
 {
     public class AccountDto
     {

@@ -1,7 +1,8 @@
 ﻿using System;
+using CienciaArgentina.Microservices.Commons.Dtos;
 using CienciaArgentina.Microservices.Entities;
 
-namespace CienciaArgentina.Microservices.Dtos
+namespace CienciaArgentina.Microservices.Commons.Dtos
 {
     public class UserProfileDto
     {

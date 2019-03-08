@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using CienciaArgentina.Microservices.Dtos.Organization;
+using CienciaArgentina.Microservices.Commons.Dtos.Organization;
 using CienciaArgentina.Microservices.Entities;
 
-namespace CienciaArgentina.Microservices.Dtos
+namespace CienciaArgentina.Microservices.Commons.Dtos
 {
     public class UserOrganizationDto
     {

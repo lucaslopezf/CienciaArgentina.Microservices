@@ -8,8 +8,8 @@ using CienciaArgentina.Microservices.Entities.Models.User;
 using CienciaArgentina.Microservices.Entities.Models.Commons;
 using CienciaArgentina.Microservices.Entities.Models.Organizations;
 using CienciaArgentina.Microservices.Entities.Models.Addresses;
-using CienciaArgentina.Microservices.Dtos;
-using CienciaArgentina.Microservices.Dtos.Organization;
+using CienciaArgentina.Microservices.Commons.Dtos;
+using CienciaArgentina.Microservices.Commons.Dtos.Organization;
 
 namespace CienciaArgentina.Microservices.AutoMapper
 {

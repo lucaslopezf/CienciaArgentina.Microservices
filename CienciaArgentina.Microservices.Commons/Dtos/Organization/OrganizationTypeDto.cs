@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CienciaArgentina.Microservices.Dtos.Organization
+namespace CienciaArgentina.Microservices.Commons.Dtos.Organization
 {
     public class OrganizationTypeDto
     {

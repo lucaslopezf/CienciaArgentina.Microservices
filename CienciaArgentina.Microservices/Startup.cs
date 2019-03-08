@@ -2,7 +2,7 @@
 using System.Text;
 using AutoMapper;
 using CienciaArgentina.Microservices.AutoMapper;
-using CienciaArgentina.Microservices.Dtos;
+using CienciaArgentina.Microservices.Commons.Dtos;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models;
 using CienciaArgentina.Microservices.Entities.Models.Addresses;

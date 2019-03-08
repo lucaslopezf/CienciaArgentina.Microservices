@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CienciaArgentina.Microservices.Dtos
+namespace CienciaArgentina.Microservices.Commons.Dtos
 {
     public class AddressDto
     {public string StreetName { get; set; }

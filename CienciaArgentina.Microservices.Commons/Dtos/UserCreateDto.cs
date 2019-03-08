@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CienciaArgentina.Microservices.Dtos
+namespace CienciaArgentina.Microservices.Commons.Dtos
 {
     public class UserCreateDto
     {
