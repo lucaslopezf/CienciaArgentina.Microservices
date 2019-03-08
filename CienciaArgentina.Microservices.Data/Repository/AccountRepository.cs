@@ -39,9 +39,15 @@ namespace CienciaArgentina.Microservices.Repositories.Repository
                 .Take(userQueryParameters.PageCount);
         }
 
-        public async Task<ApplicationUser> Get(string email)
+        public async Task<ApplicationUser> GetByEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
+            return user;
+        }
+
+        public async Task<ApplicationUser> Get(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
             return user;
         }
 
@@ -71,6 +77,24 @@ namespace CienciaArgentina.Microservices.Repositories.Repository
 
             var result = await Update(user);
             return result;
+        }
+
+        public async Task<bool> IsEmailConfirmedAsync(ApplicationUser user)
+        {
+            //var user = await this.Get(userName);
+
+            //if (user == null) return false;
+
+            return await _userManager.IsEmailConfirmedAsync(user);
+        }
+
+        public async Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user)
+        {
+            //var user = await this.Get(userName);
+
+            //if (user == null) return string.Empty;
+
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
 
         public int Count()

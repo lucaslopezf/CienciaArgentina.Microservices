@@ -11,7 +11,9 @@ namespace CienciaArgentina.Microservices.Repositories.IRepository
     {
         IQueryable<ApplicationUser> Get(QueryParameters userQueryParameters);
 
-        Task<ApplicationUser> Get(string email);
+        Task<ApplicationUser> Get(string userName);
+
+        Task<ApplicationUser> GetByEmail(string email);
 
         Task<IdentityResult> Add(ApplicationUser user, string password);
 
@@ -21,6 +23,9 @@ namespace CienciaArgentina.Microservices.Repositories.IRepository
 
         Task<IdentityResult> Delete(ApplicationUser user);
 
+        Task<bool> IsEmailConfirmedAsync(ApplicationUser user);
+
+        Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user); 
         int Count();
     }
 }

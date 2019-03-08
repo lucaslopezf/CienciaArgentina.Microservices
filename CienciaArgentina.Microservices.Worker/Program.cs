@@ -13,10 +13,13 @@ namespace CienciaArgentina.Microservices.Worker
 
     //Example: https://github.com/Azure/azure-webjobs-sdk/blob/dev/sample/SampleHost/Program.cs
     //Example2: https://jmezach.github.io/2017/10/29/having-fun-with-the-.net-core-generic-host/
+    //Example 
     class Program
     {
         // Please set the following connection strings in app.config for this WebJob to run:
         // AzureWebJobsDashboard and AzureWebJobsStorage
+        public static IConfigurationRoot configuration;
+
         public static async Task Main(string[] args)
         {
             var builder = new HostBuilder()
@@ -31,7 +34,11 @@ namespace CienciaArgentina.Microservices.Worker
                     config.AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true);
                     config.AddEnvironmentVariables();
                 })
-                //.UseEnvironment("Development")
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddOptions();
+                    services.Configure<EmailSettings>(hostContext.Configuration.GetSection("EmailSettings"));
+                })
                 .ConfigureWebJobs(b =>
                 {
                     b.AddAzureStorageCoreServices()

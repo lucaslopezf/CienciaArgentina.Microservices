@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using CienciaArgentina.Microservices.Business.Interfaces;
 using CienciaArgentina.Microservices.Dtos;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 using CienciaArgentina.Microservices.Repositories.IRepository;
-using Microsoft.AspNetCore.Http;
+using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
+using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -27,15 +24,15 @@ namespace CienciaArgentina.Microservices.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAccountRepository _accountRepository;
-        private readonly ILogger<AccountsController> _logger;
         private readonly IConfiguration _configuration;
+        private readonly IUserBusiness _userBusiness;
 
-        public AccountsController(SignInManager<ApplicationUser> signInManager, IAccountRepository accountRepository, ILogger<AccountsController> logger, IConfiguration configuration)
+        public AccountsController(SignInManager<ApplicationUser> signInManager, IAccountRepository accountRepository, IUserBusiness userBusiness, IConfiguration configuration)
         {
             _accountRepository = accountRepository;
-            _logger = logger;
             _signInManager = signInManager;
             _configuration = configuration;
+            _userBusiness = userBusiness;
         }
 
         //GET api/<controller>
@@ -77,10 +74,12 @@ namespace CienciaArgentina.Microservices.Controllers
                 UserName = model.UserName,
             };
 
-            var result = await _accountRepository.Add(user, model.Password);
+            var result = await _userBusiness.Add(user, model.Password);
 
-            // Let Identity handle the possible error messages output
-            return result.Succeeded ? BuildToken(model) : BadRequest(result.Errors);
+            if(!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(model);
         }
 
         [HttpPost]
@@ -175,14 +174,14 @@ namespace CienciaArgentina.Microservices.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(userInfo.UserName, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
-                if (result.Succeeded)
+                var result = await _userBusiness.Login(userInfo.UserName, userInfo.Password);
+                if (result.Success)
                 {
-                    return BuildToken(userInfo);
+                    return Ok(result.JwtToken);
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, result.Message);
                     return BadRequest(ModelState);
                 }
             }
@@ -192,35 +191,21 @@ namespace CienciaArgentina.Microservices.Controllers
             }
         }
 
-        //TODO: BuildToken debe ir en otro lugar?
-        private IActionResult BuildToken(UserCreateDto userInfo)
+        [HttpPost]
+        [Route("Mail")]
+        public async Task<IActionResult> Mail()
         {
-            var claims = new[]
+            var mailMessage = new MailMessage
             {
-                new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.UserName),
-                new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
-                //new Claim("miValor", "Lo que yo quiera"),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                From = "lucas@cienciaargentina.com",
+                To = "lucaslopezf@gmail.com",
+                Body = "Hola test",
+                Subject = "¡Hola"
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["ApiAuthJWT:SecretKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            await AzureQueue.EnqueueAsync(mailMessage);
 
-            var expiration = DateTime.UtcNow.AddHours(1);
-
-            var token = new JwtSecurityToken(
-               issuer: _configuration["ApiAuthJWT:Issuer"],
-               audience: _configuration["ApiAuthJWT:Audience"],
-               claims: claims,
-               expires: expiration,
-               notBefore: DateTime.UtcNow,
-               signingCredentials: creds);
-
-            return Ok(new
-            {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration
-            });
+            return Ok("Ok");
         }
     }
 }
