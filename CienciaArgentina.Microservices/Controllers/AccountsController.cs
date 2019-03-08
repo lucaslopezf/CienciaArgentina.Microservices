@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CienciaArgentina.Microservices.Business.Interfaces;
 using CienciaArgentina.Microservices.Commons.Dtos;
+using CienciaArgentina.Microservices.Commons.Mail.Interfaces;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
 using CienciaArgentina.Microservices.Repositories.IRepository;

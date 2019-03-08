@@ -1,9 +1,8 @@
-﻿using RazorLight.Razor;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using RazorLight.Razor;
 
-namespace CienciaArgentina.Microservices.Commons.Helpers
+namespace CienciaArgentina.Microservices.Commons.Helpers.Razor
 {
     public class InMemoryRazorLightProject : RazorLightProject
     {

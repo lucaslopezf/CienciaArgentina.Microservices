@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using CienciaArgentina.Microservices.Business.Interfaces;
-using CienciaArgentina.Microservices.Commons.Helpers;
-using CienciaArgentina.Microservices.Commons.Mail;
+﻿using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Commons.Dtos;
+using CienciaArgentina.Microservices.Commons.Helpers;
+using CienciaArgentina.Microservices.Commons.Mail.Interfaces;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
-using Microsoft.Extensions.Options;
 
-namespace CienciaArgentina.Microservices.Business.Implementation
+namespace CienciaArgentina.Microservices.Commons.Mail
 {
     public class EmailClientSender : IEmailClientSender
     {

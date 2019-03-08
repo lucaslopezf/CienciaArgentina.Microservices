@@ -3,13 +3,7 @@ using System.Text;
 using AutoMapper;
 using CienciaArgentina.Microservices.AutoMapper;
 using CienciaArgentina.Microservices.Commons.Helpers.OAuth2;
-using CienciaArgentina.Microservices.Dtos;
 using CienciaArgentina.Microservices.Entities.Identity;
-using CienciaArgentina.Microservices.Entities.Models;
-using CienciaArgentina.Microservices.Entities.Models.Addresses;
-using CienciaArgentina.Microservices.Entities.Models.Commons;
-using CienciaArgentina.Microservices.Entities.Models.Organizations;
-using CienciaArgentina.Microservices.Entities.Models.User;
 using CienciaArgentina.Microservices.Middlewares;
 using CienciaArgentina.Microservices.Persistence;
 using CienciaArgentina.Microservices.Storage.Azure;
@@ -17,7 +11,6 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -28,7 +21,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
-using Scrutor;
 
 namespace CienciaArgentina.Microservices
 {
