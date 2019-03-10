@@ -84,6 +84,7 @@ namespace CienciaArgentina.Microservices.Business.Implementation
                 var tokenConfirmation = await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
                 var api = "api/Accounts/ConfirmationRegisterMail";
                 var url = $"{uri}{api}?email={user.Email}&token={tokenConfirmation}";
+                url = url.Replace("+", "%2B");
                 var sendConfirmationModel = new SendConfirmationAccountModel(user.UserName, "", url);
                 await _emailClientSender.SendConfirmationAccounEmail(user.Email, sendConfirmationModel);
         }

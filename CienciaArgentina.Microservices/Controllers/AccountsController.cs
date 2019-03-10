@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using AutoMapper;
 using CienciaArgentina.Microservices.Business.Interfaces;
 using CienciaArgentina.Microservices.Commons.Dtos;
@@ -204,7 +205,6 @@ namespace CienciaArgentina.Microservices.Controllers
         public async Task<IActionResult> ConfirmationRegisterMail(string email,string token)
         {
             var user = await _userManager.FindByEmailAsync(email);
-
             if (user == null) return NotFound("Usuario no encontrado");
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if(!result.Succeeded)
