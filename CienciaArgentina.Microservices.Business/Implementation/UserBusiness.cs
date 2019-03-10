@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Business.Interfaces;
@@ -32,7 +33,7 @@ namespace CienciaArgentina.Microservices.Business.Implementation
             _emailClientSender = emailClientSender;
         }
 
-        public async Task<LoginModel> Add(ApplicationUser user, string password)
+        public async Task<LoginModel> Add(ApplicationUser user, string password,string uri)
         {
             var result = await _accountRepository.Add(user, password);
             var response = new LoginModel
@@ -40,14 +41,17 @@ namespace CienciaArgentina.Microservices.Business.Implementation
                 Success = result.Succeeded
             };
             if (result.Succeeded)
+            {
                 response.JwtToken = BuildToken(user.UserName, user.Email);
+                await SendEmailConfirmationAsync(user, uri);
+            }
             else
                 response.Message = "Error al agregar el usuario";
 
             return response;
         }
 
-        public async Task<LoginModel> Login(string userName, string password)
+        public async Task<LoginModel> Login(string userName, string password,string uri)
         {
             var result = await _signInManager.PasswordSignInAsync(userName, password, isPersistent: false, lockoutOnFailure: false);
             var response = new LoginModel
@@ -59,7 +63,7 @@ namespace CienciaArgentina.Microservices.Business.Implementation
                 var user = await _accountRepository.Get(userName);
                 if (!await _accountRepository.IsEmailConfirmedAsync(user))
                 {
-                    await SendEmailConfirmationAsync(user);
+                    await SendEmailConfirmationAsync(user,uri);
                     response.Success = false;
                     response.Message = "Por favor debe confirmar la cuenta. Revisa el correo electronico.";
                 }
@@ -75,11 +79,13 @@ namespace CienciaArgentina.Microservices.Business.Implementation
             return response;
         }
 
-        public async Task SendEmailConfirmationAsync(ApplicationUser user)
+        public async Task SendEmailConfirmationAsync(ApplicationUser user,string uri)
         {
-            var tokenConfirmation = await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
-            var sendConfirmationModel = new SendConfirmationAccountModel(user.UserName, "", tokenConfirmation);
-            await _emailClientSender.SendConfirmationAccounEmail(user.Email, sendConfirmationModel);
+                var tokenConfirmation = await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
+                var api = "api/Accounts/ConfirmationRegisterMail";
+                var url = $"{uri}{api}?email={user.Email}&token={tokenConfirmation}";
+                var sendConfirmationModel = new SendConfirmationAccountModel(user.UserName, "", url);
+                await _emailClientSender.SendConfirmationAccounEmail(user.Email, sendConfirmationModel);
         }
 
         private JwtToken BuildToken(string userName, string email)

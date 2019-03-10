@@ -30,6 +30,7 @@ namespace CienciaArgentina.Microservices.Commons.Helpers.Razor
         async Task<string> ParseAsync<T>(string template, T model)
         {
             var project = new InMemoryRazorLightProject();
+            var asda = new RazorLightEngineBuilder();
             var engine = new EngineFactory().Create(project);
 
             return await engine.CompileRenderAsync<T>(Guid.NewGuid().ToString(), template, model);

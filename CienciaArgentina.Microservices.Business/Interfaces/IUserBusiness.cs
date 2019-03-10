@@ -9,11 +9,11 @@ namespace CienciaArgentina.Microservices.Business.Interfaces
     public interface IUserBusiness
     {
         //Task<UserData> GetUserById(int userId);
-        Task<LoginModel> Add(ApplicationUser user, string password);
+        Task<LoginModel> Add(ApplicationUser user, string password,string uri);
 
-        Task<LoginModel> Login(string userName,string password);
+        Task<LoginModel> Login(string userName,string password,string uri);
 
-        Task SendEmailConfirmationAsync(ApplicationUser user);
+        Task SendEmailConfirmationAsync(ApplicationUser user, string uri);
 
         //Task<UserData> AddUserAsync(UserData user);
     } 

@@ -11,6 +11,7 @@ using CienciaArgentina.Microservices.Entities.QueryParameters;
 using CienciaArgentina.Microservices.Repositories.IRepository;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -24,16 +25,18 @@ namespace CienciaArgentina.Microservices.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAccountRepository _accountRepository;
         private readonly IEmailClientSender _emailClientSender;
         private readonly IUserBusiness _userBusiness;
 
-        public AccountsController(SignInManager<ApplicationUser> signInManager, IAccountRepository accountRepository, IUserBusiness userBusiness, IEmailClientSender emailClientSender)
+        public AccountsController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IAccountRepository accountRepository, IUserBusiness userBusiness, IEmailClientSender emailClientSender)
         {
             _accountRepository = accountRepository;
             _signInManager = signInManager;
             _emailClientSender = emailClientSender;
             _userBusiness = userBusiness;
+            _userManager = userManager;
         }
 
         //GET api/<controller>
@@ -77,7 +80,8 @@ namespace CienciaArgentina.Microservices.Controllers
                 PhoneNumber = model.PhoneNumber
             };
 
-            var result = await _userBusiness.Add(user, model.Password);
+            var uri = UriHelper.BuildAbsolute(Request.Scheme, Request.Host);
+            var result = await _userBusiness.Add(user, model.Password,uri);
 
             if(!result.Success)
                 return BadRequest(result.Message);
@@ -177,7 +181,8 @@ namespace CienciaArgentina.Microservices.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _userBusiness.Login(userInfo.UserName, userInfo.Password);
+                var uri = UriHelper.BuildAbsolute(Request.Scheme, Request.Host);
+                var result = await _userBusiness.Login(userInfo.UserName, userInfo.Password,uri);
                 if (result.Success)
                 {
                     return Ok(result.JwtToken);
@@ -194,13 +199,18 @@ namespace CienciaArgentina.Microservices.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("Mail")]
-        public async Task<IActionResult> Mail(string email,string name)
+        [HttpGet]
+        [Route("ConfirmationRegisterMail")]
+        public async Task<IActionResult> ConfirmationRegisterMail(string email,string token)
         {
-            await _emailClientSender.SendHelloWorldEmail(email, name);
+            var user = await _userManager.FindByEmailAsync(email);
 
-            return Ok("Ok");
+            if (user == null) return NotFound("Usuario no encontrado");
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if(!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            return Ok("Usuario verificado");
         }
     }
 }
