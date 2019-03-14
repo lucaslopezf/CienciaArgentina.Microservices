@@ -6,6 +6,8 @@ using CienciaArgentina.Microservices.Commons.Helpers.OAuth2;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Middlewares;
 using CienciaArgentina.Microservices.Persistence;
+using CienciaArgentina.Microservices.Persistence.Interfaces;
+using CienciaArgentina.Microservices.Persistence.Redis;
 using CienciaArgentina.Microservices.Storage.Azure;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -108,6 +110,16 @@ namespace CienciaArgentina.Microservices
             // FluentValidator
             services.AddMvc().AddFluentValidation();
 
+            //Define cache
+            services.Configure<RedisConfiguration>(Configuration.GetSection("Redis"));
+
+            services.AddDistributedRedisCache(options =>
+            {
+                options.InstanceName = Configuration.GetValue<string>("Redis:Name");
+                options.Configuration = Configuration.GetValue<string>("Redis:Host");
+            });
+
+            services.AddSingleton<ICache, Redis>();
             // Mapper
             //Mapper DTO -> Models
             var mappingConfig = new MapperConfiguration(map => { map.AddProfile(new MappingProfile()); });
