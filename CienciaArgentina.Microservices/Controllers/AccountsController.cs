@@ -46,12 +46,12 @@ namespace CienciaArgentina.Microservices.Controllers
         {
             var allUsers = _accountRepository.Get(userQueryParameters).ToList();
 
-            var allUsersDto = allUsers.Select(x => Mapper.Map<UserCreateDto>(x));
+            //var allUsersDto = allUsers.Select(x => Mapper.Map<UserCreateDto>(x));
 
             Response.Headers.Add("X-Pagination",
                 JsonConvert.SerializeObject(new { totalCount = _accountRepository.Count() }));
 
-            return Ok(allUsersDto);
+            return Ok(allUsers);
         }
 
         //GET api/<controller>/5
