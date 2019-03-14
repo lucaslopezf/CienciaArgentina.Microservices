@@ -11,5 +11,7 @@ namespace CienciaArgentina.Microservices.Persistence.Redis
         public int Port { get; set; }
         public string Name { get; set; }
         public string DefaultDatabase { get; set; }
+
+        public string Password { get; set; }
     }
 }

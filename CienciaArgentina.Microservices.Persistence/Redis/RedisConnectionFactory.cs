@@ -19,13 +19,13 @@ namespace CienciaArgentina.Microservices.Persistence.Redis
             {
                 AbortOnConnectFail = false,
 
-                //Ssl = true,
+                Ssl = true,
                 //ConnectRetry = 3,
                 //ConnectTimeout = 5000,
                 //SyncTimeout = 5000,
-                DefaultDatabase = Convert.ToInt32(redis.Value.DefaultDatabase),
+                //DefaultDatabase = Convert.ToInt32(redis.Value.DefaultDatabase),
                 EndPoints = { { redis.Value.Host, redis.Value.Port } },
-                //Password = myPassword
+                Password = redis.Value.Password
             };
             this._connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(connectionMultiplexerOptions));
             //this._connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(redis.Value.Host));
