@@ -99,6 +99,7 @@ namespace CienciaArgentina.Microservices
             });
 
             services.AddCors();
+            
             //Config MVC
             services.AddMvc(config =>
                 {
@@ -140,6 +141,8 @@ namespace CienciaArgentina.Microservices
             app.UseHttpsRedirection();
             app.UseApiVersioning();
             app.UseSwagger();
+            app.UseCors(builder =>
+                builder.WithOrigins(Configuration.GetValue<string>("Cors:Whitelist")));
 
             //TODO: Get url and name from appsettings
             app.UseSwaggerUI(config =>
