@@ -5,10 +5,11 @@ using System.Text;
 
 namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
 {
-    public class JobOfferDescriptionTag : BaseModel
+    public class JobOfferTag : BaseModel
     {
         [Key]
         public int Id { get; set; }
+        public JobOffer JobOffer { get; set; }
         public Tag Tag { get; set; }
     }
 }

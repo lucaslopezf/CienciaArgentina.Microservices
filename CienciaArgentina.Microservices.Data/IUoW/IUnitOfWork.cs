@@ -10,7 +10,7 @@ namespace CienciaArgentina.Microservices.Repositories.IUoW
     public interface IUnitOfWork
     {
         //Repositories
-        IGenericRepository<T> Repository<T>() where T : BaseModel;
+        IGenericRepository<T> Repository<T>();
 
         ILogRepository LogRepository { get; }
 

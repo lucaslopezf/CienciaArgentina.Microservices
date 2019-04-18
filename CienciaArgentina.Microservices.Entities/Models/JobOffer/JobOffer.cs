@@ -17,6 +17,7 @@ namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
         //TODO: EmployerId
         public int EmployerId { get; set; }
         public string Description { get; set; }
+        public string Title { get; set; }
         public decimal Salary { get; set; }
         [Column(TypeName = "Date")]
         public DateTime MinBirthday { get; set; }
