@@ -1,15 +1,9 @@
 ﻿# Tests
 
-La carpeta de tests está dividida en:
-- Tests de Microservicios (MicroservicesTests)
-    - Unit Tests
-    - Component tests
-    - Integration tests
-    - Functional tests
-    - End-to-end
-- Tests globales de la aplicación
-    - Integration tests
-    - Functional tests
+La estructura de los test podría sería: 
+- Projecto
+	- Tipo de test
+		- Carpeta que agrupe test / Test
 
 ## Diferencias entre tipos de test
 
