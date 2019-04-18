@@ -10,6 +10,7 @@ using CienciaArgentina.Microservices.Entities.Models.Organizations;
 using CienciaArgentina.Microservices.Entities.Models.Addresses;
 using CienciaArgentina.Microservices.Commons.Dtos;
 using CienciaArgentina.Microservices.Commons.Dtos.Organization;
+using CienciaArgentina.Microservices.Entities.Models.JobOffer;
 
 namespace CienciaArgentina.Microservices.AutoMapper
 {
@@ -25,6 +26,7 @@ namespace CienciaArgentina.Microservices.AutoMapper
             CreateMap<OrganizationType, OrganizationTypeDto>().ReverseMap();
             CreateMap<Position, PositionDto>().ReverseMap();
             CreateMap<UserOrganization, UserOrganizationDto>().ReverseMap();
+            CreateMap<JobOffer, JobOfferDto>().ReverseMap();
         }
     }
 }
