@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+//using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Policy;
 using System.Text;
@@ -55,11 +56,6 @@ namespace CienciaArgentina.Microservices.Business.Implementation
             return response;
         }
 
-        public Task<LoginModel> Login(string userName, string password, string uri)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<LoginModel> Login(string userName, string password,string uri, bool isPersistent = false, bool lockoutOnFailure = false)
         {
             var result = await _signInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure);
@@ -68,13 +64,13 @@ namespace CienciaArgentina.Microservices.Business.Implementation
             if (result.Succeeded)
             {
                 var user = await _accountRepository.Get(userName);
-                if (!await _accountRepository.IsEmailConfirmedAsync(user))
-                {
-                    await SendEmailConfirmationAsync(user,uri);
-                    loginModel.Response.Success = false;
-                    loginModel.AddError(AppErrors.EmailNotConfirmed);
-                }
-                else
+                //if (!await _accountRepository.IsEmailConfirmedAsync(user))
+                //{
+                //    await SendEmailConfirmationAsync(user, uri);
+                //    loginModel.Response.Success = false;
+                //    loginModel.AddError(AppErrors.EmailNotConfirmed);
+                //}
+                //else
                     loginModel.JwtToken = BuildToken(user.UserName,user.Email);
             }
             else
