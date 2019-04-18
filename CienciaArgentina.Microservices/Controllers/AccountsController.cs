@@ -60,6 +60,7 @@ namespace CienciaArgentina.Microservices.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Get(string id)
         {
+            throw new Exception("dada");
             var user = await _accountRepository.Get(id);
 
             if (user == null)

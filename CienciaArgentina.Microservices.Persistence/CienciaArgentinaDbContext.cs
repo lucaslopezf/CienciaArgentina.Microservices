@@ -40,7 +40,7 @@ namespace CienciaArgentina.Microservices.Persistence
         public DbSet<JobReferral> JobReferrals { get; set; }
         public DbSet<JobOfferCandidateReferral> JobOfferCandidateReferrals { get; set; }
         public DbSet<JobOfferCandidate> JobOfferCandidates { get; set; }
-        public DbSet<JobOfferDescriptionTag> JobOfferDescriptionTags { get; set; }
+        //public DbSet<JobOfferDescriptionTag> JobOfferDescriptionTags { get; set; }
         public DbSet<JobType> JobTypes { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<JobOfferUserLanguajeKnoweldge> JobOfferUserLanguajeKnoweldge { get; set; }
