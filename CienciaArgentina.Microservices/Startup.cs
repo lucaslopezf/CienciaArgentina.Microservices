@@ -105,6 +105,8 @@ namespace CienciaArgentina.Microservices
                 loggingBuilder.AddDebug();
             });
 
+            services.AddCors();
+            
             //Config MVC
             services.AddMvc(config =>
                 {
@@ -112,10 +114,8 @@ namespace CienciaArgentina.Microservices
                     config.OutputFormatters.Add(new XmlSerializerOutputFormatter());
                     config.InputFormatters.Add(new XmlSerializerInputFormatter(config));
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            // FluentValidator
-            services.AddMvc().AddFluentValidation();
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddFluentValidation();
 
             //Define cache
             services.Configure<RedisConfiguration>(Configuration.GetSection("Redis"));
@@ -160,6 +160,8 @@ namespace CienciaArgentina.Microservices
             app.UseHttpsRedirection();
             app.UseApiVersioning();
             app.UseSwagger();
+            app.UseCors(builder =>
+                builder.WithOrigins(Configuration.GetValue<string>("Cors:Whitelist")));
 
             //TODO: Get url and name from appsettings
             app.UseSwaggerUI(config =>
