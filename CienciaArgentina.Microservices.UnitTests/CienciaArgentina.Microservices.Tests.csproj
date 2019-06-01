@@ -7,24 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ApplicationTest\**" />
+    <Compile Remove="MicroservicesTest\**" />
+    <EmbeddedResource Remove="ApplicationTest\**" />
+    <EmbeddedResource Remove="MicroservicesTest\**" />
+    <None Remove="ApplicationTest\**" />
+    <None Remove="MicroservicesTest\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="Moq" Version="4.10.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ApplicationTest\IntegrationTests\" />
-    <Folder Include="ApplicationTest\FunctionalTests\" />
-    <Folder Include="ApplicationTest\End-To-EndTests\" />
-    <Folder Include="BusinessTest\UnitTests\" />
-    <Folder Include="MicroservicesTest\ComponentTests\" />
-    <Folder Include="MicroservicesTest\IntegrationTests\" />
-    <Folder Include="MicroservicesTest\FunctionalTests\" />
-    <Folder Include="MicroservicesTest\End-To-EndTests\" />
-    <Folder Include="MicroservicesTest\UnitTests\" />
   </ItemGroup>
 
   <ItemGroup>

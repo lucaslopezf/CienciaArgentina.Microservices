@@ -11,7 +11,7 @@ namespace CienciaArgentina.Microservices.Business.Interfaces
         //Task<UserData> GetUserById(int userId);
         Task<LoginModel> Add(ApplicationUser user, string password,string uri);
 
-        Task<LoginModel> Login(string userName,string password,string uri);
+        Task<LoginModel> Login(string userName, string password, string uri, bool isPersistent = false, bool lockoutOnFailure = false);
 
         Task SendEmailConfirmationAsync(ApplicationUser user, string uri);
 

@@ -1,31 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CienciaArgentina.Microservices.Entities.Identity;
+using System.Text;
 using CienciaArgentina.Microservices.Entities.Models.Addresses;
 using CienciaArgentina.Microservices.Entities.Models.User;
 
-namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
+namespace CienciaArgentina.Microservices.Commons.Dtos
 {
-    public class JobOffer : BaseModel
+    public class JobOfferDto
     {
-        [Key]
-        public int Id { get; set; }
-
-        //TODO: EmployerId
         public int EmployerId { get; set; }
         public string Description { get; set; }
-        public string Title { get; set; }
         public decimal Salary { get; set; }
         [Column(TypeName = "Date")]
         public DateTime MinBirthday { get; set; }
         [Column(TypeName = "Date")]
         public DateTime MaxBirthday { get; set; }
-        public Address Address { get; set; }
+        public int Address { get; set; }
         public bool Experience { get; set; }
-        public JobType JobType { get; set; }
+        public int JobType { get; set; }
         public string AcademicRequirements { get; set; }
         public string ProjectDescription { get; set; }
         public string ResearchTopics { get; set; }
@@ -36,9 +29,5 @@ namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
         public DateTime DateCareerFinish { get; set; } //Tiene que terminar la carrera antes de..
         public string ProjectManager { get; set; } //Responsable del proyecto
         public string ContactEmail { get; set; }
-
-        //For identity
-        public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
     }
 }
