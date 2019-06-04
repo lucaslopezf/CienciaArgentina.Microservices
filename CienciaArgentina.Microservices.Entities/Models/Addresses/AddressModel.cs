@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using System.Text;
+using Microsoft.CodeAnalysis;
 
 namespace CienciaArgentina.Microservices.Entities.Models.Addresses
 {
@@ -15,6 +16,8 @@ namespace CienciaArgentina.Microservices.Entities.Models.Addresses
         public string ZipCode { get; set; }
         public string Department { get; set; }
         public string Additionals { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         public Locality Locality { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.Models.Addresses;
+using CienciaArgentina.Microservices.Entities.Models.Organizations;
 using CienciaArgentina.Microservices.Entities.Models.User;
 
 namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
@@ -14,20 +15,14 @@ namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
         [Key]
         public int Id { get; set; }
 
-        //TODO: EmployerId
-        public int EmployerId { get; set; }
+        public Department Department { get; set; }
         public string Description { get; set; }
         public string Title { get; set; }
         public decimal Salary { get; set; }
-        [Column(TypeName = "Date")]
-        public DateTime MinBirthday { get; set; }
-        [Column(TypeName = "Date")]
-        public DateTime MaxBirthday { get; set; }
-        public Address Address { get; set; }
-        public bool Experience { get; set; }
+        //public Address Address { get; set; }
+        public bool Experience { get; set; } //TODO: Enum
         public JobType JobType { get; set; }
         public string AcademicRequirements { get; set; }
-        public string ProjectDescription { get; set; }
         public string ResearchTopics { get; set; }
         public string ExperimentalModel { get; set; }
         public DateTime DurationOffer { get; set; }
@@ -36,9 +31,10 @@ namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
         public DateTime DateCareerFinish { get; set; } //Tiene que terminar la carrera antes de..
         public string ProjectManager { get; set; } //Responsable del proyecto
         public string ContactEmail { get; set; }
+        //public List<Tag> JobTags { get; set; }
 
-        //For identity
-        public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        //For identity TODO: Por que hicimos esto? 
+        //public string UserId { get; set; }
+        //public ApplicationUser User { get; set; }
     }
 }

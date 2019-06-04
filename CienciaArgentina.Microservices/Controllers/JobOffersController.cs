@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CienciaArgentina.Microservices.Controllers
 {
+    [Route("api/[controller]")]
     public class JobOffersController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -32,28 +33,28 @@ namespace CienciaArgentina.Microservices.Controllers
 
         //GET api/<controller>/<jobOfferId>
         [HttpGet]
-        [Route("{jobOfferId}")]
-        public async Task<IActionResult> Get(int jobOfferId)
+        [Route("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            var job = await _unitOfWork.Repository<JobOffer>().GetByIdAsync(jobOfferId);
+            var job = await _unitOfWork.Repository<JobOffer>().GetByIdAsync(id);
             if (job == null) return NotFound();
             return Ok(job);
         }
 
         // POST api/<controller>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] JobOfferDto body)
+        public async Task<IActionResult> Post([FromBody] JobOfferDto model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = await _unitOfWork.Repository<JobOffer>().AddAsync(Mapper.Map<JobOffer>(body));
+            var result = await _unitOfWork.Repository<JobOffer>().AddAsync(Mapper.Map<JobOffer>(model));
             await _unitOfWork.Commit();
             return Ok(result.Id);
         }
 
         // PUT api/<controller>/<jobOfferId>
         [HttpPut]
-        [Route("{jobOfferId}")]
-        public async Task<IActionResult> Put(int jobOfferId, [FromBody] JobOfferDto body)
+        [Route("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] JobOfferDto body)
         {
             if (body == null)
                 return BadRequest();
@@ -61,7 +62,7 @@ namespace CienciaArgentina.Microservices.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var jobOffer = await _unitOfWork.Repository<JobOffer>().GetByIdAsync(jobOfferId);
+            var jobOffer = await _unitOfWork.Repository<JobOffer>().GetByIdAsync(id);
 
             if (jobOffer == null)
                 return NotFound();
@@ -73,13 +74,13 @@ namespace CienciaArgentina.Microservices.Controllers
 
         // PATCH api/<controller>/<jobOfferId>
         [HttpPatch]
-        [Route("{jobOfferId}")]
-        public async Task<IActionResult> Patch(int jobOfferId, [FromBody] JsonPatchDocument<JobOfferDto> body)
+        [Route("{id}")]
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<JobOfferDto> body)
         {
             if (body == null)
                 return BadRequest();
 
-            var jobOffer = await _unitOfWork.Repository<JobOffer>().GetByIdAsync(jobOfferId);
+            var jobOffer = await _unitOfWork.Repository<JobOffer>().GetByIdAsync(id);
 
             if (jobOffer == null)
                 return NotFound();
@@ -98,10 +99,10 @@ namespace CienciaArgentina.Microservices.Controllers
 
         // DELETE api/<controller>/<jobOfferId>
         [HttpDelete]
-        [Route("{jobOfferId}")]
-        public async Task<IActionResult> Delete(int jobOfferId)
+        [Route("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var jobOffer = await _unitOfWork.Repository<JobOffer>().GetByIdAsync(jobOfferId);
+            var jobOffer = await _unitOfWork.Repository<JobOffer>().GetByIdAsync(id);
 
             if (jobOffer == null)
                 return NotFound();

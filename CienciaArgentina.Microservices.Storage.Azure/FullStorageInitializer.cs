@@ -17,8 +17,6 @@ namespace CienciaArgentina.Microservices.Storage.Azure
             await new QueueStorageInitializer<AppException>(account).Initialize();
             await new QueueStorageInitializer<MailMessage>(account).Initialize();
             await new TableStorageInitializer<AppExceptionData>(account).Initialize();
-            await new DocumentStorageInitializer(account, AzureStorageContainer.UserFiles).Initialize(BlobContainerPublicAccessType.Container);
-
         }
     }
 }
