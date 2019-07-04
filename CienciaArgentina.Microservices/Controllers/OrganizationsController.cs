@@ -113,5 +113,22 @@ namespace CienciaArgentina.Microservices.Controllers
             _unitOfWork.Repository<Organization>().Delete(organization);
             return NoContent();
         }
+
+        //GET api/<controller>/getByLabId/<labId>
+        [HttpGet]
+        [Route("{labId}")]
+        public async Task<IActionResult> GetByLabId(int labId)
+        {
+            var lab = await _unitOfWork.Repository<Department>().GetByIdAsync(labId);
+            if (lab == null)
+                return NotFound();
+
+            var organization = await _unitOfWork.Repository<Organization>().GetByIdAsync(lab.Organization.Id);
+
+            if (organization == null)
+                return NotFound();
+
+            return Ok(organization);
+        }
     }
 }
