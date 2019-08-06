@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+//using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Policy;
 using System.Text;
@@ -36,47 +37,48 @@ namespace CienciaArgentina.Microservices.Business.Implementation
         public async Task<LoginModel> Add(ApplicationUser user, string password,string uri)
         {
             var result = await _accountRepository.Add(user, password);
-            var response = new LoginModel
-            {
-                Success = result.Succeeded
-            };
+            var response = new LoginModel(result.Succeeded);
+
             if (result.Succeeded)
             {
                 response.JwtToken = BuildToken(user.UserName, user.Email);
                 await SendEmailConfirmationAsync(user, uri);
             }
             else
-                response.Message = "Error al agregar el usuario";
+            {
+                foreach (var error in result.Errors)
+                {
+                    var errorResponse = new ErrorResponseModel(error.Code,error.Description);
+                    response.AddError(errorResponse);
+                }
+            }
 
             return response;
         }
 
-        public async Task<LoginModel> Login(string userName, string password,string uri)
+        public async Task<LoginModel> Login(string userName, string password,string uri, bool isPersistent = false, bool lockoutOnFailure = false)
         {
-            var result = await _signInManager.PasswordSignInAsync(userName, password, isPersistent: false, lockoutOnFailure: false);
-            var response = new LoginModel
-            {
-                Success = result.Succeeded
-            };
+            var result = await _signInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure);
+            var loginModel = new LoginModel(result.Succeeded);
+
             if (result.Succeeded)
             {
                 var user = await _accountRepository.Get(userName);
-                if (!await _accountRepository.IsEmailConfirmedAsync(user))
-                {
-                    await SendEmailConfirmationAsync(user,uri);
-                    response.Success = false;
-                    response.Message = "Por favor debe confirmar la cuenta. Revisa el correo electronico.";
-                }
-                else
-                    response.JwtToken = BuildToken(user.UserName,user.Email);
+                //if (!await _accountRepository.IsEmailConfirmedAsync(user))
+                //{
+                //    await SendEmailConfirmationAsync(user, uri);
+                //    loginModel.Response.Success = false;
+                //    loginModel.AddError(AppErrors.EmailNotConfirmed);
+                //}
+                //else
+                    loginModel.JwtToken = BuildToken(user.UserName,user.Email);
             }
             else
             {
-                //TODO: Configuration Message
-                response.Message = "Contraseña incorrecta";
+                loginModel.AddError(AppErrors.PasswordIncorrect);
             }
 
-            return response;
+            return loginModel;
         }
 
         public async Task SendEmailConfirmationAsync(ApplicationUser user,string uri)

@@ -38,7 +38,7 @@ namespace CienciaArgentina.Microservices
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseNLog()  // NLog: setup NLog for Dependency injection
+                .UseNLog() // NLog: setup NLog for Dependency injection
                 .UseStartup<Startup>();
     }
 }

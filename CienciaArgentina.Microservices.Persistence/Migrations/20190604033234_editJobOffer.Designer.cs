@@ -4,14 +4,16 @@ using CienciaArgentina.Microservices.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CienciaArgentina.Microservices.Persistence.Migrations
 {
     [DbContext(typeof(CienciaArgentinaDbContext))]
-    partial class CienciaArgentinaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190604033234_editJobOffer")]
+    partial class editJobOffer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -460,7 +462,11 @@ namespace CienciaArgentina.Microservices.Persistence.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<int?>("JobOfferId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("JobOfferId");
 
                     b.ToTable("Tags");
                 });
@@ -1182,6 +1188,13 @@ namespace CienciaArgentina.Microservices.Persistence.Migrations
                     b.HasOne("CienciaArgentina.Microservices.Entities.Models.User.UserLanguageKnowledge", "UserLanguageKnowledge")
                         .WithMany()
                         .HasForeignKey("UserLanguageKnowledgeId");
+                });
+
+            modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.JobOffer.Tag", b =>
+                {
+                    b.HasOne("CienciaArgentina.Microservices.Entities.Models.JobOffer.JobOffer")
+                        .WithMany("JobTags")
+                        .HasForeignKey("JobOfferId");
                 });
 
             modelBuilder.Entity("CienciaArgentina.Microservices.Entities.Models.Organizations.Department", b =>

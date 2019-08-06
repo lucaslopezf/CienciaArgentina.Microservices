@@ -24,6 +24,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{F65941E3-347C-4D92-A1DF-02342B1424E7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D81D71A0-E100-4BE5-AB48-E006C97CA036}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Tests", "CienciaArgentina.Microservices.UnitTests\CienciaArgentina.Microservices.Tests.csproj", "{89A2B909-D397-4A17-AD88-432D90DEE463}"
 EndProject

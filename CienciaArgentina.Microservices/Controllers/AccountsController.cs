@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -6,9 +7,12 @@ using System.Web;
 using AutoMapper;
 using CienciaArgentina.Microservices.Business.Interfaces;
 using CienciaArgentina.Microservices.Commons.Dtos;
+using CienciaArgentina.Microservices.Commons.Extensions;
 using CienciaArgentina.Microservices.Commons.Mail.Interfaces;
+using CienciaArgentina.Microservices.Entities.BusinessModel;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Entities.QueryParameters;
+using CienciaArgentina.Microservices.Persistence.Interfaces;
 using CienciaArgentina.Microservices.Repositories.IRepository;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
@@ -16,6 +20,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -25,17 +30,12 @@ namespace CienciaArgentina.Microservices.Controllers
     [Route("api/[controller]")]
     public class AccountsController : ControllerBase
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAccountRepository _accountRepository;
-        private readonly IEmailClientSender _emailClientSender;
         private readonly IUserBusiness _userBusiness;
-
-        public AccountsController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IAccountRepository accountRepository, IUserBusiness userBusiness, IEmailClientSender emailClientSender)
+        public AccountsController(UserManager<ApplicationUser> userManager, IAccountRepository accountRepository, IUserBusiness userBusiness)
         {
             _accountRepository = accountRepository;
-            _signInManager = signInManager;
-            _emailClientSender = emailClientSender;
             _userBusiness = userBusiness;
             _userManager = userManager;
         }
@@ -50,7 +50,6 @@ namespace CienciaArgentina.Microservices.Controllers
 
             Response.Headers.Add("X-Pagination",
                 JsonConvert.SerializeObject(new { totalCount = _accountRepository.Count() }));
-
             return Ok(allUsers);
         }
 
@@ -64,7 +63,7 @@ namespace CienciaArgentina.Microservices.Controllers
             var user = await _accountRepository.Get(id);
 
             if (user == null)
-                return NotFound();
+                return NoContent();
 
             return Ok(user);
         }
@@ -77,17 +76,14 @@ namespace CienciaArgentina.Microservices.Controllers
             var user = new ApplicationUser
             {
                 UserName = model.UserName,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber
+                Email = model.Email
             };
 
             var uri = UriHelper.BuildAbsolute(Request.Scheme, Request.Host);
             var result = await _userBusiness.Add(user, model.Password,uri);
+            if (result.Response.Success) return Ok(model);
 
-            if(!result.Success)
-                return BadRequest(result.Message);
-
-            return Ok(model);
+            return BadRequest(result.Response.Errors);
         }
 
         [HttpPost]
@@ -123,7 +119,7 @@ namespace CienciaArgentina.Microservices.Controllers
             var result = await _accountRepository.Update(user);
 
             if (!result.Succeeded)
-                throw new Exception($"something went wrong when updating the user with id: {id}");
+                return BadRequest(result.Errors);
 
             return Ok(Mapper.Map<UserCreateDto>(user));
         }
@@ -140,7 +136,7 @@ namespace CienciaArgentina.Microservices.Controllers
             var result = await _accountRepository.Delete(user);
 
             if (!result.Succeeded)
-                throw new Exception($"something went wrong when deleting the user with id: {id}");
+                return BadRequest(result.Errors);
 
             return NoContent();
         }
@@ -170,7 +166,7 @@ namespace CienciaArgentina.Microservices.Controllers
             var result = await _accountRepository.Update(user);
 
             if (!result.Succeeded)
-                throw new Exception($"something went wrong when updating the user with id: {id}");
+                return BadRequest(result.Errors);
 
             return Ok(Mapper.Map<UserCreateDto>(user));
         }
@@ -180,24 +176,16 @@ namespace CienciaArgentina.Microservices.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] UserCreateDto userInfo)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var uri = UriHelper.BuildAbsolute(Request.Scheme, Request.Host);
+            var result = await _userBusiness.Login(userInfo.UserName, userInfo.Password,uri);
+            if (result.Response.Success)
             {
-                var uri = UriHelper.BuildAbsolute(Request.Scheme, Request.Host);
-                var result = await _userBusiness.Login(userInfo.UserName, userInfo.Password,uri);
-                if (result.Success)
-                {
-                    return Ok(result.JwtToken);
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, result.Message);
-                    return BadRequest(ModelState);
-                }
+                return Ok(result.JwtToken);
             }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+
+            return BadRequest(result.Response.Errors);
         }
 
         [HttpGet]
@@ -205,7 +193,7 @@ namespace CienciaArgentina.Microservices.Controllers
         public async Task<IActionResult> ConfirmationRegisterMail(string email,string token)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            if (user == null) return NotFound("Usuario no encontrado");
+            if (user == null) return NoContent();
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if(!result.Succeeded)
                 return BadRequest(result.Errors);

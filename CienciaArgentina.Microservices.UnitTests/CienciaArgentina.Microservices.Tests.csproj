@@ -7,7 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <Compile Remove="ApplicationTest\**" />
+    <Compile Remove="MicroservicesTest\**" />
+    <EmbeddedResource Remove="ApplicationTest\**" />
+    <EmbeddedResource Remove="MicroservicesTest\**" />
+    <None Remove="ApplicationTest\**" />
+    <None Remove="MicroservicesTest\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="Moq" Version="4.12.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
@@ -16,19 +26,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApplicationTest\IntegrationTests\" />
-    <Folder Include="ApplicationTest\FunctionalTests\" />
-    <Folder Include="ApplicationTest\End-To-EndTests\" />
-    <Folder Include="BusinessTest\UnitTests\" />
-    <Folder Include="MicroservicesTest\ComponentTests\" />
-    <Folder Include="MicroservicesTest\IntegrationTests\" />
-    <Folder Include="MicroservicesTest\FunctionalTests\" />
-    <Folder Include="MicroservicesTest\End-To-EndTests\" />
-    <Folder Include="MicroservicesTest\UnitTests\" />
+    <ProjectReference Include="..\CienciaArgentina.Microservices.Business\CienciaArgentina.Microservices.Business.csproj" />
+    <ProjectReference Include="..\CienciaArgentina.Microservices\CienciaArgentina.Microservices.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CienciaArgentina.Microservices.Business\CienciaArgentina.Microservices.Business.csproj" />
+    <Folder Include="Common\" />
+    <Folder Include="Infrastructure\" />
   </ItemGroup>
 
 </Project>

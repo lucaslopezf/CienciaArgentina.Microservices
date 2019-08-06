@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using CienciaArgentina.Microservices.AutoMapper;
 using CienciaArgentina.Microservices.Commons.Helpers.OAuth2;
@@ -10,6 +12,7 @@ using CienciaArgentina.Microservices.Persistence.Interfaces;
 using CienciaArgentina.Microservices.Persistence.Redis;
 using CienciaArgentina.Microservices.Storage.Azure;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -60,7 +63,8 @@ namespace CienciaArgentina.Microservices
                 .AddDefaultTokenProviders();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+                .AddJwtBearer("bearer", options =>
+                {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -71,8 +75,11 @@ namespace CienciaArgentina.Microservices
                         ValidAudience = Configuration["ApiAuthJWT:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(
                             Encoding.UTF8.GetBytes(Configuration["ApiAuthJWT:SecretKey"])),
-                        ClockSkew = TimeSpan.Zero
-                    });
+                        ClockSkew = TimeSpan.Zero,
+                        SaveSigninToken = true
+                    };
+                });
+
 
             //Api Documentation => Swagger
             //TODO Take version and title from config
@@ -98,6 +105,8 @@ namespace CienciaArgentina.Microservices
                 loggingBuilder.AddDebug();
             });
 
+            services.AddCors();
+            
             //Config MVC
             services.AddMvc(config =>
                 {
@@ -105,10 +114,8 @@ namespace CienciaArgentina.Microservices
                     config.OutputFormatters.Add(new XmlSerializerOutputFormatter());
                     config.InputFormatters.Add(new XmlSerializerInputFormatter(config));
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            // FluentValidator
-            services.AddMvc().AddFluentValidation();
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddFluentValidation();
 
             //Define cache
             services.Configure<RedisConfiguration>(Configuration.GetSection("Redis"));
@@ -126,8 +133,20 @@ namespace CienciaArgentina.Microservices
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddAuthentication()
-                .AddGoogle(OAuth2Helper.GoogleOAuth2Options);
+            //services.AddAuthentication()
+            //.AddGoogle(OAuth2Helper.GoogleOAuth2Options);
+
+            // CORS
+            // TODO: Fix this asap
+            services.AddCors(options =>
+            {
+                options.AddPolicy("allow",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                        builder.AllowAnyHeader();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -141,6 +160,8 @@ namespace CienciaArgentina.Microservices
             app.UseHttpsRedirection();
             app.UseApiVersioning();
             app.UseSwagger();
+            app.UseCors(builder =>
+                builder.WithOrigins(Configuration.GetValue<string>("Cors:Whitelist")));
 
             //TODO: Get url and name from appsettings
             app.UseSwaggerUI(config =>
@@ -149,12 +170,13 @@ namespace CienciaArgentina.Microservices
             });
 
 
-
+            app.UseCors("allow");
             //Use authentication
             app.UseAuthentication();
 
             //Initialize storage
-            FullStorageInitializer.Initialize(Configuration.GetConnectionString("AzureStorage"));
+            FullStorageInitializer.Initialize(Configuration.GetValue<string>("AzureStorage:DefaultConnection"));
+
 
             //ExceptionHandler middleware
             app.UseExceptionMiddleware();

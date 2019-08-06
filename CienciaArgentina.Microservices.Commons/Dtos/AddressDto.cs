@@ -11,6 +11,5 @@ namespace CienciaArgentina.Microservices.Commons.Dtos
         public string Department { get; set; }
         public string Additionals { get; set; }
         public int LocalityId { get; set; }		
-		public int Prueba { get; set; }		
     }
 }

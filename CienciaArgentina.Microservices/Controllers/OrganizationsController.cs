@@ -51,7 +51,6 @@ namespace CienciaArgentina.Microservices.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var result = await _unitOfWork.Repository<Organization>().AddAsync(Mapper.Map<Organization>(body));
             await _unitOfWork.Commit();
-            var a = DateTimeHelper.Now;
             return Ok(result.Id);
         }
 
@@ -113,6 +112,23 @@ namespace CienciaArgentina.Microservices.Controllers
 
             _unitOfWork.Repository<Organization>().Delete(organization);
             return NoContent();
+        }
+
+        //GET api/<controller>/getByLabId/<labId>
+        [HttpGet]
+        [Route("{labId}")]
+        public async Task<IActionResult> GetByLabId(int labId)
+        {
+            var lab = await _unitOfWork.Repository<Department>().GetByIdAsync(labId);
+            if (lab == null)
+                return NotFound();
+
+            var organization = await _unitOfWork.Repository<Organization>().GetByIdAsync(lab.Organization.Id);
+
+            if (organization == null)
+                return NotFound();
+
+            return Ok(organization);
         }
     }
 }

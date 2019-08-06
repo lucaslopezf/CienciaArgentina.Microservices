@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CienciaArgentina.Microservices.Entities.Identity;
+using System.Text;
+using CienciaArgentina.Microservices.Commons.Dtos.Organization;
 using CienciaArgentina.Microservices.Entities.Models.Addresses;
+using CienciaArgentina.Microservices.Entities.Models.JobOffer;
 using CienciaArgentina.Microservices.Entities.Models.Organizations;
 using CienciaArgentina.Microservices.Entities.Models.User;
 
-namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
+namespace CienciaArgentina.Microservices.Commons.Dtos
 {
-    public class JobOffer : BaseModel
+    public class JobOfferDto
     {
-        [Key]
-        public int Id { get; set; }
-
-        public Department Department { get; set; }
+        public DepartmentDto Department { get; set; }
         public string Description { get; set; }
         public string Title { get; set; }
         public decimal Salary { get; set; }
         //public Address Address { get; set; }
         public bool Experience { get; set; } //TODO: Enum
-        //public JobType JobType { get; set; }
+        //public int JobType { get; set; }
         public string AcademicRequirements { get; set; }
         public string ResearchTopics { get; set; }
         public string ExperimentalModel { get; set; }
@@ -32,9 +29,5 @@ namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
         public string ProjectManager { get; set; } //Responsable del proyecto
         public string ContactEmail { get; set; }
         //public List<Tag> Tags { get; set; }
-
-        //For identity TODO: Por que hicimos esto? 
-        //public string UserId { get; set; }
-        //public ApplicationUser User { get; set; }
     }
 }
