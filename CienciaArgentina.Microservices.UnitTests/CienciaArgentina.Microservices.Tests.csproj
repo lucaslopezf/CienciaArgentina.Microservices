@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
-    <PackageReference Include="Moq" Version="4.11.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="Moq" Version="4.12.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
@@ -27,6 +27,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CienciaArgentina.Microservices.Business\CienciaArgentina.Microservices.Business.csproj" />
+    <ProjectReference Include="..\CienciaArgentina.Microservices\CienciaArgentina.Microservices.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\" />
+    <Folder Include="Infrastructure\" />
   </ItemGroup>
 
 </Project>

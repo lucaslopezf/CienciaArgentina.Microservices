@@ -8,16 +8,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dtos\**" />
+    <Content Remove="Dtos\**" />
+    <EmbeddedResource Remove="Dtos\**" />
+    <None Remove="Dtos\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Xml" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-    <PackageReference Include="NLog.Config" Version="4.6.5" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.5.1" />
+    <PackageReference Include="NLog.Config" Version="4.6.6" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.5.2" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.4" />
     <PackageReference Include="Scrutor" Version="3.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
@@ -30,9 +37,6 @@
     <ProjectReference Include="..\CienciaArgentina.Microservices.Commons\CienciaArgentina.Microservices.Commons.csproj" />
     <ProjectReference Include="..\CienciaArgentina.Microservices.Data\CienciaArgentina.Microservices.Repositories.csproj" />
     <ProjectReference Include="..\CienciaArgentina.Microservices.Storage.Azure\CienciaArgentina.Microservices.Storage.Azure.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dtos\" />
   </ItemGroup>
 
 </Project>

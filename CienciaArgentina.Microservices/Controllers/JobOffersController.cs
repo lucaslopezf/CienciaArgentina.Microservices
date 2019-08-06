@@ -16,10 +16,12 @@ namespace CienciaArgentina.Microservices.Controllers
     public class JobOffersController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public JobOffersController(IUnitOfWork unitOfWork)
+        public JobOffersController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         //GET api/<controller>
@@ -43,10 +45,11 @@ namespace CienciaArgentina.Microservices.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] JobOfferDto model)
+        public virtual async Task<IActionResult> Post([FromBody] JobOfferDto model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = await _unitOfWork.Repository<JobOffer>().AddAsync(Mapper.Map<JobOffer>(model));
+            var a = _mapper.Map<JobOffer>(model);
+            var result = await _unitOfWork.Repository<JobOffer>().AddAsync(a);
             await _unitOfWork.Commit();
             return Ok(result.Id);
         }
@@ -67,7 +70,7 @@ namespace CienciaArgentina.Microservices.Controllers
             if (jobOffer == null)
                 return NotFound();
 
-            Mapper.Map(body, jobOffer);
+            _mapper.Map(body, jobOffer);
             _unitOfWork.Repository<JobOffer>().Update(jobOffer);
             return Ok(jobOffer);
         }
@@ -85,14 +88,14 @@ namespace CienciaArgentina.Microservices.Controllers
             if (jobOffer == null)
                 return NotFound();
 
-            var patchJobOffer = Mapper.Map<JobOfferDto>(jobOffer);
+            var patchJobOffer = _mapper.Map<JobOfferDto>(jobOffer);
             body.ApplyTo(patchJobOffer, ModelState);
             TryValidateModel(patchJobOffer);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Mapper.Map(patchJobOffer, jobOffer);
+            _mapper.Map(patchJobOffer, jobOffer);
             _unitOfWork.Repository<JobOffer>().Update(jobOffer);
             return Ok(Mapper.Map<JobOfferDto>(jobOffer));
         }

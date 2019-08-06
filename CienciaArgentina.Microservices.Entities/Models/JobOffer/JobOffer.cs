@@ -21,7 +21,7 @@ namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
         public decimal Salary { get; set; }
         //public Address Address { get; set; }
         public bool Experience { get; set; } //TODO: Enum
-        public JobType JobType { get; set; }
+        //public JobType JobType { get; set; }
         public string AcademicRequirements { get; set; }
         public string ResearchTopics { get; set; }
         public string ExperimentalModel { get; set; }
@@ -31,7 +31,7 @@ namespace CienciaArgentina.Microservices.Entities.Models.JobOffer
         public DateTime DateCareerFinish { get; set; } //Tiene que terminar la carrera antes de..
         public string ProjectManager { get; set; } //Responsable del proyecto
         public string ContactEmail { get; set; }
-        //public List<Tag> JobTags { get; set; }
+        //public List<Tag> Tags { get; set; }
 
         //For identity TODO: Por que hicimos esto? 
         //public string UserId { get; set; }

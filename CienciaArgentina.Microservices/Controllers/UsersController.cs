@@ -46,7 +46,6 @@ namespace CienciaArgentina.Microservices.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var result = await _unitOfWork.Repository<UserProfile>().AddAsync(Mapper.Map<UserProfile>(body));
             await _unitOfWork.Commit();
-            var a = DateTimeHelper.Now;
             return Ok(result.Id);
         }
 

@@ -22,11 +22,11 @@ namespace CienciaArgentina.Microservices.AutoMapper
             CreateMap<UserProfile, UserProfileDto>().ReverseMap();
             CreateMap<SocialNetwork, SocialNetworkDto>().ReverseMap();
             CreateMap<Address, AddressDto>().ReverseMap();
-            CreateMap<Organization, OrganizationDto>().ReverseMap();
+            CreateMap<Department, DepartmentDto>().ReverseMap();
             CreateMap<OrganizationType, OrganizationTypeDto>().ReverseMap();
             CreateMap<Position, PositionDto>().ReverseMap();
             CreateMap<UserOrganization, UserOrganizationDto>().ReverseMap();
-            CreateMap<JobOffer, JobOfferDto>().ReverseMap();
+            CreateMap<JobOfferDto, JobOffer>();
         }
     }
 }

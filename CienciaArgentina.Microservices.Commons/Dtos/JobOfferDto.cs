@@ -18,7 +18,7 @@ namespace CienciaArgentina.Microservices.Commons.Dtos
         public decimal Salary { get; set; }
         //public Address Address { get; set; }
         public bool Experience { get; set; } //TODO: Enum
-        public string JobType { get; set; }
+        //public int JobType { get; set; }
         public string AcademicRequirements { get; set; }
         public string ResearchTopics { get; set; }
         public string ExperimentalModel { get; set; }
@@ -28,7 +28,6 @@ namespace CienciaArgentina.Microservices.Commons.Dtos
         public DateTime DateCareerFinish { get; set; } //Tiene que terminar la carrera antes de..
         public string ProjectManager { get; set; } //Responsable del proyecto
         public string ContactEmail { get; set; }
-
-        public List<Tag> Tags { get; set; }
+        //public List<Tag> Tags { get; set; }
     }
 }
