@@ -154,7 +154,7 @@ namespace CienciaArgentina.Microservices
             app.UseAuthentication();
 
             //Initialize storage
-            FullStorageInitializer.Initialize();
+            FullStorageInitializer.Initialize(Configuration.GetConnectionString("AzureStorage"));
 
             //ExceptionHandler middleware
             app.UseExceptionMiddleware();
