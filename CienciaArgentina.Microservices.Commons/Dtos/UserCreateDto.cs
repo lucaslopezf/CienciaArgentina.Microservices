@@ -11,7 +11,7 @@ namespace CienciaArgentina.Microservices.Commons.Dtos
         public string UserName { get; set; }
         [Required(ErrorMessage = "Por favor ingresa una contraseña")]
         public string Password { get; set; }
-        public string PhoneNumber { get; set; }
+        //public string PhoneNumber { get; set; }
         public string Email { get; set; }
     }
 }

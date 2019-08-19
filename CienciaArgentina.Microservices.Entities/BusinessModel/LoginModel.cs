@@ -7,9 +7,14 @@ namespace CienciaArgentina.Microservices.Entities.BusinessModel
 {
     public class LoginModel
     {
-        public LoginModel(bool result)
+        public LoginModel(bool result = false)
         {
             Response = new ResponseModel(result);
+        }
+
+        public void Success(bool result)
+        {
+            this.Response.Success = result;
         }
 
         public void AddError(ErrorResponseModel error)

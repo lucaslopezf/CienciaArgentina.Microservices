@@ -106,17 +106,7 @@ namespace CienciaArgentina.Microservices
             });
 
             services.AddCors();
-            
-            //Config MVC
-            services.AddMvc(config =>
-                {
-                    config.ReturnHttpNotAcceptable = true;
-                    config.OutputFormatters.Add(new XmlSerializerOutputFormatter());
-                    config.InputFormatters.Add(new XmlSerializerInputFormatter(config));
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddFluentValidation();
-
+           
             //Define cache
             services.Configure<RedisConfiguration>(Configuration.GetSection("Redis"));
 
@@ -132,6 +122,17 @@ namespace CienciaArgentina.Microservices
             var mappingConfig = new MapperConfiguration(map => { map.AddProfile(new MappingProfile()); });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            //Config MVC
+            services.AddMvc(config =>
+            {
+                config.ReturnHttpNotAcceptable = true;
+                config.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+                config.InputFormatters.Add(new XmlSerializerInputFormatter(config));
+            })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddFluentValidation();
+
 
             //services.AddAuthentication()
             //.AddGoogle(OAuth2Helper.GoogleOAuth2Options);
@@ -175,7 +176,7 @@ namespace CienciaArgentina.Microservices
             app.UseAuthentication();
 
             //Initialize storage
-            FullStorageInitializer.Initialize(Configuration.GetValue<string>("AzureStorage:DefaultConnection"));
+            FullStorageInitializer.Initialize(Configuration.GetConnectionString("AzureStorage"));
 
 
             //ExceptionHandler middleware

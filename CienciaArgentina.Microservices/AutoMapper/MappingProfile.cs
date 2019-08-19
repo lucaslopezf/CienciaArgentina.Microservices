@@ -19,6 +19,7 @@ namespace CienciaArgentina.Microservices.AutoMapper
         public MappingProfile()
         {
             CreateMap<ApplicationUser, UserCreateDto>().ReverseMap();
+            CreateMap<ApplicationUser, AccountDto>().ReverseMap();
             CreateMap<UserProfile, UserProfileDto>().ReverseMap();
             CreateMap<SocialNetwork, SocialNetworkDto>().ReverseMap();
             CreateMap<Address, AddressDto>().ReverseMap();

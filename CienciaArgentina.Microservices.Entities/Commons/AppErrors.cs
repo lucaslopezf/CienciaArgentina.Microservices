@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CienciaArgentina.Microservices.Entities.BusinessModel;
 
-namespace CienciaArgentina.Microservices.Entities.BusinessModel
+namespace CienciaArgentina.Microservices.Entities.Commons
 {
     public class AppErrors
     {
         public static readonly ErrorResponseModel EmailNotConfirmed = 
-            new ErrorResponseModel("Confirmar email","Por favor debe confirmar la cuenta. Revisa el correo electronico.");
+            new ErrorResponseModel("EmailNotConfirmed", "Por favor debe confirmar la cuenta de email");
+
+        public static readonly ErrorResponseModel EmailIsConfirmed =
+            new ErrorResponseModel("EmailIsConfirmed", "El mail ya esta confirmado");
 
         public static readonly ErrorResponseModel PasswordIncorrect =
-            new ErrorResponseModel("Contraseña y/o usuario incorrectos", "No reconocemos ningun usuario y/o contraseña en nuestro sistema");
-
-
-
-
-
-
-
-
-
+            new ErrorResponseModel("PasswordOrUserIncorrect", "No reconocemos ningun usuario y/o contraseña en nuestro sistema");
     }
 }

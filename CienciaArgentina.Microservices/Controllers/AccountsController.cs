@@ -33,8 +33,11 @@ namespace CienciaArgentina.Microservices.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAccountRepository _accountRepository;
         private readonly IUserBusiness _userBusiness;
-        public AccountsController(UserManager<ApplicationUser> userManager, IAccountRepository accountRepository, IUserBusiness userBusiness)
+        private readonly IMapper _mapper;
+
+        public AccountsController(IMapper mapper,UserManager<ApplicationUser> userManager, IAccountRepository accountRepository, IUserBusiness userBusiness)
         {
+            _mapper = mapper;
             _accountRepository = accountRepository;
             _userBusiness = userBusiness;
             _userManager = userManager;
@@ -55,17 +58,17 @@ namespace CienciaArgentina.Microservices.Controllers
 
         //GET api/<controller>/5
         [HttpGet]
-        [ProducesResponseType(typeof(int), 200)]
-        [ProducesResponseType(typeof(int), 404)]
-        [Route("{id}")]
-        public async Task<IActionResult> Get(string id)
+        //[ProducesResponseType(typeof(int), 200)]
+        //[ProducesResponseType(typeof(int), 404)]
+        [Route("{userName}")]
+        public async Task<IActionResult> Get(string userName)
         {
-            var user = await _accountRepository.Get(id);
+            var user = await _accountRepository.Get(userName);
 
             if (user == null)
                 return NoContent();
 
-            return Ok(user);
+            return Ok(_mapper.Map<AccountDto>(user));
         }
 
         [HttpPost]
@@ -73,15 +76,11 @@ namespace CienciaArgentina.Microservices.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = new ApplicationUser
-            {
-                UserName = model.UserName,
-                Email = model.Email
-            };
+            var user = new ApplicationUser{UserName = model.UserName,Email = model.Email};
 
             var uri = UriHelper.BuildAbsolute(Request.Scheme, Request.Host);
             var result = await _userBusiness.Add(user, model.Password,uri);
-            if (result.Response.Success) return Ok(model);
+            if (result.Response.Success) return Ok(_mapper.Map<AccountDto>(user));
 
             return BadRequest(result.Response.Errors);
         }
@@ -125,10 +124,10 @@ namespace CienciaArgentina.Microservices.Controllers
         }
 
         // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpDelete("{userName}")]
+        public async Task<IActionResult> Delete(string userName)
         {
-            var user = await _accountRepository.Get(id);
+            var user = await _accountRepository.Get(userName);
 
             if (user == null)
                 return NotFound();
@@ -199,6 +198,21 @@ namespace CienciaArgentina.Microservices.Controllers
                 return BadRequest(result.Errors);
 
             return Ok("Usuario verificado");
+        }
+
+        //TODO: Que un usuario no pueda mandar mail si no esta logueado, idem todo seguridad (Ejemplo que no pueda mandar a un tercero)
+        [HttpPost]
+        [Route("SendConfirmationRegisterMail")]
+        public async Task<IActionResult> SendConfirmationRegisterMail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return NoContent();
+            var uri = UriHelper.BuildAbsolute(Request.Scheme, Request.Host);
+            
+            var result = await _userBusiness.SendEmailConfirmationAsync(user, uri);
+            if (result.Response.Success) return Ok();
+
+            return BadRequest(result.Response.Errors);
         }
     }
 }

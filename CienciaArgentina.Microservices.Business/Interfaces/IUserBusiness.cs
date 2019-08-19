@@ -13,7 +13,7 @@ namespace CienciaArgentina.Microservices.Business.Interfaces
 
         Task<LoginModel> Login(string userName, string password, string uri, bool isPersistent = false, bool lockoutOnFailure = false);
 
-        Task SendEmailConfirmationAsync(ApplicationUser user, string uri);
+        Task<LoginModel> SendEmailConfirmationAsync(ApplicationUser user, string uri);
 
         //Task<UserData> AddUserAsync(UserData user);
     } 

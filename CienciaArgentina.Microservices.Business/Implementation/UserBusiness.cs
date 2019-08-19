@@ -9,6 +9,7 @@ using CienciaArgentina.Microservices.Business.Interfaces;
 using CienciaArgentina.Microservices.Commons.Mail.Interfaces;
 using CienciaArgentina.Microservices.Commons.Mail.ModelTemplates;
 using CienciaArgentina.Microservices.Entities.BusinessModel;
+using CienciaArgentina.Microservices.Entities.Commons;
 using CienciaArgentina.Microservices.Entities.Identity;
 using CienciaArgentina.Microservices.Repositories.IRepository;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
@@ -63,32 +64,38 @@ namespace CienciaArgentina.Microservices.Business.Implementation
 
             if (result.Succeeded)
             {
+                if (!await _accountRepository.IsEmailConfirmedAsync(userName))
+                {
+                    loginModel.Success(false);
+                    loginModel.AddError(AppErrors.EmailNotConfirmed);
+                    return loginModel;
+                }
                 var user = await _accountRepository.Get(userName);
-                //if (!await _accountRepository.IsEmailConfirmedAsync(user))
-                //{
-                //    await SendEmailConfirmationAsync(user, uri);
-                //    loginModel.Response.Success = false;
-                //    loginModel.AddError(AppErrors.EmailNotConfirmed);
-                //}
-                //else
-                    loginModel.JwtToken = BuildToken(user.UserName,user.Email);
+                loginModel.JwtToken = BuildToken(user.UserName,user.Email);
             }
             else
-            {
                 loginModel.AddError(AppErrors.PasswordIncorrect);
-            }
 
             return loginModel;
         }
 
-        public async Task SendEmailConfirmationAsync(ApplicationUser user,string uri)
+        public async Task<LoginModel> SendEmailConfirmationAsync(ApplicationUser user,string uri)
         {
-                var tokenConfirmation = await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
-                var api = "api/Accounts/ConfirmationRegisterMail";
-                var url = $"{uri}{api}?email={user.Email}&token={tokenConfirmation}";
-                url = url.Replace("+", "%2B");
-                var sendConfirmationModel = new SendConfirmationAccountModel(user.UserName, "", url);
-                await _emailClientSender.SendConfirmationAccounEmail(user.Email, sendConfirmationModel);
+            var loginModel = new LoginModel();
+            if (await _accountRepository.IsEmailConfirmedAsync(user))
+            {
+                loginModel.AddError(AppErrors.EmailIsConfirmed);
+                return loginModel;
+            }
+
+            var tokenConfirmation = await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
+            var api = "api/Accounts/ConfirmationRegisterMail";
+            var url = $"{uri}{api}?email={user.Email}&token={tokenConfirmation}";
+            url = url.Replace("+", "%2B");
+            var sendConfirmationModel = new SendConfirmationAccountModel(user.UserName, "", url);
+            await _emailClientSender.SendConfirmationAccounEmail(user.Email, sendConfirmationModel);
+            loginModel.Success(true);
+            return loginModel;
         }
 
         private JwtToken BuildToken(string userName, string email)

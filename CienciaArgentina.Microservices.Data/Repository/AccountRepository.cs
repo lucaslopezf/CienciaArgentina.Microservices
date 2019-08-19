@@ -87,6 +87,14 @@ namespace CienciaArgentina.Microservices.Repositories.Repository
 
             return await _userManager.IsEmailConfirmedAsync(user);
         }
+        public async Task<bool> IsEmailConfirmedAsync(string userName)
+        {
+            var user = await this.Get(userName);
+
+            if (user == null) return false;
+
+            return await _userManager.IsEmailConfirmedAsync(user);
+        }
 
         public async Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user)
         {
