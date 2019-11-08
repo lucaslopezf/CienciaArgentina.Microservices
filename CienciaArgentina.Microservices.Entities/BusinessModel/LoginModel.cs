@@ -24,5 +24,6 @@ namespace CienciaArgentina.Microservices.Entities.BusinessModel
         public JwtToken JwtToken { get; set; }
 
         public ResponseModel Response { get; set; }
+        public string Email { get; set; }
     }
 }

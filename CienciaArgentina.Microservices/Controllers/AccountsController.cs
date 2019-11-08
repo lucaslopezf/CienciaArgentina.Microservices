@@ -180,11 +180,12 @@ namespace CienciaArgentina.Microservices.Controllers
             var uri = UriHelper.BuildAbsolute(Request.Scheme, Request.Host);
             var result = await _userBusiness.Login(userInfo.UserName, userInfo.Password,uri);
             if (result.Response.Success)
-            {
                 return Ok(result.JwtToken);
-            }
 
-            return BadRequest(result.Response.Errors);
+            var user = await _accountRepository.Get(userInfo.UserName);
+            if (user != null)
+                result.Email = user.Email;
+            return BadRequest(result);
         }
 
         [HttpGet]
