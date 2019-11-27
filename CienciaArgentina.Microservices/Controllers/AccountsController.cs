@@ -215,5 +215,51 @@ namespace CienciaArgentina.Microservices.Controllers
 
             return BadRequest(result.Response.Errors);
         }
+
+        // TODO: Enviar mail con el link, NO retornar el token. Se deja sólo para testeo
+        [HttpGet]
+        [Route("GetPasswordResetToken")]
+        public async Task<IActionResult> GetPasswordResetToken(string email)
+        {
+            if (string.IsNullOrEmpty(email)) return BadRequest("La el campo de e-mail no puede estar vacío");
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return NoContent();
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            return Ok(token);
+        }
+
+        // TODO: Enviar el mail con la confirmación
+        [HttpPost]
+        [Route("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(string email, string password, string confirmPassword,
+            string token)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) ||
+                string.IsNullOrEmpty(confirmPassword) ||
+                string.IsNullOrEmpty(token))
+                return BadRequest("Todos los campos son necesarios para el cambio de contraseña");
+
+            if (password != confirmPassword) return BadRequest("Las contraseñas ingresadas no coinciden");
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return NoContent();
+
+            var result = await _userManager.ResetPasswordAsync(user, token, password);
+            if (!result.Succeeded) return BadRequest("Ocurrió un problema al intentar cambiar la contraseña");
+            return Ok("Contraseña reseteada");
+        }
+
+        // TODO: Enviar email
+        [HttpGet]
+        [Route("ForgotUsername")]
+        public async Task<IActionResult> ForgotUsername(string email)
+        {
+            if (string.IsNullOrEmpty(email)) return BadRequest("El mail no puede estar vacío");
+
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return NoContent();
+            return Ok("Email enviado");
+        }
     }
 }

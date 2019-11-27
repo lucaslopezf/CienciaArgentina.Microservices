@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Entities", "CienciaArgentina.Microservices.Entities\CienciaArgentina.Microservices.Entities.csproj", "{0BB29E33-FC8E-446F-ABE9-B7ECB28469F6}"
 EndProject
@@ -28,13 +28,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D81D71A0-E
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Tests", "CienciaArgentina.Microservices.UnitTests\CienciaArgentina.Microservices.Tests.csproj", "{89A2B909-D397-4A17-AD88-432D90DEE463}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CienciaArgentina.Microservices.Persistence", "CienciaArgentina.Microservices.Persistence\CienciaArgentina.Microservices.Persistence.csproj", "{8704B830-EAB9-4FB5-BF66-F04E62054C9D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C875F7C8-21E5-4D6E-9622-8DAAA35D168E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{34105650-1FD5-47E5-9DAB-926935BF5018}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CienciaArgentina.UnitTests", "CienciaArgentina.UnitTests\CienciaArgentina.UnitTests.csproj", "{16586178-5F42-4A49-AD75-BAD195209633}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,14 +74,14 @@ Global
 		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{89A2B909-D397-4A17-AD88-432D90DEE463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89A2B909-D397-4A17-AD88-432D90DEE463}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89A2B909-D397-4A17-AD88-432D90DEE463}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89A2B909-D397-4A17-AD88-432D90DEE463}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8704B830-EAB9-4FB5-BF66-F04E62054C9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8704B830-EAB9-4FB5-BF66-F04E62054C9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8704B830-EAB9-4FB5-BF66-F04E62054C9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8704B830-EAB9-4FB5-BF66-F04E62054C9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16586178-5F42-4A49-AD75-BAD195209633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16586178-5F42-4A49-AD75-BAD195209633}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16586178-5F42-4A49-AD75-BAD195209633}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16586178-5F42-4A49-AD75-BAD195209633}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,8 +95,8 @@ Global
 		{7316EDFC-4449-4155-A16E-24ACEAF629EE} = {F65941E3-347C-4D92-A1DF-02342B1424E7}
 		{6C7D186B-A633-47BD-B89E-4BE0BB67BF4E} = {6E8EC9B6-CC3A-446A-9517-B1508218D184}
 		{A18139C7-761B-4F0B-96EB-7C3EDDA5203C} = {6E8EC9B6-CC3A-446A-9517-B1508218D184}
-		{89A2B909-D397-4A17-AD88-432D90DEE463} = {D81D71A0-E100-4BE5-AB48-E006C97CA036}
 		{8704B830-EAB9-4FB5-BF66-F04E62054C9D} = {F65941E3-347C-4D92-A1DF-02342B1424E7}
+		{16586178-5F42-4A49-AD75-BAD195209633} = {D81D71A0-E100-4BE5-AB48-E006C97CA036}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {901A74C7-AAF9-47E0-8EDE-17BB06A3FC36}
