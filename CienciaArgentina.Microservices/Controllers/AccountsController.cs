@@ -7,6 +7,7 @@ using System.Web;
 using AutoMapper;
 using CienciaArgentina.Microservices.Business.Interfaces;
 using CienciaArgentina.Microservices.Commons.Dtos;
+using CienciaArgentina.Microservices.Commons.Dtos.User;
 using CienciaArgentina.Microservices.Commons.Extensions;
 using CienciaArgentina.Microservices.Commons.Mail.Interfaces;
 using CienciaArgentina.Microservices.Entities.BusinessModel;
@@ -76,13 +77,16 @@ namespace CienciaArgentina.Microservices.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = new ApplicationUser{UserName = model.UserName,Email = model.Email};
+            var user = new ApplicationUser
+            {
+                UserName = model.UserName, Email = model.Email
+            };
 
             var uri = UriHelper.BuildAbsolute(Request.Scheme, Request.Host);
-            var result = await _userBusiness.Add(user, model.Password,uri);
-            if (result.Response.Success) return Ok(_mapper.Map<AccountDto>(user));
+            var result = await _userBusiness.Add(user, model.Password, uri);
+            if (result.Success) return Ok(_mapper.Map<AccountDto>(user));
 
-            return BadRequest(result.Response.Errors);
+            return BadRequest(result);
         }
 
         [HttpPost]
@@ -95,7 +99,7 @@ namespace CienciaArgentina.Microservices.Controllers
             var claim = new Claim(addClaim.ClaimType, addClaim.ClaimValue);
             var result = await _accountRepository.AddClaim(user, claim);
 
-            return Ok(result.Succeeded);
+            return Ok(result);
         }
 
         // PUT api/<controller>/5
@@ -118,7 +122,7 @@ namespace CienciaArgentina.Microservices.Controllers
             var result = await _accountRepository.Update(user);
 
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
+                return BadRequest(result);
 
             return Ok(Mapper.Map<UserCreateDto>(user));
         }
@@ -135,7 +139,7 @@ namespace CienciaArgentina.Microservices.Controllers
             var result = await _accountRepository.Delete(user);
 
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
+                return BadRequest(result);
 
             return NoContent();
         }
@@ -165,7 +169,7 @@ namespace CienciaArgentina.Microservices.Controllers
             var result = await _accountRepository.Update(user);
 
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
+                return BadRequest(result);
 
             return Ok(Mapper.Map<UserCreateDto>(user));
         }
@@ -173,19 +177,16 @@ namespace CienciaArgentina.Microservices.Controllers
         //
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromBody] UserCreateDto userInfo)
+        public async Task<IActionResult> Login([FromBody] UserLoginDto userInfo)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var uri = UriHelper.BuildAbsolute(Request.Scheme, Request.Host);
             var result = await _userBusiness.Login(userInfo.UserName, userInfo.Password,uri);
-            if (result.Response.Success)
-                return Ok(result.JwtToken);
+            if (!result.Success)
+                return BadRequest(result);
 
-            var user = await _accountRepository.Get(userInfo.UserName);
-            if (user != null)
-                result.Email = user.Email;
-            return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpGet]
@@ -196,9 +197,9 @@ namespace CienciaArgentina.Microservices.Controllers
             if (user == null) return NoContent();
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if(!result.Succeeded)
-                return BadRequest(result.Errors);
+                return BadRequest(result);
 
-            return Ok("Usuario verificado");
+            return Ok(result);
         }
 
         //TODO: Que un usuario no pueda mandar mail si no esta logueado, idem todo seguridad (Ejemplo que no pueda mandar a un tercero)
@@ -211,9 +212,9 @@ namespace CienciaArgentina.Microservices.Controllers
             var uri = UriHelper.BuildAbsolute(Request.Scheme, Request.Host);
             
             var result = await _userBusiness.SendEmailConfirmationAsync(user, uri);
-            if (result.Response.Success) return Ok();
+            if (result.Success) return Ok();
 
-            return BadRequest(result.Response.Errors);
+            return BadRequest(result);
         }
 
         // TODO: Enviar mail con el link, NO retornar el token. Se deja sólo para testeo
@@ -257,9 +258,11 @@ namespace CienciaArgentina.Microservices.Controllers
         {
             if (string.IsNullOrEmpty(email)) return BadRequest("El mail no puede estar vacío");
 
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null) return NoContent();
-            return Ok("Email enviado");
+            var response = await _userBusiness.ForgotUsername(email);
+            if (!response.Success)
+                return BadRequest(response);
+
+            return Ok(response);
         }
     }
 }

@@ -27,7 +27,8 @@ namespace CienciaArgentina.Microservices.Repositories.IRepository
 
         Task<bool> IsEmailConfirmedAsync(string userName);
 
-        Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user); 
+        Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user);
+        Task<string> GeneratePasswordResetTokenAsync(ApplicationUser user);
         int Count();
     }
 }

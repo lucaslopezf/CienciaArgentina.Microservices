@@ -23,7 +23,7 @@ namespace CienciaArgentina.Microservices.Commons.Mail
             await SendEmailAsync(email, "Email Subject", body);
         }
 
-        public async Task SendConfirmationAccounEmail(string email,SendConfirmationAccountModel model)
+        public async Task SendConfirmationAccountEmail(string email,SendConfirmationAccountModel model)
         {
             string template = "Mail.Templates.SendConfirmationAccountTemplate";
 
@@ -32,7 +32,16 @@ namespace CienciaArgentina.Microservices.Commons.Mail
 
             await SendEmailAsync(email, "Confirmacion de cuenta", body);
         }
-        
+
+        public async Task SendForgotUser(string email,SendForgotUserModel model)
+        {
+            string template = "Mail.Templates.SendForgotUserTemplate";
+            RazorParser renderer = new RazorParser(typeof(EmailClient).Assembly);
+            var body = await renderer.UsingTemplateFromEmbedded(template, model);
+
+            await SendEmailAsync(email, "Confirmacion de cuenta", body);
+        }
+
         private static async Task SendEmailAsync(string email, string subject, string message,string fromEmail = "no-reply@cienciaargentina.com.ar")
         {
             var mailMessage = new MailMessage

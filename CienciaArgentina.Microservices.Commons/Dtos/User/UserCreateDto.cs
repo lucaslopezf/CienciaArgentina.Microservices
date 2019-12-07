@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace CienciaArgentina.Microservices.Commons.Dtos
+namespace CienciaArgentina.Microservices.Commons.Dtos.User
 {
     public class UserCreateDto
     {
@@ -11,7 +8,8 @@ namespace CienciaArgentina.Microservices.Commons.Dtos
         public string UserName { get; set; }
         [Required(ErrorMessage = "Por favor ingresa una contraseña")]
         public string Password { get; set; }
-        //public string PhoneNumber { get; set; }
+        [Required(ErrorMessage = "Por favor ingresa un email")]
         public string Email { get; set; }
+
     }
 }

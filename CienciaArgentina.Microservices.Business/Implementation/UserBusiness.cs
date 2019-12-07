@@ -35,14 +35,15 @@ namespace CienciaArgentina.Microservices.Business.Implementation
             _emailClientSender = emailClientSender;
         }
 
-        public async Task<LoginModel> Add(ApplicationUser user, string password,string uri)
+        public async Task<ResponseModel<LoginModel>> Add(ApplicationUser user, string password,string uri)
         {
             var result = await _accountRepository.Add(user, password);
-            var response = new LoginModel(result.Succeeded);
+            var response = new ResponseModel<LoginModel>(result.Succeeded);
 
             if (result.Succeeded)
             {
-                response.JwtToken = BuildToken(user.UserName, user.Email);
+                var token = BuildToken(user.UserName, user.Email);
+                response.Data.AddToken(token);
                 await SendEmailConfirmationAsync(user, uri);
             }
             else
@@ -57,35 +58,43 @@ namespace CienciaArgentina.Microservices.Business.Implementation
             return response;
         }
 
-        public async Task<LoginModel> Login(string userName, string password,string uri, bool isPersistent = false, bool lockoutOnFailure = false)
+        public async Task<ResponseModel<LoginModel>> Login(string userName, string password,string uri, bool isPersistent = false, bool lockoutOnFailure = false)
         {
             var result = await _signInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure);
-            var loginModel = new LoginModel(result.Succeeded);
+            var responseModel = new ResponseModel<LoginModel>(result.Succeeded);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                if (!await _accountRepository.IsEmailConfirmedAsync(userName))
-                {
-                    loginModel.Success(false);
-                    loginModel.AddError(AppErrors.EmailNotConfirmed);
-                    return loginModel;
-                }
-                var user = await _accountRepository.Get(userName);
-                loginModel.JwtToken = BuildToken(user.UserName,user.Email);
+                responseModel.AddError(AppErrors.PasswordOrUserIncorrect);
+                return responseModel;
             }
-            else
-                loginModel.AddError(AppErrors.PasswordIncorrect);
 
-            return loginModel;
+            var user = await _accountRepository.Get(userName);
+            var loginModel = new LoginModel(user.Email);
+            responseModel.Data = loginModel;
+
+            if (!await _accountRepository.IsEmailConfirmedAsync(userName))
+            {  
+                responseModel.Success = false;
+                responseModel.AddError(AppErrors.EmailNotConfirmed);
+                
+                return responseModel;
+            }
+            
+            var token = BuildToken(user.UserName, user.Email);
+
+            responseModel.Data.AddToken(token);
+            return responseModel;
         }
 
-        public async Task<LoginModel> SendEmailConfirmationAsync(ApplicationUser user,string uri)
+        public async Task<ResponseModel<LoginModel>> SendEmailConfirmationAsync(ApplicationUser user,string uri)
         {
-            var loginModel = new LoginModel();
+            var responseModel = new ResponseModel<LoginModel>();
+
             if (await _accountRepository.IsEmailConfirmedAsync(user))
             {
-                loginModel.AddError(AppErrors.EmailIsConfirmed);
-                return loginModel;
+                responseModel.AddError(AppErrors.EmailIsConfirmed);
+                return responseModel;
             }
 
             var tokenConfirmation = await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
@@ -94,9 +103,24 @@ namespace CienciaArgentina.Microservices.Business.Implementation
             var url = $"{webAppUrl}{api}/ConfirmationRegisterMail?email={user.Email}&token={tokenConfirmation}";
             url = url.Replace("+", "%2B");
             var sendConfirmationModel = new SendConfirmationAccountModel(user.UserName, "", url);
-            await _emailClientSender.SendConfirmationAccounEmail(user.Email, sendConfirmationModel);
-            loginModel.Success(true);
-            return loginModel;
+            await _emailClientSender.SendConfirmationAccountEmail(user.Email, sendConfirmationModel);
+            responseModel.Success = true;
+            return responseModel;
+        }
+
+        public async Task<ResponseModel<LoginModel>> ForgotUsername(string email)
+        {
+            var user = await _accountRepository.GetByEmail(email);
+            var responseModel = new ResponseModel<LoginModel>(user != null);
+
+            if (!responseModel.Success)
+            {
+               responseModel.AddError(AppErrors.PasswordOrUserIncorrect);
+               return responseModel;
+            }
+
+            await _emailClientSender.SendForgotUser(user.Email, new SendForgotUserModel(user.UserName));
+            return responseModel;
         }
 
         private JwtToken BuildToken(string userName, string email)

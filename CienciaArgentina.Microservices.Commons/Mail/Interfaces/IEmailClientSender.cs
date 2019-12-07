@@ -7,6 +7,8 @@ namespace CienciaArgentina.Microservices.Commons.Mail.Interfaces
     {
         Task SendHelloWorldEmail(string email, string name);
 
-        Task SendConfirmationAccounEmail(string email, SendConfirmationAccountModel model);
+        Task SendConfirmationAccountEmail(string email, SendConfirmationAccountModel model);
+
+        Task SendForgotUser(string email, SendForgotUserModel model);
     }
 }

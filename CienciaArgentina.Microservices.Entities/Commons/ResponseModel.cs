@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using CienciaArgentina.Microservices.Entities.BusinessModel;
 
-namespace CienciaArgentina.Microservices.Entities.BusinessModel
+namespace CienciaArgentina.Microservices.Entities.Commons
 {
-    public class ResponseModel
+    public class ResponseModel<T>
     {
-        public ResponseModel(bool value)
+        public ResponseModel(bool value = false)
         {
             Success = value;
         }
 
         public void AddError(ErrorResponseModel error)
         {
-            Errors.Add(error);
+            Error.Add(error);
         }
+
         public bool Success { get; set; }
 
-        public List<ErrorResponseModel> Errors { get; } = new List<ErrorResponseModel>();
+        public List<ErrorResponseModel> Error { get; set; } = new List<ErrorResponseModel>();
         public string Message { get; set; }
+        public T Data { get; set; }
     }
 }
