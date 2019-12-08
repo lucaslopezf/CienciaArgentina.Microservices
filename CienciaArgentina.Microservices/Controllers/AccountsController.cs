@@ -202,8 +202,7 @@ namespace CienciaArgentina.Microservices.Controllers
             return Ok(result);
         }
 
-        //TODO: Que un usuario no pueda mandar mail si no esta logueado, idem todo seguridad (Ejemplo que no pueda mandar a un tercero)
-        [HttpPost]
+        [HttpGet]
         [Route("SendConfirmationRegisterMail")]
         public async Task<IActionResult> SendConfirmationRegisterMail(string email)
         {
