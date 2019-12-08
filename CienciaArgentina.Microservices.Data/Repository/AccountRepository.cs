@@ -110,6 +110,11 @@ namespace CienciaArgentina.Microservices.Repositories.Repository
             return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
 
+        public async Task<IdentityResult> ResetPassword(ApplicationUser user,string token,string password)
+        {
+            return await _userManager.ResetPasswordAsync(user, token, password);
+        }
+
         public int Count()
         {
             return _context.Users.Count();

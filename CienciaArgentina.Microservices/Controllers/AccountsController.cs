@@ -207,14 +207,12 @@ namespace CienciaArgentina.Microservices.Controllers
         [Route("SendConfirmationRegisterMail")]
         public async Task<IActionResult> SendConfirmationRegisterMail(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null) return NoContent();
             var uri = UriHelper.BuildAbsolute(Request.Scheme, Request.Host);
+            var response = await _userBusiness.SendConfirmationRegisterMail(email,uri);
             
-            var result = await _userBusiness.SendEmailConfirmationAsync(user, uri);
-            if (result.Success) return Ok();
+            if (!response.Success) return BadRequest(response);
 
-            return BadRequest(result);
+            return Ok(response);
         }
 
         // TODO: Enviar mail con el link, NO retornar el token. Se deja sólo para testeo
@@ -243,12 +241,10 @@ namespace CienciaArgentina.Microservices.Controllers
 
             if (password != confirmPassword) return BadRequest("Las contraseñas ingresadas no coinciden");
 
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null) return NoContent();
-
-            var result = await _userManager.ResetPasswordAsync(user, token, password);
-            if (!result.Succeeded) return BadRequest("Ocurrió un problema al intentar cambiar la contraseña");
-            return Ok("Contraseña reseteada");
+            var response = await _userBusiness.ResetPassword(email, password,confirmPassword,token);
+            
+            if (!response.Success) return BadRequest(response);
+            return Ok(response);
         }
 
         // TODO: Enviar email

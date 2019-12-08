@@ -19,6 +19,10 @@ namespace CienciaArgentina.Microservices.Business.Interfaces
         Task<ResponseModel<LoginModel>> ForgotUsername(string email);
 
         Task<ResponseModel<LoginModel>> GetPasswordResetToken(string email);
+
+        Task<ResponseModel<LoginModel>> SendConfirmationRegisterMail(string email,string uri);
+
+        Task<ResponseModel<LoginModel>> ResetPassword(string email, string password, string confirmPassword, string token);
         //Task<UserData> AddUserAsync(UserData user);
     } 
 }

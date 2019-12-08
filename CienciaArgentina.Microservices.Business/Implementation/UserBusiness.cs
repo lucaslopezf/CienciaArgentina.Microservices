@@ -58,6 +58,19 @@ namespace CienciaArgentina.Microservices.Business.Implementation
             return response;
         }
 
+        public async Task<ResponseModel<LoginModel>> SendConfirmationRegisterMail(string email,string uri)
+        {
+            var user = await _accountRepository.GetByEmail(email);
+            var loginModel = new LoginModel(email);
+            var response = new ResponseModel<LoginModel>(loginModel);
+
+            if (user != null) return await SendEmailConfirmationAsync(user, uri);
+
+            response.AddError(AppErrors.PasswordOrUserIncorrect);
+            return response;
+
+        }
+
         public async Task<ResponseModel<LoginModel>> Login(string userName, string password,string uri, bool isPersistent = false, bool lockoutOnFailure = false)
         {
             var result = await _signInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure);
@@ -89,7 +102,7 @@ namespace CienciaArgentina.Microservices.Business.Implementation
 
         public async Task<ResponseModel<LoginModel>> SendEmailConfirmationAsync(ApplicationUser user,string uri)
         {
-            var responseModel = new ResponseModel<LoginModel>();
+            var responseModel = new ResponseModel<LoginModel>(new LoginModel(user.Email));
 
             if (await _accountRepository.IsEmailConfirmedAsync(user))
             {
@@ -142,6 +155,34 @@ namespace CienciaArgentina.Microservices.Business.Implementation
             url = url.Replace("+", "%2B");
 
             await _emailClientSender.SendGetPasswordResetToken(email,new SendGetPasswordResetTokenModel(user.UserName,url));
+            return response;
+        }
+
+        public async Task<ResponseModel<LoginModel>> ResetPassword(string email, string password, string confirmPassword,
+            string token)
+        {
+            var user = await _accountRepository.GetByEmail(email);
+            var loginModel = new LoginModel(email);
+            var response = new ResponseModel<LoginModel>(loginModel);
+
+            if (user == null)
+            {
+                response.AddError(AppErrors.PasswordOrUserIncorrect);
+                return response;
+            }
+
+            var result = await _accountRepository.ResetPassword(user, token, password);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                    response.AddError(new ErrorResponseModel(error.Code, error.Description));
+
+                return response;
+            }
+
+            await _emailClientSender.SendConfirmationResetPassword(user.Email,new SendResetPasswordModel(user.UserName));
+
+            response.Success = true;
             return response;
         }
 

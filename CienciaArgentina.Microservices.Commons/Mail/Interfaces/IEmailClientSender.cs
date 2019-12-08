@@ -11,5 +11,6 @@ namespace CienciaArgentina.Microservices.Commons.Mail.Interfaces
 
         Task SendForgotUser(string email, SendForgotUserModel model);
         Task SendGetPasswordResetToken(string email, SendGetPasswordResetTokenModel model);
+        Task SendConfirmationResetPassword(string email,SendResetPasswordModel model);
     }
 }
