@@ -6,6 +6,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using CienciaArgentina.Microservices.Business.Interfaces;
+using CienciaArgentina.Microservices.Commons.Dtos;
 using CienciaArgentina.Microservices.Commons.Mail.Interfaces;
 using CienciaArgentina.Microservices.Commons.Mail.ModelTemplates;
 using CienciaArgentina.Microservices.Entities.BusinessModel;
@@ -16,6 +17,7 @@ using CienciaArgentina.Microservices.Storage.Azure.QueueStorage;
 using CienciaArgentina.Microservices.Storage.Azure.QueueStorage.Messages;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
@@ -121,6 +123,28 @@ namespace CienciaArgentina.Microservices.Business.Implementation
 
             await _emailClientSender.SendForgotUser(user.Email, new SendForgotUserModel(user.UserName));
             return responseModel;
+        }
+
+        public async Task<ResponseModel<LoginModel>> GetPasswordResetToken(string email)
+        {
+            var user = await _accountRepository.GetByEmail(email);
+            var loginModel = new LoginModel(email);
+            var response = new ResponseModel<LoginModel>(loginModel);
+            if (user == null)
+            {
+                response.AddError(AppErrors.PasswordOrUserIncorrect);
+                return response;
+            }
+
+            var token = await _accountRepository.GeneratePasswordResetTokenAsync(user);
+
+            var api = "/ConfirmationRegisterMail";
+            var webAppUrl = "https://cienciaargentina.com";
+            var url = $"www.MATIASCODEAESTO={user.Email}&token={token}";
+            url = url.Replace("+", "%2B");
+
+            await _emailClientSender.SendGetPasswordResetToken(email,new SendGetPasswordResetTokenModel(user.UserName,url));
+            return response;
         }
 
         private JwtToken BuildToken(string userName, string email)

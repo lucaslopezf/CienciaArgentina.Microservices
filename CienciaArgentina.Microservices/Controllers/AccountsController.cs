@@ -224,10 +224,10 @@ namespace CienciaArgentina.Microservices.Controllers
         {
             if (string.IsNullOrEmpty(email)) return BadRequest("La el campo de e-mail no puede estar vacío");
 
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null) return NoContent();
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            return Ok(token);
+            var response = await _userBusiness.GetPasswordResetToken(email);
+            if (!response.Success) return BadRequest(response);
+            
+            return Ok(response);
         }
 
         // TODO: Enviar el mail con la confirmación

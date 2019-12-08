@@ -42,6 +42,16 @@ namespace CienciaArgentina.Microservices.Commons.Mail
             await SendEmailAsync(email, "Confirmacion de cuenta", body);
         }
 
+        public async Task SendGetPasswordResetToken(string email, SendGetPasswordResetTokenModel model)
+        {
+            string template = "Mail.Templates.SendGetPasswordResetTokenTemplate";
+
+            RazorParser renderer = new RazorParser(typeof(EmailClient).Assembly);
+            var body = await renderer.UsingTemplateFromEmbedded(template, model);
+
+            await SendEmailAsync(email, "Resetea tu password", body);
+        }
+        
         private static async Task SendEmailAsync(string email, string subject, string message,string fromEmail = "no-reply@cienciaargentina.com.ar")
         {
             var mailMessage = new MailMessage

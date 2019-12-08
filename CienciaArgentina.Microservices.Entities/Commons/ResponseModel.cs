@@ -10,6 +10,12 @@ namespace CienciaArgentina.Microservices.Entities.Commons
             Success = value;
         }
 
+        public ResponseModel(T data,bool value = false)
+        {
+            Success = value;
+            Data = data;
+        }
+
         public void AddError(ErrorResponseModel error)
         {
             Error.Add(error);
