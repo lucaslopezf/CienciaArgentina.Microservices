@@ -40,22 +40,20 @@ namespace CienciaArgentina.Microservices.Business.Implementation
         public async Task<ResponseModel<LoginModel>> Add(ApplicationUser user, string password,string uri)
         {
             var result = await _accountRepository.Add(user, password);
-            var response = new ResponseModel<LoginModel>(result.Succeeded);
+            var loginModel = new LoginModel(user.Email);
+            var response = new ResponseModel<LoginModel>(loginModel,result.Succeeded);
 
-            if (result.Succeeded)
-            {
-                var token = BuildToken(user.UserName, user.Email);
-                response.Data.AddToken(token);
-                await SendEmailConfirmationAsync(user, uri);
-            }
-            else
+            if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
-                {
-                    var errorResponse = new ErrorResponseModel(error.Code,error.Description);
-                    response.AddError(errorResponse);
-                }
+                    response.AddError(new ErrorResponseModel(error.Code, error.Description));
+                
+                return response;
             }
+
+            var token = BuildToken(user.UserName, user.Email);
+            response.Data.AddToken(token);
+            await SendEmailConfirmationAsync(user, uri);
 
             return response;
         }
